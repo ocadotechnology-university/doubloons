@@ -6,6 +6,11 @@ val Versions = new {
   val logback = "1.4.5"
   val circe = "3.8.13"
   val scalaTest = "3.2.15"
+  val timepit = "0.10.2"
+  val tapirDoobie = "0.19.0-M7"
+  val doobieCore = "1.0.0-M5"
+  val postgresql = "42.5.4"
+
 }
 
 lazy val rootProject = (project in file(".")).settings(
@@ -22,7 +27,12 @@ lazy val rootProject = (project in file(".")).settings(
       "ch.qos.logback" % "logback-classic" % Versions.logback,
       "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server" % Versions.tapir % Test,
       "org.scalatest" %% "scalatest" % Versions.scalaTest % Test,
-      "com.softwaremill.sttp.client3" %% "circe" % Versions.circe % Test
+      "com.softwaremill.sttp.client3" %% "circe" % Versions.circe % Test,
+      "eu.timepit" %% "refined" % Versions.timepit,
+      "org.tpolecat" %% "doobie-core"      % "1.0.0-RC1",
+      "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1", // Postgres driver 42.3.1 + type mappings.
+      //"org.tpolecat" %% "doobie-specs2" % "1.0.0-RC1" % "test", // Specs2 support for typechecking statements.
+      "org.tpolecat" %% "doobie-scalatest" % "1.0.0-RC1" % "test"
     )
   )
 )
