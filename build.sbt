@@ -28,8 +28,10 @@ lazy val rootProject = (project in file(".")).settings(
       "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server" % Versions.tapir % Test,
       "org.scalatest" %% "scalatest" % Versions.scalaTest % Test,
       "com.softwaremill.sttp.client3" %% "circe" % Versions.circe % Test,
+      "io.circe" %% "circe-refined" % "0.14.2",
       "eu.timepit" %% "refined" % Versions.timepit,
       "org.tpolecat" %% "doobie-core"      % "1.0.0-RC1",
+      "org.tpolecat" %% "doobie-refined" % "1.0.0-RC1",
       "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1", // Postgres driver 42.3.1 + type mappings.
       //"org.tpolecat" %% "doobie-specs2" % "1.0.0-RC1" % "test", // Specs2 support for typechecking statements.
       "org.tpolecat" %% "doobie-scalatest" % "1.0.0-RC1" % "test"
