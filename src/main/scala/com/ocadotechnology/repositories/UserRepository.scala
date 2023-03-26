@@ -8,6 +8,7 @@ import doobie.*
 import doobie.implicits.*
 import doobie.util.transactor.Transactor.Aux
 import doobie.refined.*
+import doobie.refined.implicits.*
 
 import com.ocadotechnology.models.User
 import com.ocadotechnology.database.DatabaseConfig.xa
