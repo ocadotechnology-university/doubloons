@@ -8,9 +8,8 @@ val Versions = new {
   val scalaTest = "3.2.15"
   val timepit = "0.10.2"
   val tapirDoobie = "0.19.0-M7"
-  val doobieCore = "1.0.0-M5"
   val postgresql = "42.5.4"
-
+  val doobie = "1.0.0-RC1"
 }
 
 lazy val rootProject = (project in file(".")).settings(
@@ -30,13 +29,12 @@ lazy val rootProject = (project in file(".")).settings(
       "com.softwaremill.sttp.client3" %% "circe" % Versions.circe % Test,
       "io.circe" %% "circe-refined" % "0.14.5",
       "eu.timepit" %% "refined" % Versions.timepit,
-      "org.tpolecat" %% "doobie-core"      % "1.0.0-RC1",
-      "org.tpolecat" %% "doobie-refined" % "1.0.0-RC1",
-      "org.tpolecat" %% "doobie-postgres" % "1.0.0-RC1", // Postgres driver 42.3.1 + type mappings.
-      //"org.tpolecat" %% "doobie-specs2" % "1.0.0-RC1" % "test", // Specs2 support for typechecking statements.
-      "org.tpolecat" %% "doobie-scalatest" % "1.0.0-RC1" % "test",
-      "com.softwaremill.sttp.tapir" %% "tapir-refined" % "1.2.11",
-      "com.softwaremill.sttp.tapir" %% "tapir-cats" % "1.2.11"
+      "org.tpolecat" %% "doobie-core"      % Versions.doobie,
+      "org.tpolecat" %% "doobie-refined" % Versions.doobie,
+      "org.tpolecat" %% "doobie-postgres" % Versions.doobie, // Postgres driver 42.3.1 + type mappings.
+      "org.tpolecat" %% "doobie-scalatest" % Versions.doobie % "test",
+      "com.softwaremill.sttp.tapir" %% "tapir-refined" % Versions.tapir,
+      "com.softwaremill.sttp.tapir" %% "tapir-cats" % Versions.tapir
     )
   )
 )
