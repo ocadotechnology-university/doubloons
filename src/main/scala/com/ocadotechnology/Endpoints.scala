@@ -11,7 +11,7 @@ import io.circe.refined.*
 import com.ocadotechnology.repositories.UserRepository
 import com.ocadotechnology.models.{User, UserView}
 import sttp.tapir.codec.refined.TapirCodecRefined
-
+import sttp.tapir.codec.refined.*
 
 
 object Endpoints:
