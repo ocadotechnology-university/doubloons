@@ -2,11 +2,11 @@ package com.ocadotechnology
 
 import cats.effect.{ExitCode, IO, IOApp}
 import com.comcast.ip4s.{Host, Port, port}
-import com.ocadotechnology.Router.routes
-import com.ocadotechnology.models.User
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Router
 import sttp.tapir.server.http4s.Http4sServerInterpreter
+
+import com.ocadotechnology.Router.routes
 
 
 

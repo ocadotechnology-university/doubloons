@@ -1,13 +1,13 @@
 package com.ocadotechnology
 
 import cats.effect.IO
-import com.ocadotechnology.Endpoints.*
-import com.ocadotechnology.services.{UserService, UserViewService}
 import org.http4s.HttpRoutes
 import sttp.tapir.server.ServerEndpoint
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import sttp.tapir.swagger.bundle.SwaggerInterpreter
 
+import com.ocadotechnology.Endpoints.*
+import com.ocadotechnology.services.*
 
 
 object Router {

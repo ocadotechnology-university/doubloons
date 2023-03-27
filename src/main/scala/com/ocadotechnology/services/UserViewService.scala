@@ -1,12 +1,14 @@
 package com.ocadotechnology.services
 
+import scala.util.Try
 import cats.effect.IO
+
 import com.ocadotechnology.models.UserView
 import com.ocadotechnology.repositories.UserViewRepository.*
 
-import scala.util.Try
-
-// Business Logic for UserView model
+/**
+ * Business Logic for UserView model
+ */
 object UserViewService {
   def getUserViewListByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]] = {
     
