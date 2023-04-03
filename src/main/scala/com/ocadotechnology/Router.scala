@@ -10,10 +10,10 @@ import com.ocadotechnology.Endpoints.*
 import com.ocadotechnology.services.*
 
 
-object Router {
-  val getUserServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => UserService.getUserByEmailLogic(email))
+class Router(userService: UserService, userViewService: UserViewService) {
+  val getUserServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userService.getUserByEmailLogic(email))
 
-  val getSafeUsersEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => UserViewService.getUserViewListByTeamIdLogic(teamId))
+  val getSafeUsersEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUserViewListByTeamIdLogic(teamId))
 
 
   val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(getUserServerEndpoint, getSafeUsersEndpoint)

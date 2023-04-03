@@ -11,13 +11,17 @@ import com.ocadotechnology.database.DatabaseConfig.xa
 /**
  * Implements CRUD operations on data entities for User model
  */
+trait UserRepository {
+  def getUserByEmail(email: String): IO[Option[User]]
+
+}
+
 object UserRepository {
-
-  def getUserByEmail(email: String): IO[Option[User]] = {
-    sql"""SELECT * FROM users WHERE email = $email """
-      .query[User]
-      .option
-      .transact(xa)
-  }
-
+  def instance: UserRepository = new UserRepository:
+    override def getUserByEmail(email: String): IO[Option[User]] =
+      sql"""SELECT * FROM users WHERE email = $email """
+        .query[User]
+        .option
+        .transact(xa)
+  
 }
