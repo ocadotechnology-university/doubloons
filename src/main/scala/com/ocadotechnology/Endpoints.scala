@@ -7,8 +7,8 @@ import sttp.tapir.codec.refined.TapirCodecRefined
 import sttp.tapir.codec.refined.*
 import io.circe.generic.auto.*
 import io.circe.refined.*
-
 import com.ocadotechnology.models.*
+import io.circe.JsonObject
 
 
 object Endpoints:
@@ -22,6 +22,13 @@ object Endpoints:
     .in("users" / path[String]("teamId").example("1"))
     .description("TODO")
     .out(jsonBody[List[UserView]])
+    .errorOut(jsonBody[String])
+
+  val createUser: PublicEndpoint[User, String, String, Any] = endpoint.post
+    .in("user-create")
+    .in(jsonBody[User])
+    .description("TODO")
+    .out(jsonBody[String])
     .errorOut(jsonBody[String])
 
 

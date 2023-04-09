@@ -14,6 +14,7 @@ import com.ocadotechnology.database.DatabaseConfig.xa
 trait UserRepository {
   def getUserByEmail(email: String): IO[Option[User]]
 
+  def createUser(user: User): IO[Either[java.sql.SQLException, Int]]
 }
 
 object UserRepository {
@@ -23,5 +24,12 @@ object UserRepository {
         .query[User]
         .option
         .transact(xa)
-  
+
+    override def createUser(user: User): IO[Either[java.sql.SQLException, Int]] =
+      sql"""INSERT INTO users (email, "teamId", "firstName", "lastName", password, avatar)
+           VALUES (${user.email}, ${user.teamId}, ${user.firstName}, ${user.lastName}, ${user.password}, ${user.avatar})"""
+        .update
+        .run
+        .transact(xa)
+        .attemptSql
 }
