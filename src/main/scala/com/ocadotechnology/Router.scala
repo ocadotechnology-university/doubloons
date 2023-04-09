@@ -11,7 +11,7 @@ import com.ocadotechnology.services.*
 
 
 class Router(userService: UserService, userViewService: UserViewService) {
-  val getUserServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userService.getUserByEmailLogic(email))
+  val getUserServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userViewService.getUserByEmailLogic(email))
 
   val getSafeUsersEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUserViewListByTeamIdLogic(teamId))
 

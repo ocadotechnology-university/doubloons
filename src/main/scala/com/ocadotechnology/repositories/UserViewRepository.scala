@@ -13,11 +13,19 @@ import com.ocadotechnology.database.DatabaseConfig.xa
  */
 
 trait UserViewRepository {
+  def getUserByEmail(email: String): IO[Option[UserView]]
   def getUserViewListByTeamId(teamId: Int): IO[List[UserView]]
 }
 object UserViewRepository {
   
   def instance: UserViewRepository = new UserViewRepository:
+
+    override def getUserByEmail(email: String): IO[Option[UserView]] =
+      sql"""SELECT email, "teamId", "firstName", "lastName", avatar, "leadingTeam" FROM users WHERE email = $email """
+        .query[UserView]
+        .option
+        .transact(xa)
+
     override def getUserViewListByTeamId(teamId: Int): IO[List[UserView]] = 
       sql"""SELECT email, "teamId", "firstName", "lastName", avatar, "leadingTeam" FROM users WHERE "teamId" = $teamId """
         .query[UserView]

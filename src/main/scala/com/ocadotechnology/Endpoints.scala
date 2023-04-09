@@ -12,10 +12,10 @@ import io.circe.JsonObject
 
 
 object Endpoints:
-  val getUserByEmail: PublicEndpoint[String, String, User, Any] = endpoint.get
+  val getUserByEmail: PublicEndpoint[String, String, UserView, Any] = endpoint.get
     .in("user" / path[String]("email").example("admin@example.com"))
     .description("TODO")
-    .out(jsonBody[User])
+    .out(jsonBody[UserView])
     .errorOut(jsonBody[String])
   
   val getUsersByTeamId: PublicEndpoint[String, String, List[UserView], Any] = endpoint.get

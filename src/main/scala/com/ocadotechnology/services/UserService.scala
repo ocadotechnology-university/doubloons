@@ -11,20 +11,13 @@ import eu.timepit.refined.auto.autoUnwrap
  */
 
 trait UserService {
-  def getUserByEmailLogic(email: String): IO[Either[String, User]]
   def createUser(user: User): IO[Either[String, String]]
 }
 object UserService {
 
 
   def instance(userRepository: UserRepository): UserService = new UserService:
-    override def getUserByEmailLogic(email: String): IO[Either[String, User]] =
-      userRepository.getUserByEmail(email)
-        .map {
-          case Some(user) => Right(user)
-          case None => Left("User not found")
-        }
-
+    
     override def createUser(user: User): IO[Either[String, String]] =
         userRepository.createUser(user).map {
           case Left(e: java.sql.SQLException) => Left(s"${e.getMessage}")
