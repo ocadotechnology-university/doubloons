@@ -12,7 +12,7 @@ import com.ocadotechnology.repositories.UserViewRepository
 
 trait UserViewService {
   def getUserByEmailLogic(email: String): IO[Either[String, UserView]]
-  def getUserViewListByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]]
+  def getUsersByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]]
 }
 object UserViewService {
   
@@ -25,11 +25,11 @@ object UserViewService {
           case None => Left("User not found")
         }
     
-    override def getUserViewListByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]] =
+    override def getUsersByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]] =
       Try(teamId.toInt).toEither match {
         case Left(_) => IO.pure(Left(s"Invalid teamId: $teamId"))
         case Right(teamIdInt) =>
-          userViewRepository.getUserViewListByTeamId(teamIdInt)
+          userViewRepository.getUsersByTeamId(teamIdInt)
             .map {
               case Nil => Left(s"No users found with teamId: $teamId")
               case userViews => Right(userViews)

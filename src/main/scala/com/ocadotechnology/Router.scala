@@ -11,13 +11,13 @@ import com.ocadotechnology.services.*
 
 
 class Router(userService: UserService, userViewService: UserViewService) {
-  val getUserServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userViewService.getUserByEmailLogic(email))
+  val getUserByEmailServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userViewService.getUserByEmailLogic(email))
 
-  val getSafeUsersEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUserViewListByTeamIdLogic(teamId))
+  val getUsersByTeamIdServerEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUsersByTeamIdLogic(teamId))
 
-  val createUserEndpoint: ServerEndpoint[Any, IO] = createUser.serverLogic(user => userService.createUser(user))
+  val createUserServerEndpoint: ServerEndpoint[Any, IO] = createUser.serverLogic(user => userService.createUserLogic(user))
   
-  val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(getUserServerEndpoint, getSafeUsersEndpoint, createUserEndpoint)
+  val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(getUserByEmailServerEndpoint, getUsersByTeamIdServerEndpoint, createUserServerEndpoint)
 
   val docEndpoints: List[ServerEndpoint[Any, IO]] = SwaggerInterpreter()
     .fromServerEndpoints[IO](apiEndpoints, "doubloons", "1.0.0")

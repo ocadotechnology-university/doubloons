@@ -8,7 +8,6 @@ import sttp.tapir.codec.refined.*
 import io.circe.generic.auto.*
 import io.circe.refined.*
 import com.ocadotechnology.models.*
-import io.circe.JsonObject
 
 
 object Endpoints:

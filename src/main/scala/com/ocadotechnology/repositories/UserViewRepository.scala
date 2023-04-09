@@ -14,7 +14,7 @@ import com.ocadotechnology.database.DatabaseConfig.xa
 
 trait UserViewRepository {
   def getUserByEmail(email: String): IO[Option[UserView]]
-  def getUserViewListByTeamId(teamId: Int): IO[List[UserView]]
+  def getUsersByTeamId(teamId: Int): IO[List[UserView]]
 }
 object UserViewRepository {
   
@@ -26,7 +26,7 @@ object UserViewRepository {
         .option
         .transact(xa)
 
-    override def getUserViewListByTeamId(teamId: Int): IO[List[UserView]] = 
+    override def getUsersByTeamId(teamId: Int): IO[List[UserView]] = 
       sql"""SELECT email, "teamId", "firstName", "lastName", avatar, "leadingTeam" FROM users WHERE "teamId" = $teamId """
         .query[UserView]
         .to[List]
