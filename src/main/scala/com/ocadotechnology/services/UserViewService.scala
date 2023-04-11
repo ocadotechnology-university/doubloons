@@ -11,21 +11,21 @@ import com.ocadotechnology.repositories.UserViewRepository
  */
 
 trait UserViewService {
-  def getUserByEmailLogic(email: String): IO[Either[String, UserView]]
-  def getUsersByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]]
+  def getUserByEmail(email: String): IO[Either[String, UserView]]
+  def getUsersByTeamId(teamId: String): IO[Either[String, List[UserView]]]
 }
 object UserViewService {
   
   def instance(userViewRepository: UserViewRepository): UserViewService = new UserViewService:
     
-    override def getUserByEmailLogic(email: String): IO[Either[String, UserView]] =
+    override def getUserByEmail(email: String): IO[Either[String, UserView]] =
       userViewRepository.getUserByEmail(email)
         .map {
           case Some(user) => Right(user)
           case None => Left("User not found")
         }
     
-    override def getUsersByTeamIdLogic(teamId: String): IO[Either[String, List[UserView]]] =
+    override def getUsersByTeamId(teamId: String): IO[Either[String, List[UserView]]] =
       Try(teamId.toInt).toEither match {
         case Left(_) => IO.pure(Left(s"Invalid teamId: $teamId"))
         case Right(teamIdInt) =>

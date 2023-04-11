@@ -11,11 +11,11 @@ import com.ocadotechnology.services.*
 
 
 class Router(userService: UserService, userViewService: UserViewService) {
-  val getUserByEmailServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userViewService.getUserByEmailLogic(email))
+  val getUserByEmailServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userViewService.getUserByEmail(email))
 
-  val getUsersByTeamIdServerEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUsersByTeamIdLogic(teamId))
+  val getUsersByTeamIdServerEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUsersByTeamId(teamId))
 
-  val createUserServerEndpoint: ServerEndpoint[Any, IO] = createUser.serverLogic(user => userService.createUserLogic(user))
+  val createUserServerEndpoint: ServerEndpoint[Any, IO] = createUser.serverLogic(user => userService.createUser(user))
   
   val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(getUserByEmailServerEndpoint, getUsersByTeamIdServerEndpoint, createUserServerEndpoint)
 

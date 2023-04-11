@@ -9,7 +9,7 @@ import com.ocadotechnology.models.User
 import com.ocadotechnology.database.DatabaseConfig.xa
 
 /**
- * Implements CRUD operations on data entities for User model
+ * Implements CRUD operations using User model
  */
 trait UserRepository {
   def createUser(user: User): IO[Either[java.sql.SQLException, Int]]

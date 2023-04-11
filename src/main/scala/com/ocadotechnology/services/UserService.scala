@@ -9,16 +9,16 @@ import com.ocadotechnology.repositories.UserRepository
  */
 
 trait UserService {
-  def createUserLogic(user: User): IO[Either[String, String]]
+  def createUser(user: User): IO[Either[String, Unit]]
 }
 object UserService {
   
   def instance(userRepository: UserRepository): UserService = new UserService:
 
-    override def createUserLogic(user: User): IO[Either[String, String]] =
+    override def createUser(user: User): IO[Either[String, Unit]] =
         userRepository.createUser(user).map {
           case Left(e: java.sql.SQLException) => Left(s"${e.getMessage}")
-          case Right(value) => Right(s"Affected rows: $value")
+          case Right(_) => Right(())
         }
         
 }

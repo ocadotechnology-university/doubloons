@@ -9,7 +9,7 @@ import com.ocadotechnology.models.UserView
 import com.ocadotechnology.database.DatabaseConfig.xa
 
 /**
- * Implements CRUD operations on data entities for UserView model
+ * Implements Read operations using UserView model
  */
 
 trait UserViewRepository {

@@ -23,11 +23,10 @@ object Endpoints:
     .out(jsonBody[List[UserView]])
     .errorOut(jsonBody[String])
 
-  val createUser: PublicEndpoint[User, String, String, Any] = endpoint.post
+  val createUser: PublicEndpoint[User, String, Unit, Any] = endpoint.post
     .in("user-create")
     .in(jsonBody[User])
     .description("TODO")
-    .out(jsonBody[String])
     .errorOut(jsonBody[String])
 
 
