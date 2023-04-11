@@ -9,24 +9,23 @@ import io.circe.generic.auto.*
 import io.circe.refined.*
 import com.ocadotechnology.models.*
 
-
 object Endpoints:
   val getUserByEmail: PublicEndpoint[String, String, UserView, Any] = endpoint.get
     .in("user" / path[String]("email").example("admin@example.com"))
-    .description("TODO")
+    .description("Get user data from the database")
     .out(jsonBody[UserView])
     .errorOut(jsonBody[String])
   
   val getUsersByTeamId: PublicEndpoint[String, String, List[UserView], Any] = endpoint.get
     .in("users" / path[String]("teamId").example("1"))
-    .description("TODO")
+    .description("Get list of users from the database")
     .out(jsonBody[List[UserView]])
     .errorOut(jsonBody[String])
 
   val createUser: PublicEndpoint[User, String, Unit, Any] = endpoint.post
     .in("user-create")
     .in(jsonBody[User])
-    .description("TODO")
+    .description("Insert a new user into the database")
     .errorOut(jsonBody[String])
 
 

@@ -19,7 +19,7 @@ object UserRepository {
   def instance: UserRepository = new UserRepository:
 
     override def createUser(user: User): IO[Either[java.sql.SQLException, Int]] =
-      sql"""INSERT INTO users (email, "teamId", "firstName", "lastName", password, avatar)
+      sql"""INSERT INTO users (email, team_id, first_name, last_name, password, avatar)
            VALUES (${user.email}, ${user.teamId}, ${user.firstName}, ${user.lastName}, ${user.password}, ${user.avatar})"""
         .update
         .run

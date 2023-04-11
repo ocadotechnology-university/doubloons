@@ -20,7 +20,6 @@ case class User (
                   lastName: NonEmptyString,
                   password: NonEmptyString,
                   avatar: Option[NonEmptyString],
-                  leadingTeam: Option[Boolean],
                 )
 object User {
   implicit val codec: Codec[User] = deriveCodec

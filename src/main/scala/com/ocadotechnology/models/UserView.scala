@@ -19,7 +19,6 @@ case class UserView (
                       firstName: NonEmptyString,
                       lastName: NonEmptyString,
                       avatar: Option[NonEmptyString],
-                      leadingTeam: Option[Boolean],
                     )
 
 object UserView {

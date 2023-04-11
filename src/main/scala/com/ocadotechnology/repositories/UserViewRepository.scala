@@ -21,13 +21,13 @@ object UserViewRepository {
   def instance: UserViewRepository = new UserViewRepository:
 
     override def getUserByEmail(email: String): IO[Option[UserView]] =
-      sql"""SELECT email, "teamId", "firstName", "lastName", avatar, "leadingTeam" FROM users WHERE email = $email """
+      sql"""SELECT email, team_id, first_name, last_name, avatar FROM users WHERE email = $email """
         .query[UserView]
         .option
         .transact(xa)
 
     override def getUsersByTeamId(teamId: Int): IO[List[UserView]] = 
-      sql"""SELECT email, "teamId", "firstName", "lastName", avatar, "leadingTeam" FROM users WHERE "teamId" = $teamId """
+      sql"""SELECT email, team_id, first_name, last_name, avatar FROM users WHERE team_id = $teamId """
         .query[UserView]
         .to[List]
         .transact(xa)
