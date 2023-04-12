@@ -21,5 +21,5 @@ case class UserView (
                     )
 
 object UserView {
-  implicit val codec: Codec[User] = deriveCodec
+  given Codec[UserView] = deriveCodec
 }

@@ -21,5 +21,5 @@ case class User (
                   avatar: Option[NonEmptyString],
                 )
 object User {
-  implicit val codec: Codec[User] = deriveCodec
+  given Codec[User] = deriveCodec
 }
