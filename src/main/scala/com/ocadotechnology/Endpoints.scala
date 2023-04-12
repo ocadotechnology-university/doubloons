@@ -8,7 +8,18 @@ import sttp.tapir.codec.refined.*
 import io.circe.generic.auto.*
 import io.circe.refined.*
 import com.ocadotechnology.models.*
-
+//import eu.timepit.refined.api.Refined
+//import eu.timepit.refined.types.numeric.PosInt
+//import eu.timepit.refined.types.string.NonEmptyString
+//
+//val testUser = User(
+//  Refined.unsafeApply("admin@example.com"),
+//  Some(PosInt.unsafeFrom(1)),
+//  NonEmptyString.unsafeFrom("Mike"),
+//  NonEmptyString.unsafeFrom("Wazowski"),
+//  NonEmptyString.unsafeFrom("secret"),
+//  Some(NonEmptyString.unsafeFrom("avatars.example/avatar1.jpg")),
+//)
 object Endpoints:
   val getUserByEmail: PublicEndpoint[String, String, UserView, Any] = endpoint.get
     .in("user" / path[String]("email").example("admin@example.com"))

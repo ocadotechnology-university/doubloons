@@ -26,14 +26,10 @@ object UserViewService {
         }
     
     override def getUsersByTeamId(teamId: String): IO[Either[String, List[UserView]]] =
-      Try(teamId.toInt).toEither match {
-        case Left(_) => IO.pure(Left(s"Invalid teamId: $teamId"))
-        case Right(teamIdInt) =>
-          userViewRepository.getUsersByTeamId(teamIdInt)
-            .map {
-              case Nil => Left(s"No users found with teamId: $teamId")
-              case userViews => Right(userViews)
-            }
-      }
+        userViewRepository.getUsersByTeamId(teamId)
+          .map {
+            case Nil => Left(s"No users found with teamId: $teamId")
+            case userViews => Right(userViews)
+          }
 
 }

@@ -3,7 +3,6 @@ package com.ocadotechnology.models
 import eu.timepit.refined.*
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.string.MatchesRegex
-import eu.timepit.refined.types.numeric.PosInt
 import eu.timepit.refined.types.string.NonEmptyString
 
 import io.circe.Codec // Codec type
@@ -15,7 +14,7 @@ import io.circe.refined._ // Derivations for refined types
  */
 case class UserView (
                       email: Email,
-                      teamId: Option[PosInt],
+                      teamId: Option[NonEmptyString],
                       firstName: NonEmptyString,
                       lastName: NonEmptyString,
                       avatar: Option[NonEmptyString],
