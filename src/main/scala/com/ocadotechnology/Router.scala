@@ -17,6 +17,9 @@ class Router(userService: UserService, userViewService: UserViewService, doubloo
 
   val createUserServerEndpoint: ServerEndpoint[Any, IO] = createUser.serverLogic(user => userService.createUser(user))
 
+  val getCurrentSpentDoubloonsServerEndpoints: ServerEndpoint[Any, IO] = getCurrentSpentDoubloons
+    .serverLogic(email => doubloonService.getCurrentSpentDoubloonsByEmail(email))
+
   val createDoubloonServerEndpoint: ServerEndpoint[Any, IO] = createDoubloon.serverLogic(doubloon => doubloonService.createDoubloon(doubloon))
 
   val updateDoubloonServerEndpoint: ServerEndpoint[Any, IO] = updateDoubloon.serverLogic(doubloon => doubloonService.updateDoubloon(doubloon))
@@ -24,8 +27,8 @@ class Router(userService: UserService, userViewService: UserViewService, doubloo
   val deleteDoubloonServerEndpoint: ServerEndpoint[Any, IO] = deleteDoubloon.serverLogic(doubloon => doubloonService.deleteDoubloon(doubloon))
 
   val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(getUserByEmailServerEndpoint, getUsersByTeamIdServerEndpoint,
-                                                         createUserServerEndpoint, createDoubloonServerEndpoint,
-                                                         updateDoubloonServerEndpoint, deleteDoubloonServerEndpoint)
+    createUserServerEndpoint, getCurrentSpentDoubloonsServerEndpoints, createDoubloonServerEndpoint,
+    updateDoubloonServerEndpoint, deleteDoubloonServerEndpoint)
 
   val docEndpoints: List[ServerEndpoint[Any, IO]] = SwaggerInterpreter()
     .fromServerEndpoints[IO](apiEndpoints, "doubloons", "1.0.0")

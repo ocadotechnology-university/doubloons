@@ -6,8 +6,10 @@ import com.ocadotechnology.database.DatabaseConfig.xa
 import doobie.*
 import doobie.implicits.*
 import doobie.refined.implicits.*
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 trait DoubloonRepository {
-
+  def getCurrentSpentDoubloonsByEmail(email: String): IO[List[Doubloon]]
   def createDoubloon(doubloon: Doubloon): IO[Either[DoubloonRepository.Failure, Int]]
   def updateDoubloon(doubloon: Doubloon): IO[Either[DoubloonRepository.Failure, Int]]
   def deleteDoubloon(doubloon: Doubloon): IO[Either[DoubloonRepository.Failure, Int]]
@@ -22,6 +24,14 @@ object DoubloonRepository{
     case DoubloonDeleteFailure(reason: String)
 
   def instance: DoubloonRepository = new DoubloonRepository:
+
+    override def getCurrentSpentDoubloonsByEmail(email: String): IO[List[Doubloon]] =
+      val monthYearFormatter = DateTimeFormatter.ofPattern("MM-yyyy")
+      val currentDateFormatted = LocalDate.now().format(monthYearFormatter)
+      sql"""SELECT * FROM doubloons WHERE given_by = $email AND month_and_year = $currentDateFormatted"""
+        .query[Doubloon]
+        .to[List]
+        .transact(xa)
 
     override def createDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] =
       sql"""INSERT INTO doubloons (doubloon_id, category_id, given_to, given_by, amount, month_and_year)
