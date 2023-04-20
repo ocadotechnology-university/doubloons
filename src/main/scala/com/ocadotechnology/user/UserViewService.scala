@@ -1,10 +1,9 @@
-package com.ocadotechnology.services
+package com.ocadotechnology.user
+
+import cats.effect.IO
+import com.ocadotechnology.user
 
 import scala.util.Try
-import cats.effect.IO
-import com.ocadotechnology.models.UserView
-import com.ocadotechnology.repositories
-import com.ocadotechnology.repositories.UserViewRepository
 
 /**
  * Business Logic for UserView model

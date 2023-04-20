@@ -1,8 +1,7 @@
-package com.ocadotechnology.services
+package com.ocadotechnology.user
 
 import cats.effect.IO
-import com.ocadotechnology.models.User
-import com.ocadotechnology.repositories.UserRepository
+import com.ocadotechnology.user.UserService
 
 /**
  * Business Logic for User model
@@ -14,11 +13,11 @@ trait UserService {
 object UserService {
   
   def instance(userRepository: UserRepository): UserService = new UserService:
-
+  
     override def createUser(user: User): IO[Either[String, Unit]] =
-        userRepository.createUser(user).map {
-          case Left(e: java.sql.SQLException) => Left(s"${e.getMessage}")
-          case Right(_) => Right(())
-        }
+      userRepository.createUser(user).map { 
+        case Left(UserRepository.Failure.UserCreationFailure(reason)) => Left(s"$reason")
+        case Right(_) => Right(())
+      }
         
 }

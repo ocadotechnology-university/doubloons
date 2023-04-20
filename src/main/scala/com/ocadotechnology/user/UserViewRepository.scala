@@ -1,12 +1,11 @@
-package com.ocadotechnology.repositories
+package com.ocadotechnology.user
 
 import cats.effect.IO
+import com.ocadotechnology.database.DatabaseConfig.xa
+import com.ocadotechnology.user.UserViewRepository
 import doobie.*
 import doobie.implicits.*
 import doobie.refined.implicits.*
-
-import com.ocadotechnology.models.UserView
-import com.ocadotechnology.database.DatabaseConfig.xa
 
 /**
  * Implements Read operations using UserView model
