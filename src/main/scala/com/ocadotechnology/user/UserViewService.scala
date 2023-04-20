@@ -15,20 +15,23 @@ trait UserViewService {
 }
 object UserViewService {
   
-  def instance(userViewRepository: UserViewRepository): UserViewService = new UserViewService:
-    
-    override def getUserByEmail(email: String): IO[Either[String, UserView]] =
+  def instance(userViewRepository: UserViewRepository): UserViewService = new UserViewService {
+
+    override def getUserByEmail(email: String): IO[Either[String, UserView]] = {
       userViewRepository.getUserByEmail(email)
         .map {
           case Some(user) => Right(user)
           case None => Left("User not found")
         }
-    
-    override def getUsersByTeamId(teamId: String): IO[Either[String, List[UserView]]] =
-        userViewRepository.getUsersByTeamId(teamId)
-          .map {
-            case Nil => Left(s"No users found with teamId: $teamId")
-            case userViews => Right(userViews)
-          }
+    }
 
+    override def getUsersByTeamId(teamId: String): IO[Either[String, List[UserView]]] = {
+      userViewRepository.getUsersByTeamId(teamId)
+        .map {
+          case Nil => Left(s"No users found with teamId: $teamId")
+          case userViews => Right(userViews)
+        }
+    }
+    
+  }
 }

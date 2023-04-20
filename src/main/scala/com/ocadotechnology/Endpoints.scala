@@ -14,8 +14,8 @@ import eu.timepit.refined.types.numeric.PosInt
 import eu.timepit.refined.types.string.NonEmptyString
 
 
-object Endpoints:
-  private object Examples:
+object Endpoints {
+  private object Examples {
     val user: User = User(
       Refined.unsafeApply("admin@example.com"),
       Some(NonEmptyString.unsafeFrom("1")),
@@ -24,6 +24,7 @@ object Endpoints:
       NonEmptyString.unsafeFrom("secret"),
       Some(NonEmptyString.unsafeFrom("avatars.example/avatar1.jpg")),
     )
+  }
 
 
   val getUserByEmail: PublicEndpoint[String, String, UserView, Any] = endpoint.get
@@ -61,11 +62,11 @@ object Endpoints:
     .in(jsonBody[Doubloon])
     .description("Update doubloon amount")
     .errorOut(jsonBody[String])
-  
+
   val deleteDoubloon: PublicEndpoint[Doubloon, String, Unit, Any] = endpoint.post
     .in("api" / "delete-doubloon")
     .in(jsonBody[Doubloon])
     .description("Delete doubloon")
     .errorOut(jsonBody[String])
 
-
+}

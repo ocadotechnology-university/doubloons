@@ -18,22 +18,24 @@ trait DoubloonRepository {
 
 object DoubloonRepository{
 
-  enum Failure:
+  enum Failure {
     case DoubloonCreationFailure(reason: String)
     case DoubloonUpdateFailure(reason: String)
     case DoubloonDeleteFailure(reason: String)
+  }
 
-  def instance: DoubloonRepository = new DoubloonRepository:
+  def instance: DoubloonRepository = new DoubloonRepository {
 
-    override def getCurrentSpentDoubloonsByEmail(email: String): IO[List[Doubloon]] =
+    override def getCurrentSpentDoubloonsByEmail(email: String): IO[List[Doubloon]] = {
       val monthYearFormatter = DateTimeFormatter.ofPattern("MM-yyyy")
       val currentDateFormatted = LocalDate.now().format(monthYearFormatter)
       sql"""SELECT * FROM doubloons WHERE given_by = $email AND month_and_year = $currentDateFormatted"""
         .query[Doubloon]
         .to[List]
         .transact(xa)
+    }
 
-    override def createDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] =
+    override def createDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] = {
       sql"""INSERT INTO doubloons (doubloon_id, category_id, given_to, given_by, amount, month_and_year)
            VALUES (${doubloon.doubloonId}, ${doubloon.categoryId}, ${doubloon.givenTo},
             ${doubloon.givenBy}, ${doubloon.amount}, ${doubloon.monthAndYear})"""
@@ -42,8 +44,9 @@ object DoubloonRepository{
         .transact(xa)
         .attemptSql
         .map(_.leftMap(e => Failure.DoubloonCreationFailure(e.getMessage)))
+    }
 
-    override def updateDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] =
+    override def updateDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] = {
       sql"""UPDATE doubloons
             SET amount = ${doubloon.amount}
             WHERE doubloon_id = ${doubloon.doubloonId}"""
@@ -52,15 +55,17 @@ object DoubloonRepository{
         .transact(xa)
         .attemptSql
         .map(_.leftMap(e => Failure.DoubloonUpdateFailure(e.getMessage)))
+    }
 
-    override def deleteDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] =
+    override def deleteDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] = {
       sql"""DELETE FROM doubloons
             WHERE doubloon_id = ${doubloon.doubloonId}"""
-      .update
-      .run
-      .transact(xa)
-      .attemptSql
-      .map(_.leftMap(e => Failure.DoubloonDeleteFailure(e.getMessage)))
+        .update
+        .run
+        .transact(xa)
+        .attemptSql
+        .map(_.leftMap(e => Failure.DoubloonDeleteFailure(e.getMessage)))
+    }
 
-
+  }
 }

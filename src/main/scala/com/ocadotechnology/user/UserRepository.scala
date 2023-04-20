@@ -16,12 +16,13 @@ trait UserRepository {
 
 object UserRepository {
 
-  enum Failure:
+  enum Failure {
     case UserCreationFailure(reason: String)
+  }
 
-  def instance: UserRepository = new UserRepository:
+  def instance: UserRepository = new UserRepository {
 
-    override def createUser(user: User): IO[Either[Failure, Int]] =
+    override def createUser(user: User): IO[Either[Failure, Int]] = {
       sql"""INSERT INTO users (email, team_id, first_name, last_name, password, avatar)
            VALUES (${user.email}, ${user.teamId}, ${user.firstName}, ${user.lastName}, ${user.password}, ${user.avatar})"""
         .update
@@ -29,4 +30,7 @@ object UserRepository {
         .transact(xa)
         .attemptSql
         .map(_.leftMap(e => Failure.UserCreationFailure(e.getMessage)))
+    }
+    
+  }
 }

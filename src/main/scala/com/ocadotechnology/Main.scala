@@ -11,10 +11,10 @@ import com.ocadotechnology.user.{UserRepository, UserService, UserViewRepository
 
 
 
-object Main extends IOApp:
-  
-  override def run(args: List[String]): IO[ExitCode] =
-    
+object Main extends IOApp {
+
+  override def run(args: List[String]): IO[ExitCode] = {
+
     val port = sys.env
       .get("HTTP_PORT")
       .flatMap(_.toIntOption)
@@ -46,3 +46,6 @@ object Main extends IOApp:
         } yield ()
       }
       .as(ExitCode.Success)
+    
+  }
+}
