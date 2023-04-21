@@ -65,7 +65,7 @@ object Endpoints {
     .errorOut(jsonBody[String])
 
   val createUser: PublicEndpoint[User, String, Unit, Any] = endpoint.post
-    .in("api" / "user-create")
+    .in("api" / "user" / "create")
     .in(jsonBody[User].example(Examples.user))
     .description("Insert a new user into the database - requires User object")
     .errorOut(jsonBody[String])
@@ -77,19 +77,19 @@ object Endpoints {
     .errorOut(jsonBody[String])
 
   val createDoubloon: PublicEndpoint[Doubloon, String, Unit, Any] = endpoint.post
-    .in("api" / "create-doubloon")
+    .in("api" / "doubloon" / "create")
     .in(jsonBody[Doubloon].example(Examples.doubloon))
     .description("Insert a new doubloon into the database - requires Doubloon object")
     .errorOut(jsonBody[String])
 
   val updateDoubloon: PublicEndpoint[Doubloon, String, Unit, Any] = endpoint.post
-    .in("api" / "update-doubloon")
+    .in("api" / "doubloon" / "update")
     .in(jsonBody[Doubloon].example(Examples.doubloon))
     .description("Update doubloon amount - requires Doubloon object")
     .errorOut(jsonBody[String])
 
   val deleteDoubloon: PublicEndpoint[Doubloon, String, Unit, Any] = endpoint.post
-    .in("api" / "delete-doubloon")
+    .in("api" / "doubloon" / "delete")
     .in(jsonBody[Doubloon].example(Examples.doubloon))
     .description("Delete doubloon - requires Doubloon object")
     .errorOut(jsonBody[String])
