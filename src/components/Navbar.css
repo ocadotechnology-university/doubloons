@@ -1,0 +1,75 @@
+@font-face {
+    font-family: "MervaleScript-Regular";
+    src: local("MervaleScript-Regular"),
+     url("../fonts/MervaleScript-Regular.ttf") format("truetype");
+    font-weight: bold;
+  }
+  
+  .font-face-gm {
+    font-family: "MervaleScript-Regular";
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.nav {
+    position: relative;
+    width: 100%;
+    padding: 0 0;
+    height: 50px;
+    background-color: #00a3e0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-doubloons {
+    position: absolute;
+    left: 2%;
+    margin: 0px;
+    padding: 4px;
+    line-height: normal;
+    font-size: 32px;
+    color: #ffffff;
+    font-family: "MervaleScript-Regular";
+}
+
+.nav-rateyourteam {
+    position: absolute;
+    bottom: 15px;
+    left: 12%;
+    color: #fff;
+}
+
+.nav-yourresults {
+    position: absolute;
+    left: 23%;
+    bottom: 15px;
+    padding: 0;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+}
+
+.nav-logout {
+    position: absolute;
+    bottom: 15px;
+    right: 5%;
+    text-decoration: none;
+    color: #ffffff;
+}
+i {
+    position: absolute;
+    right: 3.8%;
+    bottom: 18px;
+    color: #fff;
+}
+
+
+  
