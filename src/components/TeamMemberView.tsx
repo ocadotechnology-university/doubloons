@@ -3,11 +3,14 @@ import {useState, useEffect} from "react";
 import "./TeamMemberView.css"
 import userView from "../types";
 
-function TeamMemberView({name, email}: userView) {
+function TeamMemberView({email, teamId,firstName, lastName, avatar}: userView) {
 
     const initialState: userView = {
-        name: "",
         email: "",
+        teamId: "",
+        firstName: "",
+        lastName: "",
+        avatar: "",
     }
 
 
@@ -15,8 +18,11 @@ function TeamMemberView({name, email}: userView) {
 
     useEffect(() => {
         const newData: userView = {
-            name: name,
             email: email,
+            teamId: teamId,
+            firstName: firstName,
+            lastName: lastName,
+            avatar: avatar,
         }
 
         setUserData(newData);
@@ -35,7 +41,7 @@ function TeamMemberView({name, email}: userView) {
     return (
         <div className="team-member-container">
             <img className="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"/>
-            <h1>{userData.name}</h1>
+            <h1>{userData.firstName} {userData.lastName}</h1>
             <h2>{userData.email}</h2>
             <div className="points-container">
                 <p>Co - Collaboration</p>
