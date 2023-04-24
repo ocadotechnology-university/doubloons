@@ -1,48 +1,27 @@
 import React from 'react';
 import "./Content.css"
+import "./TeamMemberView"
+import TeamMemberView from "./TeamMemberView";
+import userView from "../types";
 
 function Content() {
+
+    const exampleUser: userView = {
+        name: "Name Surname",
+        email: "name.surname@example.com",
+    }
+
     return (
         <>
             <div className="content">
                 <div className="title">
                     <h2>WMS Business Processes</h2>
                     <div className="underline"></div>
-                </div>
-                <div className="panel">
-                    <div className="containers">
-                        <div className="card-one">
-                            <h4>Name Surname</h4>
-                            <p>Collaboration</p>
-                            <p>Trust</p>
-                            <p>Autonomy</p>
-                            <p>Learn Fast</p>
-                            <p>Craftmanship</p>
-                        </div>
-                        <div className="card-two">
-                            <h4>Name Surname</h4>
-                            <p>Collaboration</p>
-                            <p>Trust</p>
-                            <p>Autonomy</p>
-                            <p>Learn Fast</p>
-                            <p>Craftmanship</p>
-                        </div>
-                        <div className="card-three">
-                            <h4>Name Surname</h4>
-                            <p>Collaboration</p>
-                            <p>Trust</p>
-                            <p>Autonomy</p>
-                            <p>Learn Fast</p>
-                            <p>Craftmanship</p>
-                        </div>
-                        <div className="card-four">
-                            <h4>Name Surname</h4>
-                            <p>Collaboration</p>
-                            <p>Trust</p>
-                            <p>Autonomy</p>
-                            <p>Learn Fast</p>
-                            <p>Craftmanship</p>
-                        </div>
+                    <div className="team-members-container">
+                        <TeamMemberView name={exampleUser.name} email={exampleUser.email}/>
+                        <TeamMemberView name={exampleUser.name} email={exampleUser.email}/>
+                        <TeamMemberView name={exampleUser.name} email={exampleUser.email}/>
+                        <TeamMemberView name={exampleUser.name} email={exampleUser.email}/>
                     </div>
                 </div>
             </div>
