@@ -33,14 +33,14 @@ function Content() {
     return (
         <>
             <div className="content">
-                <div className="title">
+                <div className="heading">
                     <h2>WMS Business Processes</h2>
                     <div className="underline"></div>
                     <div className="team-members-container">
                         <>
                         {
                             members.map(member => (
-                                <TeamMemberView email={member.email} teamId={member.teamId} firstName={member.firstName} lastName={member.lastName} avatar={member.avatar}/>
+                                <TeamMemberView email={member.email} teamId={member.teamId} firstName={member.firstName} lastName={member.lastName} avatar={member.avatar}/>   
                             ))
                         }
                         </>

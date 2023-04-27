@@ -2,10 +2,13 @@ type userView = {
     email: string,
     teamId: string,
     firstName: string,
-    lastName?: string,
+    lastName: string,
     avatar?: string,
 }
 
+type doubloonAdd = {
+
+}
 /*
     "email": "admin@example.com",
     "teamId": "1",

@@ -1,0 +1,49 @@
+.counter {
+    background-color:rgb(0, 164, 224);
+    border: none;
+    border-radius: 5px;
+    padding: 0;
+    font-size: 5px;
+    cursor: pointer;
+  }
+  
+  .icon {
+    width: 17px;
+    height: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 10px;
+    cursor: pointer; 
+    color: black;
+    display: inline-block;
+    text-align: center;
+    bottom: 5px;
+}
+  
+.value {
+    display: inline-block;
+    width: 35px;
+    text-align: center;
+    font-size: 17px;
+    margin: 0 0px;
+    font-weight: bold;
+}
+
+.icon p{
+    
+    padding-bottom: 10px;
+    font-size: 15px;
+}
+
+.minus p{
+    font-size: 19px;
+    font-weight: 300;
+}
+
+.minus{
+    
+    transform: translate(2px,0px);
+}
+.plus{
+    transform: translate(-1px,1px);
+}

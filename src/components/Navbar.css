@@ -3,13 +3,13 @@
     src: local("MervaleScript-Regular"),
      url("../fonts/MervaleScript-Regular.ttf") format("truetype");
     font-weight: bold;
-  }
+}
   
-  .font-face-gm {
+.font-face-gm {
     font-family: "MervaleScript-Regular";
-  }
+}
   
-  * {
+*{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -64,10 +64,10 @@ a {
     text-decoration: none;
     color: #ffffff;
 }
-i {
+.logout-icon {
     position: absolute;
     right: 3.8%;
-    bottom: 18px;
+    bottom: 17px;
     color: #fff;
 }
 

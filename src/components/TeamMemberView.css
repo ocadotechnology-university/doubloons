@@ -1,14 +1,18 @@
 .team-member-container {
-    width: 23%;
-    height: 300px;
-    background-color: #ddd;
+    width: 20%;
+    height: 570px;
+    background-color: rgba(0, 163, 224, 0.17);
+    box-shadow: 0 1px 2px black;
     margin-left: 20px;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 5px;
 }
 
 .user-avatar {
     display: block;
     width: 40%;
-    margin: 10px auto 0;
+    margin: 15px auto 0;
 }
 
 .team-member-container h1 {
@@ -19,6 +23,113 @@
 }
 
 .team-member-container h2 {
+    display: block;
     font-size: 16px;
     text-transform: lowercase;
+    text-align: center;
+}
+
+.points-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    height: 270px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.btn{
+    margin-top: 18px;
+    margin-bottom: 20px;
+    height: 35px;
+    width: 180px;
+    border-radius: 19px;
+    background-color: rgba(0, 163, 224, 0.57);
+    box-shadow: 0 1px 2px rgba(0, 164, 224, 0.712);
+    box-sizing: border-box;
+    text-align: center;
+    border: none;
+}
+
+.btn p{
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.button p{
+    text-align: center;
+}
+
+.shortcuts{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 12%;
+    row-gap: 29px;
+    margin-top: 15px;
+    margin-bottom: 14px;
+}
+
+.group-names{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-basis: 50%;
+    justify-content: space-around;
+}
+
+.p-m-column{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-basis: 23%;
+    justify-content: space-around;
+}
+
+.plus-minus{
+    
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+.group-names p{
+    font-weight: 500;
+    text-align: left;
+}
+
+.shortcuts p{
+    height: 25px;
+    width: 25px;
+    font-weight: 500;
+}
+
+.rotate{
+    rotate: 45deg;
+    border-radius: 3px;
+}
+
+.rotate p{
+    rotate: -45deg;
+}
+
+
+.red{
+    background-color: #E04416;
+} 
+
+.blue{
+    background-color: #0BE0A5;
+}
+
+.yellow{
+    background-color: #E0AC16;
+}
+
+.purple{
+    background-color: #D078E8;
+}
+
+.orange{
+    background-color: #FF7200;
 }
