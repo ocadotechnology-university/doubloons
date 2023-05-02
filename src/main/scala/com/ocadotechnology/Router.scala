@@ -8,16 +8,16 @@ import sttp.tapir.swagger.bundle.SwaggerInterpreter
 import com.ocadotechnology.Endpoints.*
 import com.ocadotechnology.category.CategoryService
 import com.ocadotechnology.comment.CommentService
-import com.ocadotechnology.user.{UserService, UserViewService}
+import com.ocadotechnology.user.UserService
 import com.ocadotechnology.doubloon.DoubloonService
 
 
-class Router(userService: UserService, userViewService: UserViewService, doubloonService: DoubloonService,
+class Router(userService: UserService, doubloonService: DoubloonService,
              commentService: CommentService, categoryService: CategoryService) {
 
-  val getUserByEmailServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userViewService.getUserByEmail(email))
+  val getUserByEmailServerEndpoint: ServerEndpoint[Any, IO] = getUserByEmail.serverLogic(email => userService.getUserByEmail(email))
 
-  val getUsersByTeamIdServerEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userViewService.getUsersByTeamId(teamId))
+  val getUsersByTeamIdServerEndpoint: ServerEndpoint[Any, IO] = getUsersByTeamId.serverLogic(teamId => userService.getUsersByTeamId(teamId))
 
   val createUserServerEndpoint: ServerEndpoint[Any, IO] = createUser.serverLogic(user => userService.createUser(user))
 

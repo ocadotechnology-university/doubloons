@@ -1,3 +1,4 @@
+/*
 package com.ocadotechnology.user
 
 import cats.effect.IO
@@ -35,3 +36,4 @@ object UserViewRepository {
 
   }
 }
+*/
