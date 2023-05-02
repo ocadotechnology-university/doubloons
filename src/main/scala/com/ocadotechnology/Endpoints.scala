@@ -1,5 +1,6 @@
 package com.ocadotechnology
 
+import com.ocadotechnology.category.Category
 import com.ocadotechnology.comment.Comment
 import com.ocadotechnology.doubloon.Doubloon
 import sttp.tapir.*
@@ -119,4 +120,9 @@ object Endpoints {
     .in(jsonBody[Comment].example(Examples.comment))
     .errorOut(jsonBody[String])
 
+  val getCategories: PublicEndpoint[Unit, String, List[Category], Any] = endpoint.get
+    .in("api" / "categories" / "get")
+    .description("Get the list of category objects")
+    .out(jsonBody[List[Category]])
+    .errorOut(jsonBody[String])
 }
