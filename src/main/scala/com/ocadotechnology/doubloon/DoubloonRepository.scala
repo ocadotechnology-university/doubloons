@@ -36,11 +36,11 @@ object DoubloonRepository{
     }
 
     override def createDoubloon(doubloon: Doubloon): IO[Either[Failure, Int]] = {
-      sql"""INSERT INTO doubloons (doubloon_id, category_id, given_to, given_by, amount, month_and_year)
-           VALUES (${doubloon.doubloonId}, ${doubloon.categoryId}, ${doubloon.givenTo},
-            ${doubloon.givenBy}, ${doubloon.amount}, ${doubloon.monthAndYear})"""
+      sql"""INSERT INTO doubloons (category_id, given_to, given_by, amount, month_and_year)
+           VALUES (${doubloon.categoryId}, ${doubloon.givenTo},
+            ${doubloon.givenBy}, ${doubloon.amount}, ${doubloon.monthAndYear}) RETURNING doubloon_id"""
         .update
-        .run
+        .withUniqueGeneratedKeys[Int]("doubloon_id")
         .transact(xa)
         .attemptSql
         .map(_.leftMap(e => Failure.DoubloonCreationFailure(e.getMessage)))
