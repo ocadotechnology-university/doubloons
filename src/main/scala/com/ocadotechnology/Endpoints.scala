@@ -3,6 +3,7 @@ package com.ocadotechnology
 import com.ocadotechnology.category.Category
 import com.ocadotechnology.comment.Comment
 import com.ocadotechnology.doubloon.Doubloon
+import com.ocadotechnology.team.Team
 import sttp.tapir.*
 import sttp.tapir.json.circe.jsonBody
 import sttp.tapir.generic.auto.*
@@ -124,5 +125,11 @@ object Endpoints {
     .in("api" / "categories" / "get")
     .description("Get the list of category objects")
     .out(jsonBody[List[Category]])
+    .errorOut(jsonBody[String])
+  
+  val getTeamInfo: PublicEndpoint[String, String, Team, Any] = endpoint.get
+    .in("api" / "teams" / "get" / path[String]("teamId").example("1"))
+    .description("Get team information (name, description)")
+    .out(jsonBody[Team])
     .errorOut(jsonBody[String])
 }

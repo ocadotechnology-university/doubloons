@@ -9,6 +9,7 @@ import com.ocadotechnology.Router as ApplicationRouter
 import com.ocadotechnology.category.{CategoryRepository, CategoryService}
 import com.ocadotechnology.comment.{CommentRepository, CommentService}
 import com.ocadotechnology.doubloon.{DoubloonRepository, DoubloonService}
+import com.ocadotechnology.team.{TeamRepository, TeamService}
 import com.ocadotechnology.user.{UserRepository, UserService}
 
 
@@ -25,8 +26,7 @@ object Main extends IOApp {
 
     val userRepository = UserRepository.instance
     val userService = UserService.instance(userRepository)
-
-
+    
     val doubloonRepository = DoubloonRepository.instance
     val doubloonService = DoubloonService.instance(doubloonRepository)
     
@@ -35,8 +35,11 @@ object Main extends IOApp {
 
     val categoryRepository = CategoryRepository.instance
     val categoryService = CategoryService.instance(categoryRepository)
+    
+    val teamRepository = TeamRepository.instance
+    val teamService = TeamService.instance(teamRepository)
 
-    val router = new ApplicationRouter(userService, doubloonService, commentService, categoryService)
+    val router = new ApplicationRouter(userService, doubloonService, commentService, categoryService, teamService)
 
     EmberServerBuilder
       .default[IO]
