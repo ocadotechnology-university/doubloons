@@ -1,86 +1,54 @@
 import React from 'react';
-import {useState, useEffect} from "react";
 import "./TeamMemberView.css"
-import userView from "../types";
 import DoubloonsAdder from './DoubloonsAdder';
+import TeamMember from "../types/TeamMember";
+import {CURRENT_USER} from "../types/CURRENT_USER";
+import getCurrentDateString from "../utils/getCurrentDateString";
 
 
 
-function TeamMemberView({email, teamId,firstName, lastName, avatar}: userView) {
+function TeamMemberView({userView, categories, doubloons}: TeamMember) {
 
-    const initialState: userView = {
-        email: "",
-        teamId: "",
-        firstName: "",
-        lastName: "",
-        avatar: "",
-    }
+    const getDoubloon = (categoryId: number) => {
 
+      for (let i = 0; i < doubloons.length; i++)
+          if (doubloons[i].categoryId === categoryId)
+              return doubloons[i];
 
-    const [userData, setUserData] = useState(initialState);
+      return {
+          doubloonId: undefined,
+          categoryId: categoryId,
+          givenTo: userView.email,
+          givenBy: CURRENT_USER.email,
+          amount: 0,
+          monthAndYear: getCurrentDateString(),
+      };
+    };
 
-    useEffect(() => {
-        const newData: userView = {
-            email: email,
-            teamId: teamId,
-            firstName: firstName,
-            lastName: lastName,
-            avatar: avatar,
-        }
-
-        setUserData(newData);
-
-        // cleaning function
-    }, []);
 
     return (
         <div className="team-member-container">
             <img className="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"/>
-            <h1>{userData.firstName} {userData.lastName}</h1>
-            <h2>{userData.email}</h2>
+            <h1>{userView.firstName} {userView.lastName}</h1>
+            <h2>{userView.email}</h2>
             <div className="points-container">
-                <div className="shortcuts">
-                    <div className="rotate red">
-                        <p>Co</p>
-                    </div>
-                    <div className="rotate blue">
-                        <p>Tr</p>
-                    </div>
-                    <div className="rotate yellow">
-                        <p>Au</p>
-                    </div>
-                    <div className="rotate purple">
-                        <p>Le</p>
-                    </div>
-                    <div className="rotate orange">
-                        <p>Cr</p>
-                    </div>
-     
-                </div>
-                <div className="group-names">
-                    <p>Colaboration</p>
-                    <p>Trust</p>
-                    <p>Autonomy</p>
-                    <p>Learn Fast</p>
-                    <p>Craftsmenship</p>
-                </div>
-                <div className="p-m-column">
-                    <div className="plus-minus">
-                        <DoubloonsAdder/>
-                    </div>
-                    <div className="plus-minus">
-                        <DoubloonsAdder/>
-                    </div>
-                    <div className="plus-minus">
-                        <DoubloonsAdder/>
-                    </div>
-                    <div className="plus-minus">
-                        <DoubloonsAdder/>
-                    </div>
-                    <div className="plus-minus">
-                        <DoubloonsAdder/>
-                    </div>
-                </div>
+                <ul className="doubloon-ul">
+                {categories.map(category => (
+                    <li className="doubloon-li">
+                        <div className="category-display">
+                            <div className="category-logo">
+                                {category.categoryName.slice(0, 2)}
+                            </div>
+                            <div className="category-name">
+                                {category.categoryName}
+                            </div>
+                        </div>
+                        <div className="points-adder">
+                            <DoubloonsAdder doubloon={getDoubloon(category.categoryId)}/>
+                        </div>
+                    </li>
+                ))}
+                </ul>
             </div>
             <button className='btn'><p>edit the comment</p></button>
         </div>

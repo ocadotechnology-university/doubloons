@@ -1,5 +1,6 @@
 .team-member-container {
     width: 20%;
+    min-width: 280px;
     height: 570px;
     background-color: rgba(0, 163, 224, 0.17);
     box-shadow: 0 1px 2px black;
@@ -30,14 +31,7 @@
 }
 
 .points-container{
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
-    margin-left: 15px;
-    margin-right: 15px;
-    height: 270px;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    padding: 20px;
 }
 
 .btn{
@@ -132,4 +126,40 @@
 
 .orange{
     background-color: #FF7200;
+}
+
+.doubloon-ul {
+    width: 100%;
+    list-style: none;
+    display: block;
+}
+
+.doubloon-li {
+    margin-bottom: 20px;
+}
+
+.category-display {
+    display: inline-block;
+    width: 70%;
+    text-align: left;
+}
+
+.category-logo {
+    text-align: left;
+    width: 15%;
+    margin-right: 15px;
+    text-transform: capitalize;
+}
+
+.category-name {
+    text-align: left;
+    text-transform: capitalize;
+}
+
+.category-display div {
+    display: inline-block;
+}
+
+.points-adder {
+    display: inline-block;
 }

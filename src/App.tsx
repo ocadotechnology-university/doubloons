@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar';
-import Content from './components/Content';
+import RateTeamContent from './components/RateTeamContent';
 import "./App.css";
 import Timetable from './components/Timetable';
 
@@ -9,7 +9,7 @@ function App() {
       <div className="wrapper">
         <Navbar />
         <Timetable />
-        <Content />
+        <RateTeamContent />
       </div>
   );
 }

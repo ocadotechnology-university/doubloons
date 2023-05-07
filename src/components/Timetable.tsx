@@ -4,8 +4,8 @@ import "./Timetable.css"
 const renderDate = () => {
     const date = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
-"July", "August", "September", "October", "November", "December"
-];
+                        "July", "August", "September", "October", "November", "December"
+    ];
     const formattedDate = `${monthNames[date.getMonth()]} ${date.getFullYear()}`
     return <>{formattedDate}</>
 }
