@@ -6,9 +6,11 @@ import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Router
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import com.ocadotechnology.Router as ApplicationRouter
+import com.ocadotechnology.category.{CategoryRepository, CategoryService}
 import com.ocadotechnology.comment.{CommentRepository, CommentService}
 import com.ocadotechnology.doubloon.{DoubloonRepository, DoubloonService}
-import com.ocadotechnology.user.{UserRepository, UserService, UserViewRepository, UserViewService}
+import com.ocadotechnology.team.{TeamRepository, TeamService}
+import com.ocadotechnology.user.{UserRepository, UserService}
 
 
 
@@ -24,18 +26,20 @@ object Main extends IOApp {
 
     val userRepository = UserRepository.instance
     val userService = UserService.instance(userRepository)
-
-    val userViewRepository = UserViewRepository.instance
-    val userViewService = UserViewService.instance(userViewRepository)
-
-
+    
     val doubloonRepository = DoubloonRepository.instance
     val doubloonService = DoubloonService.instance(doubloonRepository)
     
     val commentRepository = CommentRepository.instance
     val commentService = CommentService.instance(commentRepository)
 
-    val router = new ApplicationRouter(userService, userViewService, doubloonService, commentService)
+    val categoryRepository = CategoryRepository.instance
+    val categoryService = CategoryService.instance(categoryRepository)
+    
+    val teamRepository = TeamRepository.instance
+    val teamService = TeamService.instance(teamRepository)
+
+    val router = new ApplicationRouter(userService, doubloonService, commentService, categoryService, teamService)
 
     EmberServerBuilder
       .default[IO]

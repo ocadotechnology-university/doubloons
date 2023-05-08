@@ -1,7 +1,9 @@
 package com.ocadotechnology
 
+import com.ocadotechnology.category.Category
 import com.ocadotechnology.comment.Comment
 import com.ocadotechnology.doubloon.Doubloon
+import com.ocadotechnology.team.Team
 import sttp.tapir.*
 import sttp.tapir.json.circe.jsonBody
 import sttp.tapir.generic.auto.*
@@ -76,10 +78,11 @@ object Endpoints {
     .out(jsonBody[List[Doubloon]])
     .errorOut(jsonBody[String])
 
-  val createDoubloon: PublicEndpoint[Doubloon, String, Unit, Any] = endpoint.post
+  val createDoubloon: PublicEndpoint[Doubloon, String, Int, Any] = endpoint.post
     .in("api" / "doubloon" / "create")
     .in(jsonBody[Doubloon].example(Examples.doubloon))
-    .description("Insert a new doubloon into the database - requires Doubloon object")
+    .description("Insert a new doubloon into the database - requires Doubloon object, returns doubloon id. Provided ID will be ignored.")
+    .out(jsonBody[Int])
     .errorOut(jsonBody[String])
 
   val updateDoubloon: PublicEndpoint[Doubloon, String, Unit, Any] = endpoint.post
@@ -118,4 +121,15 @@ object Endpoints {
     .in(jsonBody[Comment].example(Examples.comment))
     .errorOut(jsonBody[String])
 
+  val getCategories: PublicEndpoint[Unit, String, List[Category], Any] = endpoint.get
+    .in("api" / "categories" / "get")
+    .description("Get the list of category objects")
+    .out(jsonBody[List[Category]])
+    .errorOut(jsonBody[String])
+  
+  val getTeamInfo: PublicEndpoint[String, String, Team, Any] = endpoint.get
+    .in("api" / "teams" / "get" / path[String]("teamId").example("1"))
+    .description("Get team information (name, description)")
+    .out(jsonBody[Team])
+    .errorOut(jsonBody[String])
 }
