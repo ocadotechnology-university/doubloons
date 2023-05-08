@@ -4,7 +4,7 @@ import cats.effect.IO
 trait DoubloonService {
   
   def getCurrentSpentDoubloonsByEmail(email: String): IO[Either[String, List[Doubloon]]]
-  def createDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
+  def createDoubloon(doubloon: Doubloon): IO[Either[String, Int]]
   def updateDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
   def deleteDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
   
@@ -22,10 +22,10 @@ object  DoubloonService {
         }
     }
 
-    override def createDoubloon(doubloon: Doubloon): IO[Either[String, Unit]] = {
+    override def createDoubloon(doubloon: Doubloon): IO[Either[String, Int]] = {
       doubloonRepository.createDoubloon(doubloon).map {
         case Left(DoubloonRepository.Failure.DoubloonCreationFailure(reason)) => Left(s"$reason")
-        case Right(_) => Right(())
+        case Right(id) => Right(id)
       }
     }
 
