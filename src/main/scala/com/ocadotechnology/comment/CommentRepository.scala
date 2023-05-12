@@ -2,6 +2,7 @@ package com.ocadotechnology.comment
 
 import cats.effect.IO
 import cats.implicits.*
+import com.ocadotechnology.common.GetResultDTO
 import com.ocadotechnology.database.DatabaseConfig.xa
 import doobie.*
 import doobie.implicits.*
@@ -15,6 +16,7 @@ trait CommentRepository {
   def createComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
   def updateComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
   def deleteComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
+  def getCommentResults(data: GetResultDTO): IO[List[CommentResultDTO]]
 }
 
 object CommentRepository {
@@ -68,6 +70,15 @@ object CommentRepository {
         .transact(xa)
         .attemptSql
         .map(_.leftMap(e => Failure.CommentDeletion(e.getMessage)))
+    }
+
+    override def getCommentResults(data: GetResultDTO): IO[List[CommentResultDTO]] = {
+      sql"""SELECT given_by, comment FROM comments
+           	WHERE given_to = ${data.givenTo}
+           	AND month_and_year = ${data.monthAndYear}"""
+        .query[CommentResultDTO]
+        .to[List]
+        .transact(xa)
     }
 
   }

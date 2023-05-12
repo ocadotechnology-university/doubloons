@@ -1,6 +1,7 @@
 package com.ocadotechnology.comment
 
 import cats.effect.IO
+import com.ocadotechnology.common.GetResultDTO
 
 trait CommentService {
   def getCurrentCommentsByEmail(email: String): IO[Either[String, List[Comment]]]
@@ -10,6 +11,8 @@ trait CommentService {
   def updateComment(comment: Comment): IO[Either[String, Unit]]
 
   def deleteComment(comment: Comment): IO[Either[String, Unit]]
+
+  def getCommentResults(data: GetResultDTO): IO[Either[String, List[CommentResultDTO]]]
 
 }
 
@@ -42,5 +45,14 @@ object CommentService {
         case Right(_) => Right(())
       }
     }
+
+    override def getCommentResults(data: GetResultDTO): IO[Either[String, List[CommentResultDTO]]] = {
+      commentRepository.getCommentResults(data)
+        .map {
+          case Nil => Left(s"No comments found for user ${data.givenTo} during ${data.monthAndYear}")
+          case results => Right(results)
+        }
+    }
+    
   }
 }

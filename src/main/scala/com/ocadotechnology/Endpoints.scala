@@ -1,8 +1,9 @@
 package com.ocadotechnology
 
 import com.ocadotechnology.category.Category
-import com.ocadotechnology.comment.Comment
-import com.ocadotechnology.doubloon.Doubloon
+import com.ocadotechnology.comment.{Comment, CommentResultDTO}
+import com.ocadotechnology.common.GetResultDTO
+import com.ocadotechnology.doubloon.{Doubloon, DoubloonResultDTO, GetSpentByOthersDTO, SpentByOthersDTO}
 import com.ocadotechnology.team.Team
 import sttp.tapir.*
 import sttp.tapir.json.circe.jsonBody
@@ -121,6 +122,13 @@ object Endpoints {
     .out(jsonBody[List[SpentByOthersDTO]])
     .errorOut(jsonBody[String])
 
+  val getDoubloonResults: PublicEndpoint[GetResultDTO, String, List[DoubloonResultDTO], Any] = endpoint.post
+    .in("api" / "doubloon" / "results")
+    .description("Get all the doubloons gifted to the provided user in a time span")
+    .in(jsonBody[GetResultDTO].example(Examples.resultDTO))
+    .out(jsonBody[List[DoubloonResultDTO]])
+    .errorOut(jsonBody[String])
+
   val getCurrentCommentsByEmail: PublicEndpoint[String, String, List[Comment], Any] = endpoint.get
     .in("api" / "comments" / "current" / path[String]("email").example(Examples.email))
     .description("Get list of comments created in current time span by the user - requires email")
@@ -143,6 +151,13 @@ object Endpoints {
     .in("api" / "comment" / "delete")
     .description("Delete the comment - requires Comment object")
     .in(jsonBody[Comment].example(Examples.comment))
+    .errorOut(jsonBody[String])
+  
+  val getCommentResults: PublicEndpoint[GetResultDTO, String, List[CommentResultDTO], Any] = endpoint.post
+    .in("api" / "comment" / "results")
+    .description("Get all the comments given to provided user in a time span")
+    .in(jsonBody[GetResultDTO])
+    .out(jsonBody[List[CommentResultDTO]])
     .errorOut(jsonBody[String])
 
   val getCategories: PublicEndpoint[Unit, String, List[Category], Any] = endpoint.get

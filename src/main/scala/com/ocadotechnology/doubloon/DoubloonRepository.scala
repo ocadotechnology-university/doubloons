@@ -2,6 +2,7 @@ package com.ocadotechnology.doubloon
 
 import cats.effect.IO
 import cats.implicits.*
+import com.ocadotechnology.common.GetResultDTO
 import com.ocadotechnology.database.DatabaseConfig.xa
 import doobie.*
 import doobie.implicits.*
@@ -18,7 +19,8 @@ trait DoubloonRepository {
   def getAmountOfUsersInTeam(teamId: String): IO[Option[Int]]
 
   def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[List[SpentByOthersDTO]]
-  
+
+  def getDoubloonResults(data: GetResultDTO): IO[List[DoubloonResultDTO]]
 }
 
 object DoubloonRepository{
@@ -90,6 +92,15 @@ object DoubloonRepository{
         .to[List]
         .transact(xa)
     }
-    
+
+    override def getDoubloonResults(data: GetResultDTO): IO[List[DoubloonResultDTO]] = {
+      sql"""SELECT given_by, category_id, amount FROM doubloons
+           	WHERE given_to = ${data.givenTo}
+           	AND month_and_year = ${data.monthAndYear}"""
+        .query[DoubloonResultDTO]
+        .to[List]
+        .transact(xa)
+    }
+
   }
 }

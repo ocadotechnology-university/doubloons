@@ -1,6 +1,7 @@
 package com.ocadotechnology.doubloon
 
 import cats.effect.IO
+import com.ocadotechnology.common.GetResultDTO
 trait DoubloonService {
   
   def getCurrentSpentDoubloonsByEmail(email: String): IO[Either[String, List[Doubloon]]]
@@ -10,7 +11,7 @@ trait DoubloonService {
   def getAmountToSpend(teamId: String): IO[Either[String, Int]]
   def calculateAmountToSpend(usersAmount: Int): Int
   def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[Either[String, List[SpentByOthersDTO]]]
- 
+  def getDoubloonResults(data: GetResultDTO): IO[Either[String, List[DoubloonResultDTO]]]
 }
 
 object  DoubloonService {
@@ -65,6 +66,14 @@ object  DoubloonService {
           case doubloons => Right(doubloons)
         }
     }
-    
+
+    override def getDoubloonResults(data: GetResultDTO): IO[Either[String, List[DoubloonResultDTO]]] = {
+      doubloonRepository.getDoubloonResults(data)
+        .map {
+          case Nil => Left(s"No doubloons given to ${data.givenTo} found during ${data.monthAndYear}")
+          case results => Right(results)
+        }
+    }
+
   }
 }

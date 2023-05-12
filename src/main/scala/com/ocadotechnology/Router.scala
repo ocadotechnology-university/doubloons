@@ -36,6 +36,8 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
   val getDoubloonsSpentByOthersServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonsSpentByOthers
     .serverLogic(data => doubloonService.getDoubloonsSpentByOthers(data))
 
+  val getDoubloonResultsServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonResults.serverLogic(data => doubloonService.getDoubloonResults(data))
+
   val getCurrentCommentsByEmailServerEndpoint: ServerEndpoint[Any, IO] = getCurrentCommentsByEmail
     .serverLogic(email => commentService.getCurrentCommentsByEmail(email))
 
@@ -45,16 +47,30 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
 
   val deleteCommentServerEndpoint: ServerEndpoint[Any, IO] = deleteComment.serverLogic(comment => commentService.deleteComment(comment))
 
+  val getCommentResultsServerEndpoint: ServerEndpoint[Any, IO] = getCommentResults.serverLogic(data => commentService.getCommentResults(data))
+
   val getCategoriesServerEndpoint: ServerEndpoint[Any, IO] = getCategories.serverLogic(_ => categoryService.getCategories)
 
   val getTeamInfoServerEndpoint: ServerEndpoint[Any, IO] = getTeamInfo.serverLogic(teamId => teamService.getTeamInfo(teamId))
 
-  val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(getUserByEmailServerEndpoint, getUsersByTeamIdServerEndpoint,
-    createUserServerEndpoint, getCurrentSpentDoubloonsServerEndpoint, createDoubloonServerEndpoint,
-    updateDoubloonServerEndpoint, deleteDoubloonServerEndpoint, getAmountToSpendServerEndpoint,
-    getDoubloonsSpentByOthersServerEndpoint, getCurrentCommentsByEmailServerEndpoint,
-    createCommentServerEndpoint, updateCommentServerEndpoint, deleteCommentServerEndpoint,
-    getCategoriesServerEndpoint, getTeamInfoServerEndpoint)
+  val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(
+    getUserByEmailServerEndpoint, 
+    getUsersByTeamIdServerEndpoint,
+    createUserServerEndpoint, 
+    getCurrentSpentDoubloonsServerEndpoint, 
+    createDoubloonServerEndpoint,
+    updateDoubloonServerEndpoint, 
+    deleteDoubloonServerEndpoint, 
+    getAmountToSpendServerEndpoint,
+    getDoubloonsSpentByOthersServerEndpoint, 
+    getDoubloonResultsServerEndpoint, 
+    getCurrentCommentsByEmailServerEndpoint,
+    createCommentServerEndpoint, 
+    updateCommentServerEndpoint, 
+    deleteCommentServerEndpoint,
+    getCommentResultsServerEndpoint,
+    getCategoriesServerEndpoint,
+    getTeamInfoServerEndpoint)
 
   val docEndpoints: List[ServerEndpoint[Any, IO]] = SwaggerInterpreter()
     .fromServerEndpoints[IO](apiEndpoints, "doubloons", "1.0.0")
