@@ -45,6 +45,17 @@ object Endpoints {
       NonEmptyString.unsafeFrom(currentDateFormatted)
     )
 
+    val spentByOthersDTO: GetSpentByOthersDTO = GetSpentByOthersDTO(
+      Refined.unsafeApply("user@example.com"),
+      NonEmptyString.unsafeFrom("1"),
+      NonEmptyString.unsafeFrom(currentDateFormatted)
+    )
+
+    val resultDTO: GetResultDTO = GetResultDTO(
+      Refined.unsafeApply("user@example.com"),
+      NonEmptyString.unsafeFrom(currentDateFormatted)
+    )
+
     val comment: Comment = Comment(
       NonEmptyString.unsafeFrom(currentDateFormatted),
       Refined.unsafeApply("user@example.com"),
@@ -95,6 +106,19 @@ object Endpoints {
     .in("api" / "doubloon" / "delete")
     .in(jsonBody[Doubloon].example(Examples.doubloon))
     .description("Delete doubloon - requires Doubloon object")
+    .errorOut(jsonBody[String])
+
+  val getAmountToSpend: PublicEndpoint[String, String, Int, Any] = endpoint.get
+    .in("api" / "doubloon" / "getAmountToSpend" / path[String]("teamId").example("1"))
+    .description("Get max amount of points to spend by a single user in a time span")
+    .out(jsonBody[Int])
+    .errorOut(jsonBody[String])
+
+  val getDoubloonsSpentByOthers: PublicEndpoint[GetSpentByOthersDTO, String, List[SpentByOthersDTO], Any] = endpoint.post
+    .in("api" / "doubloon" / "getSpentByOthers")
+    .description("Get total amount of points spent by each user in a time span")
+    .in(jsonBody[GetSpentByOthersDTO].example(Examples.spentByOthersDTO))
+    .out(jsonBody[List[SpentByOthersDTO]])
     .errorOut(jsonBody[String])
 
   val getCurrentCommentsByEmail: PublicEndpoint[String, String, List[Comment], Any] = endpoint.get

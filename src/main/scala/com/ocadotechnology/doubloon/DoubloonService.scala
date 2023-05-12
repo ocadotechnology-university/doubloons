@@ -7,7 +7,10 @@ trait DoubloonService {
   def createDoubloon(doubloon: Doubloon): IO[Either[String, Int]]
   def updateDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
   def deleteDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
-  
+  def getAmountToSpend(teamId: String): IO[Either[String, Int]]
+  def calculateAmountToSpend(usersAmount: Int): Int
+  def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[Either[String, List[SpentByOthersDTO]]]
+ 
 }
 
 object  DoubloonService {
@@ -41,6 +44,26 @@ object  DoubloonService {
         case Left(DoubloonRepository.Failure.DoubloonDeleteFailure(reason)) => Left(s"$reason")
         case Right(_) => Right(())
       }
+    }
+
+    override def getAmountToSpend(teamId: String): IO[Either[String, Int]] = {
+      doubloonRepository.getAmountOfUsersInTeam(teamId)
+        .map {
+          case Some(numOfUsers) => Right(calculateAmountToSpend(numOfUsers))
+          case None => Left(s"No users found in team with teamId: $teamId - cannot calculate the amount of doubloons to spend")
+        }
+    }
+
+    override def calculateAmountToSpend(usersAmount: Int): Int = {
+      (usersAmount - 1) * 3
+    }
+
+    override def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[Either[String, List[SpentByOthersDTO]]] = {
+      doubloonRepository.getDoubloonsSpentByOthers(data)
+        .map {
+          case Nil => Left(s"No spent doubloons found this month for users other than: ${data.email} in team: ${data.teamId}")
+          case doubloons => Right(doubloons)
+        }
     }
     
   }

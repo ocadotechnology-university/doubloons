@@ -6,6 +6,7 @@ import com.ocadotechnology.database.DatabaseConfig.xa
 import doobie.*
 import doobie.implicits.*
 import doobie.refined.implicits.*
+
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 trait DoubloonRepository {
@@ -14,6 +15,10 @@ trait DoubloonRepository {
   def updateDoubloon(doubloon: Doubloon): IO[Either[DoubloonRepository.Failure, Int]]
   def deleteDoubloon(doubloon: Doubloon): IO[Either[DoubloonRepository.Failure, Int]]
 
+  def getAmountOfUsersInTeam(teamId: String): IO[Option[Int]]
+
+  def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[List[SpentByOthersDTO]]
+  
 }
 
 object DoubloonRepository{
@@ -67,5 +72,24 @@ object DoubloonRepository{
         .map(_.leftMap(e => Failure.DoubloonDeleteFailure(e.getMessage)))
     }
 
+    override def getAmountOfUsersInTeam(teamId: String): IO[Option[Int]] = {
+      sql"""SELECT COUNT(*) FROM users WHERE team_id = $teamId"""
+        .query[Int]
+        .option
+        .transact(xa)
+    }
+
+    override def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[List[SpentByOthersDTO]] = {
+      sql"""SELECT given_by, SUM(amount) FROM doubloons
+           	WHERE month_and_year = ${data.monthAndDate}
+           	AND given_by IN (
+           		SELECT email FROM users WHERE team_id = ${data.teamId} AND email != ${data.email}
+           	)
+           	GROUP BY given_by"""
+        .query[SpentByOthersDTO]
+        .to[List]
+        .transact(xa)
+    }
+    
   }
 }
