@@ -6,6 +6,10 @@ type TeamMember = {
     userView: UserView,
     categories: Category[],
     doubloons: Doubloon[],
+    comment: Function,
+
+
 }
+
 
 export default TeamMember;

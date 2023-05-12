@@ -1,0 +1,59 @@
+.popup-wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(5px);
+}
+
+.comment-wrapper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comment-container{
+    background-color: #00A3E0;
+    padding: 20px;
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.text-field-position{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 77%;
+    margin-top: 5%;
+}
+.comment-fields{
+
+}
+.header h3{
+    font-size: large;
+    font-weight: 500;
+    color: black;
+    white-space: nowrap;
+}
+.buttons-position{
+    display: flex;
+    justify-content: space-between;
+}
+
+.save{
+    background-color: #0BE0A5;
+    margin-left: 34%;
+}
+
+.cancel{
+    background-color: #E04416;
+    margin-right: 34%;
+}

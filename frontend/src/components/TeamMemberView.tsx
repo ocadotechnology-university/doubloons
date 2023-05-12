@@ -7,7 +7,7 @@ import getCurrentDateString from "../utils/getCurrentDateString";
 
 
 
-function TeamMemberView({userView, categories, doubloons}: TeamMember) {
+function TeamMemberView({userView, categories, doubloons, comment}: TeamMember) {
 
     const getDoubloon = (categoryId: number) => {
 
@@ -25,6 +25,9 @@ function TeamMemberView({userView, categories, doubloons}: TeamMember) {
       };
     };
 
+    const handleClick = () => {
+        comment();
+    }
 
     return (
         <div className="team-member-container">
@@ -50,7 +53,7 @@ function TeamMemberView({userView, categories, doubloons}: TeamMember) {
                 ))}
                 </ul>
             </div>
-            <button className='btn'><p>edit the comment</p></button>
+            <button className='btn' onClick={handleClick}><p>edit the comment</p></button>
         </div>
     )
 }

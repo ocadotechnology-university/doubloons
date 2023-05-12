@@ -22,52 +22,58 @@
     height: 50px;
     background-color: #00a3e0;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    //overflow-x: hidden;
+}
+
+.nav-left{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .nav-doubloons {
-    position: absolute;
-    left: 2%;
-    margin: 0px;
-    padding: 4px;
+    padding-left: 40px;
+    padding-right: 60px;
     line-height: normal;
-    font-size: 32px;
+    font-size: 30px;
     color: #ffffff;
     font-family: "MervaleScript-Regular";
 }
 
 .nav-rateyourteam {
-    position: absolute;
-    bottom: 15px;
-    left: 12%;
+    padding-left: 20px;
+    padding-right: 20px;
     color: #fff;
+    white-space: nowrap;
 }
 
 .nav-yourresults {
-    position: absolute;
-    left: 23%;
-    bottom: 15px;
-    padding: 0;
+    padding-left: 20px;
+    padding-right: 20px;
     color: #fff;
+    white-space: nowrap;
 }
 
 a {
     text-decoration: none;
 }
 
+.nav-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .nav-logout {
-    position: absolute;
-    bottom: 15px;
-    right: 5%;
+    padding-right: 5px;
     text-decoration: none;
     color: #ffffff;
+    white-space: nowrap;
 }
 .logout-icon {
-    position: absolute;
-    right: 3.8%;
-    bottom: 17px;
+    padding-left: 25px;
     color: #fff;
 }
 

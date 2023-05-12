@@ -1,18 +1,21 @@
 import React from 'react';
-import "./RateTeamContent.css"
-import "./TeamMemberView"
+import "./RateTeamContent.css";
+import "./TeamMemberView";
 import {useEffect, useState} from "react";
 import TeamMemberView from "./TeamMemberView";
 import UserView from "../types/UserView";
 import Doubloon from "../types/Doubloon";
 import {CURRENT_USER} from "../types/CURRENT_USER";
 import Category from "../types/Category";
+import "./Popup";
+import Popup from "./Popup";
 
 function RateTeamContent() {
 
     const [doubloons, setDoubloons] = useState<Doubloon[]>([]);
     const [members, setMembers] = useState<UserView[]>([]);
-    const [categories, setCategories] = useState<Category[]>([])
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [showPopup, setShowPopup] = useState(false);
 
 
     useEffect(() => {
@@ -80,6 +83,11 @@ function RateTeamContent() {
         return doubloonsForMember;
     };
 
+    const openPopup = () => {
+        //
+        setShowPopup(true);
+    }
+
     return (
         <>
             <div className="content">
@@ -91,13 +99,16 @@ function RateTeamContent() {
                         {
                              doubloons.length > 0 && members.length > 0 && categories.length > 0 &&
                              members.map(member => (
-                                <TeamMemberView key={member.email} categories={categories} userView={member} doubloons={getDoubloonsForMember(member.email)}/>
+                                <TeamMemberView key={member.email} categories={categories} userView={member} doubloons={getDoubloonsForMember(member.email)} comment={openPopup}/>
                             ))
                         }
                         </>
                     </div>
                 </div>
             </div>
+                {
+                    showPopup && <Popup/>
+                }
         </>
     )
 }
