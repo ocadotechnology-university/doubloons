@@ -3,9 +3,10 @@ import "./DoubloonsAdder.css";
 import DoubloonAdderType from "../types/DoubloonAdderType";
 import Doubloon from "../types/Doubloon";
 
-function DoubloonsAdder({doubloon}: DoubloonAdderType) {
+function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderType) {
 
     const [doubloonState, setDoubloonState] = useState(doubloon);
+    const [shake, setShake] = useState(false);
 
     const updateDoubloon = (newDoubloon: Doubloon) => {
         const requestOptions: RequestInit = {
@@ -18,12 +19,14 @@ function DoubloonsAdder({doubloon}: DoubloonAdderType) {
 
         fetch('/api/doubloon/update', requestOptions)
             .then(() => {
-                alert(`Doubloon updated!`);
+
             })
             .catch(e => console.log(e));
     }
 
     const deleteDoubloon = (currentDoubloon: Doubloon) => {
+        if (currentDoubloon.doubloonId === undefined)
+            return;
         const requestOptions: RequestInit = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json',
@@ -34,7 +37,7 @@ function DoubloonsAdder({doubloon}: DoubloonAdderType) {
 
         fetch('/api/doubloon/delete', requestOptions)
             .then(() => {
-                alert(`Doubloon deleted!`);
+
             })
             .catch(e => console.log(e));
     }
@@ -57,12 +60,18 @@ function DoubloonsAdder({doubloon}: DoubloonAdderType) {
             .then(data => {
                 if (typeof data === "number")
                     newDoubloon.doubloonId = data;
-                alert(`created, id: ${data}`);
             })
             .catch(e => console.log(e));
     };
 
   function handleIncrement() {
+      if (amountLeft === 0) {
+          setShake(true);
+          setTimeout(() => setShake(false), 400);
+          return;
+      }
+
+
       const newDoubloonState = {...doubloonState};
 
       newDoubloonState.amount += 1;
@@ -75,6 +84,7 @@ function DoubloonsAdder({doubloon}: DoubloonAdderType) {
       }
 
       setDoubloonState(newDoubloonState);
+      onDoubloonChange(newDoubloonState);
   }
 
   function handleDecrement() {
@@ -83,17 +93,26 @@ function DoubloonsAdder({doubloon}: DoubloonAdderType) {
     if (doubloonState.amount > 1) {
         newDoubloonState.amount -= 1;
         updateDoubloon(newDoubloonState);
+
+        setDoubloonState(newDoubloonState);
+        onDoubloonChange(newDoubloonState);
     } 
-    else {
+    else if (doubloonState.amount === 1) {
         deleteDoubloon(newDoubloonState);
         newDoubloonState.amount = 0;
-    }
 
-    setDoubloonState(newDoubloonState);
+        onDoubloonChange(newDoubloonState);
+        newDoubloonState.doubloonId = undefined;
+        setDoubloonState(newDoubloonState);
+    }
+    else {
+        setShake(true);
+        setTimeout(() => setShake(false), 400);
+    }
   }
 
   return (
-    <div className="doubloons-adder">
+    <div className={`doubloons-adder${shake ? ' shake': ''}`}>
         <button className="counter">
             <span className="icon minus" onClick={handleDecrement}>
                 <p>-</p>

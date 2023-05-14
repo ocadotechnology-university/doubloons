@@ -7,7 +7,8 @@ type TeamMember = {
     categories: Category[],
     doubloons: Doubloon[],
     comment: Function,
-
+    amountLeft: number,
+    onDoubloonChange: Function,
 
 }
 

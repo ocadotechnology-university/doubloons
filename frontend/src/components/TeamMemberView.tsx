@@ -7,7 +7,7 @@ import getCurrentDateString from "../utils/getCurrentDateString";
 
 
 
-function TeamMemberView({userView, categories, doubloons, comment}: TeamMember) {
+function TeamMemberView({userView, categories, doubloons, comment, amountLeft, onDoubloonChange}: TeamMember) {
 
     const getDoubloon = (categoryId: number) => {
 
@@ -47,7 +47,9 @@ function TeamMemberView({userView, categories, doubloons, comment}: TeamMember) 
                             </div>
                         </div>
                         <div className="points-adder">
-                            <DoubloonsAdder doubloon={getDoubloon(category.categoryId)}/>
+                            <DoubloonsAdder doubloon={getDoubloon(category.categoryId)}
+                                            amountLeft={amountLeft}
+                                            onDoubloonChange={onDoubloonChange}/>
                         </div>
                     </li>
                 ))}

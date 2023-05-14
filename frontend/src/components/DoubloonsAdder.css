@@ -25,7 +25,7 @@
     width: 35px;
     text-align: center;
     font-size: 17px;
-    margin: 0 0px;
+    margin: 0 0;
     font-weight: bold;
 }
 
@@ -41,9 +41,34 @@
 }
 
 .minus{
-    
+
     transform: translate(2px,0px);
 }
 .plus{
     transform: translate(-1px,1px);
+}
+
+.shake {
+    animation: shake .4s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-5px);
+    }
+    40% {
+        transform: translateX(5px);
+    }
+    60% {
+        transform: translateX(-5px);
+    }
+    80% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }

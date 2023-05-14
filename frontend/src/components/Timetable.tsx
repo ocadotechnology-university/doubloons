@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import "./Timetable.css"
+import {TimetableType} from "../types/TimetableType";
 
-function Timetable() {
+function Timetable({userDoubloonStats}: TimetableType) {
 
     const [remainingTime, setRemainingTime] = useState<{days: number, hours: number, minutes: number}>({
         days: 0,
@@ -63,6 +64,12 @@ function Timetable() {
                     </div>
                 </div>
                 <div className="timetable-column">
+                    <p>
+                        User left: {userDoubloonStats.left}
+                    </p>
+                    <p>
+                        User spent: {userDoubloonStats.spent}
+                    </p>
                 </div>
                 <div className="timetable-column">
                 </div>
