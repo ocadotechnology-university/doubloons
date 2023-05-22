@@ -1,8 +1,8 @@
 import React from 'react';
-import "./Popup.css"
+import "./CommentPopup.css"
 import TextField from './TextField';
 
-function Popup() {
+function CommentPopup() {
     const handleClose = () => {
 
     }
@@ -29,4 +29,4 @@ function Popup() {
     )
 }
 
-export default Popup;
+export default CommentPopup;

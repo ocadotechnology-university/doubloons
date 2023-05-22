@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import "./Timetable.css";
-import {TimetableType} from "../types/TimetableType";
-import ProgressBar from "./ProgressBar";
-import {CURRENT_USER} from "../types/CURRENT_USER";
-import getCurrentDateString from "../utils/getCurrentDateString";
+import {TimetableType} from "./TimetableType";
+import ProgressBar from "../progressBar/ProgressBar";
+import {CURRENT_USER} from "../../../types/CURRENT_USER";
+import getCurrentDateString from "../../../utils/getCurrentDateString";
 
 function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
 

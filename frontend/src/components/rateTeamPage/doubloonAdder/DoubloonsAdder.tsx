@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./DoubloonsAdder.css";
-import DoubloonAdderType from "../types/DoubloonAdderType";
-import Doubloon from "../types/Doubloon";
+import DoubloonAdderType from "./DoubloonAdderType";
+import Doubloon from "../../../types/Doubloon";
 
 function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderType) {
 

@@ -1,16 +1,16 @@
 import React from 'react';
 import "./RateTeamContent.css";
-import "./TeamMemberView";
+import "./teamMember/TeamMemberView";
 import {useEffect, useState} from "react";
-import TeamMemberView from "./TeamMemberView";
-import UserView from "../types/UserView";
-import Doubloon from "../types/Doubloon";
-import {CURRENT_USER} from "../types/CURRENT_USER";
-import Category from "../types/Category";
-import "./Popup";
-import Popup from "./Popup";
-import Timetable from "./Timetable";
-import {UserDoubloonStats} from "../types/TimetableType";
+import TeamMemberView from "./teamMember/TeamMemberView";
+import UserView from "../../types/UserView";
+import Doubloon from "../../types/Doubloon";
+import {CURRENT_USER} from "../../types/CURRENT_USER";
+import Category from "../../types/Category";
+import "./commentPopup/CommentPopup";
+import CommentPopup from "./commentPopup/CommentPopup";
+import Timetable from "./timetable/Timetable";
+import {UserDoubloonStats} from "./timetable/TimetableType";
 
 /**
  * main component for 'Rate Team' page
@@ -166,7 +166,7 @@ function RateTeamContent() {
                 </div>
             </div>
                 {
-                    showPopup && <Popup/>
+                    showPopup && <CommentPopup/>
                 }
         </>
     )

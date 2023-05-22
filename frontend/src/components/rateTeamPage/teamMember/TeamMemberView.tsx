@@ -1,13 +1,13 @@
 import React from 'react';
 import "./TeamMemberView.css"
-import DoubloonsAdder from './DoubloonsAdder';
-import TeamMember from "../types/TeamMember";
-import {CURRENT_USER} from "../types/CURRENT_USER";
-import getCurrentDateString from "../utils/getCurrentDateString";
+import DoubloonsAdder from '../doubloonAdder/DoubloonsAdder';
+import TeamMemberType from "./TeamMemberType";
+import {CURRENT_USER} from "../../../types/CURRENT_USER";
+import getCurrentDateString from "../../../utils/getCurrentDateString";
 
 
 
-function TeamMemberView({userView, categories, doubloons, comment, amountLeft, onDoubloonChange}: TeamMember) {
+function TeamMemberView({userView, categories, doubloons, comment, amountLeft, onDoubloonChange}: TeamMemberType) {
 
     const getDoubloon = (categoryId: number) => {
 

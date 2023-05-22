@@ -1,4 +1,4 @@
-import Doubloon from "./Doubloon";
+import Doubloon from "../../../types/Doubloon";
 
 type DoubloonAdderType = {
     doubloon: Doubloon,
