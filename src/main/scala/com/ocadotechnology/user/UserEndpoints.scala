@@ -19,7 +19,7 @@ object UserEndpoints {
     .errorOut(jsonBody[String])
 
   val getUsersByTeamId: PublicEndpoint[String, String, List[UserView], Any] = endpoint.get
-    .in("api" / "users" / path[String]("teamId").example("1"))
+    .in("api" / "users" / "getByTeamId" / path[String]("teamId").example("1"))
     .description("Get list of users from the database - requires teamId")
     .tag("Users")
     .out(jsonBody[List[UserView]])

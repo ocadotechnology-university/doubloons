@@ -50,7 +50,7 @@ function RateTeamContent() {
 
 
     const getTeamMembers = () => {
-        fetch(`/api/users/${CURRENT_USER.teamId}`)
+        fetch(`/api/users/getByTeamId/${CURRENT_USER.teamId}`)
             .then((response) => {
                 return response.json();
             })
@@ -98,7 +98,7 @@ function RateTeamContent() {
 
 
     const getMaxDoubloonsToSpendPerUser = () => {
-        fetch(`/api/doubloon/getAmountToSpend/${CURRENT_USER.teamId}`)
+        fetch(`/api/doubloons/getAmountToSpend/${CURRENT_USER.teamId}`)
             .then(data => data.json())
             .then(amount => {
                 setMaxAmount(amount);
