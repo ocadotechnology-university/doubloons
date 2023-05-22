@@ -1,7 +1,8 @@
 package com.ocadotechnology.doubloon
 
 import cats.effect.IO
-import com.ocadotechnology.common.GetResultDTO
+import com.ocadotechnology.common.DTO.GetSummary
+import com.ocadotechnology.doubloon.DTO.{DoubloonSummary, GetSpentByOthers, SpentByOthers}
 trait DoubloonService {
   
   def getCurrentSpentDoubloonsByEmail(email: String): IO[Either[String, List[Doubloon]]]
@@ -10,8 +11,8 @@ trait DoubloonService {
   def deleteDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
   def getAmountToSpend(teamId: String): IO[Either[String, Int]]
   def calculateAmountToSpend(usersAmount: Int): Int
-  def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[Either[String, List[SpentByOthersDTO]]]
-  def getDoubloonResults(data: GetResultDTO): IO[Either[String, List[DoubloonResultDTO]]]
+  def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[Either[String, List[SpentByOthers]]]
+  def getDoubloonResults(data: GetSummary): IO[Either[String, List[DoubloonSummary]]]
 }
 
 object  DoubloonService {
@@ -59,7 +60,7 @@ object  DoubloonService {
       (usersAmount - 1) * 3
     }
 
-    override def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[Either[String, List[SpentByOthersDTO]]] = {
+    override def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[Either[String, List[SpentByOthers]]] = {
       doubloonRepository.getDoubloonsSpentByOthers(data)
         .map {
           case Nil => Left(s"No spent doubloons found this month for users other than: ${data.email} in team: ${data.teamId}")
@@ -67,7 +68,7 @@ object  DoubloonService {
         }
     }
 
-    override def getDoubloonResults(data: GetResultDTO): IO[Either[String, List[DoubloonResultDTO]]] = {
+    override def getDoubloonResults(data: GetSummary): IO[Either[String, List[DoubloonSummary]]] = {
       doubloonRepository.getDoubloonResults(data)
         .map {
           case Nil => Left(s"No doubloons given to ${data.givenTo} found during ${data.monthAndYear}")

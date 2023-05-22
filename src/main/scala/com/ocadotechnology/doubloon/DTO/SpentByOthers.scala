@@ -1,4 +1,4 @@
-package com.ocadotechnology.comment
+package com.ocadotechnology.doubloon.DTO
 
 import com.ocadotechnology.user.Email
 import eu.timepit.refined.*
@@ -10,11 +10,11 @@ import io.circe.Codec
 import io.circe.generic.semiauto.*
 import io.circe.refined.* // Derivations for refined types
 
-case class CommentResultDTO(
-    givenBy: Email,
-    comment: String
-                      )
+case class SpentByOthers(
+                             email: Email, 
+                             totalAmountSpent: PosInt
+                           )
 
-object CommentResultDTO {
-  given Codec[CommentResultDTO] = deriveCodec
+object SpentByOthers {
+  given Codec[SpentByOthers] = deriveCodec
 }

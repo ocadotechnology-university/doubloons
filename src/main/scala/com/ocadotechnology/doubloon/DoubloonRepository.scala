@@ -2,8 +2,9 @@ package com.ocadotechnology.doubloon
 
 import cats.effect.IO
 import cats.implicits.*
-import com.ocadotechnology.common.GetResultDTO
+import com.ocadotechnology.common.DTO.GetSummary
 import com.ocadotechnology.database.DatabaseConfig.xa
+import com.ocadotechnology.doubloon.DTO.{DoubloonSummary, GetSpentByOthers, SpentByOthers}
 import doobie.*
 import doobie.implicits.*
 import doobie.refined.implicits.*
@@ -18,9 +19,9 @@ trait DoubloonRepository {
 
   def getAmountOfUsersInTeam(teamId: String): IO[Option[Int]]
 
-  def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[List[SpentByOthersDTO]]
+  def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[List[SpentByOthers]]
 
-  def getDoubloonResults(data: GetResultDTO): IO[List[DoubloonResultDTO]]
+  def getDoubloonResults(data: GetSummary): IO[List[DoubloonSummary]]
 }
 
 object DoubloonRepository{
@@ -81,23 +82,23 @@ object DoubloonRepository{
         .transact(xa)
     }
 
-    override def getDoubloonsSpentByOthers(data: GetSpentByOthersDTO): IO[List[SpentByOthersDTO]] = {
+    override def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[List[SpentByOthers]] = {
       sql"""SELECT given_by, SUM(amount) FROM doubloons
-           	WHERE month_and_year = ${data.monthAndDate}
+           	WHERE month_and_year = ${data.monthAndYear}
            	AND given_by IN (
            		SELECT email FROM users WHERE team_id = ${data.teamId} AND email != ${data.email}
            	)
            	GROUP BY given_by"""
-        .query[SpentByOthersDTO]
+        .query[SpentByOthers]
         .to[List]
         .transact(xa)
     }
 
-    override def getDoubloonResults(data: GetResultDTO): IO[List[DoubloonResultDTO]] = {
+    override def getDoubloonResults(data: GetSummary): IO[List[DoubloonSummary]] = {
       sql"""SELECT given_by, category_id, amount FROM doubloons
            	WHERE given_to = ${data.givenTo}
            	AND month_and_year = ${data.monthAndYear}"""
-        .query[DoubloonResultDTO]
+        .query[DoubloonSummary]
         .to[List]
         .transact(xa)
     }

@@ -1,7 +1,6 @@
-package com.ocadotechnology.doubloon
+package com.ocadotechnology.doubloon.DTO
 
 import com.ocadotechnology.user.Email
-
 import eu.timepit.refined.*
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.string.MatchesRegex
@@ -10,12 +9,12 @@ import io.circe.Codec
 import io.circe.generic.semiauto.*
 import io.circe.refined.* // Derivations for refined types
 
-case class GetSpentByOthersDTO(
-    email: Email,
-    teamId: NonEmptyString,
-    monthAndDate: NonEmptyString,
+case class GetSpentByOthers(
+               email: Email,
+               teamId: NonEmptyString, // not necessary
+               monthAndYear: NonEmptyString,
                             )
 
-object GetSpentByOthersDTO {
-  given Codec[GetSpentByOthersDTO] = deriveCodec
+object GetSpentByOthers {
+  given Codec[GetSpentByOthers] = deriveCodec
 }
