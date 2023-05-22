@@ -5,7 +5,11 @@ import org.http4s.HttpRoutes
 import sttp.tapir.server.ServerEndpoint
 import sttp.tapir.server.http4s.Http4sServerInterpreter
 import sttp.tapir.swagger.bundle.SwaggerInterpreter
-import com.ocadotechnology.Endpoints.*
+import com.ocadotechnology.user.UserEndpoints.*
+import com.ocadotechnology.doubloon.DoubloonEndpoints.*
+import com.ocadotechnology.comment.CommentEndpoints.*
+import com.ocadotechnology.category.CategoryEndpoints.*
+import com.ocadotechnology.team.TeamEndpoints.*
 import com.ocadotechnology.category.CategoryService
 import com.ocadotechnology.comment.CommentService
 import com.ocadotechnology.user.UserService

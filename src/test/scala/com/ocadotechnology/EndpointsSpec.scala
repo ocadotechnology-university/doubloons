@@ -1,6 +1,6 @@
 package com.ocadotechnology
 
-import com.ocadotechnology.Endpoints.{*, given}
+import com.ocadotechnology.EndpointsExamples.{*, given}
 import org.scalatest.EitherValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
