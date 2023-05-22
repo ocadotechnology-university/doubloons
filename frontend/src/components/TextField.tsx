@@ -3,13 +3,12 @@ import './TextField.css';
 const TextField: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputValue(event.target.value);
     };
 
     return (
-            <input
-                type="text"
+            <textarea
                 value={inputValue}
                 onChange={handleChange}
                 className="text-fields"

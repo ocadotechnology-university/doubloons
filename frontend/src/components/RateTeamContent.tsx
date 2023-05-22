@@ -12,6 +12,9 @@ import Popup from "./Popup";
 import Timetable from "./Timetable";
 import {UserDoubloonStats} from "../types/TimetableType";
 
+/**
+ * main component for 'Rate Team' page
+ */
 function RateTeamContent() {
 
     const [doubloons, setDoubloons] = useState<Doubloon[]>([]);
@@ -138,7 +141,7 @@ function RateTeamContent() {
     return (
         <>
 
-            <Timetable userDoubloonStats={userDoubloonStats}/>
+            <Timetable userDoubloonStats={userDoubloonStats} otherTeamMembers={members.length}/>
 
             <div className="content">
                 <div className="heading">

@@ -27,6 +27,7 @@
     font-size: 17px;
     margin: 0 0;
     font-weight: bold;
+    cursor: default;
 }
 
 .icon p{
@@ -54,21 +55,21 @@
 
 @keyframes shake {
     0% {
-        transform: translateX(0);
+        transform: translateX(0) rotate(0);
     }
     20% {
-        transform: translateX(-5px);
+        transform: translateX(-5px) rotate(2deg);
     }
     40% {
-        transform: translateX(5px);
+        transform: translateX(5px) rotate(-2deg);
     }
     60% {
-        transform: translateX(-5px);
+        transform: translateX(-5px) rotate(2deg);
     }
     80% {
-        transform: translateX(5px);
+        transform: translateX(5px) rotate(-2deg);
     }
     100% {
-        transform: translateX(0);
+        transform: translateX(0) rotate(0);
     }
 }
