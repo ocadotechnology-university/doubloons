@@ -1,7 +1,7 @@
 @font-face {
     font-family: "MervaleScript-Regular";
     src: local("MervaleScript-Regular"),
-     url("src/fonts/MervaleScript-Regular.ttf") format("truetype");
+     url("../../fonts/MervaleScript-Regular.ttf") format("truetype");
     font-weight: bold;
 }
   
@@ -42,18 +42,16 @@
     font-family: "MervaleScript-Regular";
 }
 
-.nav-rateyourteam {
-    padding-left: 20px;
-    padding-right: 20px;
+.nav-link {
+    margin-left: 20px;
+    margin-right: 20px;
     color: #fff;
     white-space: nowrap;
+    font-weight: 600;
 }
 
-.nav-yourresults {
-    padding-left: 20px;
-    padding-right: 20px;
-    color: #fff;
-    white-space: nowrap;
+.nav-link-active {
+    border-bottom: #fff 2px solid;
 }
 
 a {

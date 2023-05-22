@@ -1,5 +1,6 @@
 import React from 'react';
 import "./Navbar.css"
+import {NavLink} from 'react-router-dom'
 
 function Navbar() {
     return (
@@ -7,8 +8,22 @@ function Navbar() {
             <div className="nav">
                 <div className="nav-left">
                     <p className="nav-doubloons">Doubloons</p>
-                    <a href=".#"><p className="nav-rateyourteam"><b>RATE YOUR TEAM</b></p></a>
-                    <a href=".#" ><p className="nav-yourresults"><b>YOUR RESULTS</b></p></a>
+                    <NavLink to={'/rate-team'}
+                             className={({ isActive}) =>
+                                 isActive
+                                     ? "nav-link nav-link-active"
+                                     : "nav-link"
+                                        }>
+                        RATE YOUR TEAM
+                    </NavLink>
+                    <NavLink to={'/your-results'}
+                             className={({ isActive}) =>
+                                 isActive
+                                     ? "nav-link nav-link-active"
+                                     : "nav-link"
+                             }>
+                        YOUR RESULTS
+                    </NavLink>
                 </div>
                 <div className="nav-right">
                     <a href=".#"><p className="nav-logout"><b>LOG OUT</b></p></a>
