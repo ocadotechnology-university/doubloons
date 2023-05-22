@@ -48,7 +48,7 @@ function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
             body: JSON.stringify(requestBody),
         };
 
-        fetch(`/api/doubloon/getSpentByOthers`, requestOptions)
+        fetch(`/api/doubloons/getSpentByOthers`, requestOptions)
             .then(result => {
                 console.log(result);
                 return result.json()

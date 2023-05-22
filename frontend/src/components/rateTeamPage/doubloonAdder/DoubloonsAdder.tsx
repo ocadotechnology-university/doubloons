@@ -17,7 +17,7 @@ function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderT
             body: JSON.stringify(newDoubloon),
         };
 
-        fetch('/api/doubloon/update', requestOptions)
+        fetch('/api/doubloons/update', requestOptions)
             .then(() => {
 
             })
@@ -35,7 +35,7 @@ function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderT
             body: JSON.stringify(currentDoubloon),
         };
 
-        fetch('/api/doubloon/delete', requestOptions)
+        fetch('/api/doubloons/delete', requestOptions)
             .then(() => {
 
             })
@@ -55,7 +55,7 @@ function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderT
             body: JSON.stringify(newDoubloon),
         };
 
-        fetch('/api/doubloon/create', requestOptions)
+        fetch('/api/doubloons/create', requestOptions)
             .then(response => response.json())
             .then(data => {
                 if (typeof data === "number")
