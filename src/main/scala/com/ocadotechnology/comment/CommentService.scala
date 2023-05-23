@@ -1,7 +1,7 @@
 package com.ocadotechnology.comment
 
 import cats.effect.IO
-import com.ocadotechnology.comment.DTO.CommentSummary
+import com.ocadotechnology.comment.DTO.{CommentSummary, DeleteCommentDTO}
 import com.ocadotechnology.common.DTO.GetSummary
 
 trait CommentService {
@@ -9,7 +9,7 @@ trait CommentService {
 
   def upsertComment(comment: Comment): IO[Either[String, Unit]]
 
-  def deleteComment(comment: Comment): IO[Either[String, Unit]]
+  def deleteComment(comment: DeleteCommentDTO): IO[Either[String, Unit]]
 
   def getCommentsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[CommentSummary]]]
 
@@ -32,7 +32,7 @@ object CommentService {
     }
 
 
-    override def deleteComment(comment: Comment): IO[Either[String, Unit]] = {
+    override def deleteComment(comment: DeleteCommentDTO): IO[Either[String, Unit]] = {
       commentRepository.deleteComment(comment).map {
         case Left(CommentRepository.Failure.CommentDeletion(reason)) => Left(s"$reason")
         case Right(_) => Right(())

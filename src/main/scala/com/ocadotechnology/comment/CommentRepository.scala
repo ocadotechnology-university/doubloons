@@ -2,7 +2,7 @@ package com.ocadotechnology.comment
 
 import cats.effect.IO
 import cats.implicits.*
-import com.ocadotechnology.comment.DTO.CommentSummary
+import com.ocadotechnology.comment.DTO.{CommentSummary, DeleteCommentDTO}
 import com.ocadotechnology.common.DTO.GetSummary
 import com.ocadotechnology.database.DatabaseConfig.xa
 import doobie.*
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 trait CommentRepository {
   def getComments(email: String, monthAndYear: String): IO[List[Comment]]
   def upsertComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
-  def deleteComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
+  def deleteComment(comment: DeleteCommentDTO): IO[Either[CommentRepository.Failure, Int]]
   def getCommentsSummary(givenTo: String, monthAndYear: String): IO[List[CommentSummary]]
 }
 
@@ -45,7 +45,7 @@ object CommentRepository {
         .map(_.leftMap(e => Failure.CommentUpsert(e.getMessage)))
     }
 
-    override def deleteComment(comment: Comment): IO[Either[Failure, Int]] = {
+    override def deleteComment(comment: DeleteCommentDTO): IO[Either[Failure, Int]] = {
       sql"""DELETE FROM comments
             WHERE month_and_year = ${comment.monthAndYear}
                 AND given_by = ${comment.givenBy}

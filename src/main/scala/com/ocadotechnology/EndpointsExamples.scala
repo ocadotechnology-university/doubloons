@@ -2,7 +2,7 @@ package com.ocadotechnology
 
 import com.ocadotechnology.category.Category
 import com.ocadotechnology.comment.Comment
-import com.ocadotechnology.comment.DTO.CommentSummary
+import com.ocadotechnology.comment.DTO.{CommentSummary, DeleteCommentDTO}
 import com.ocadotechnology.common.DTO.GetSummary
 import com.ocadotechnology.doubloon.DTO.{DoubloonSummary, GetSpentByOthers, SpentByOthers}
 import com.ocadotechnology.doubloon.Doubloon
@@ -64,6 +64,12 @@ object EndpointsExamples {
     Refined.unsafeApply("user@example.com"),
     Refined.unsafeApply("admin@example.com"),
     NonEmptyString.unsafeFrom("This is a example body of the comment")
+  )
+  
+  val deleteComment: DeleteCommentDTO = DeleteCommentDTO(
+    NonEmptyString.unsafeFrom(currentDateFormatted),
+    Refined.unsafeApply("user@example.com"),
+    Refined.unsafeApply("admin@example.com"),
   )
   
 }
