@@ -42,12 +42,10 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
 
   val getDoubloonResultsServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonResults.serverLogic(data => doubloonService.getDoubloonResults(data))
 
-  val getCurrentCommentsByEmailServerEndpoint: ServerEndpoint[Any, IO] = getCurrentCommentsByEmail
-    .serverLogic(email => commentService.getCurrentCommentsByEmail(email))
+  val getCommentsServerEndpoint: ServerEndpoint[Any, IO] = getComments
+    .serverLogic((email, monthAndYear) => commentService.getComments(email, monthAndYear))
 
-  val createCommentServerEndpoint: ServerEndpoint[Any, IO] = createComment.serverLogic(comment => commentService.createComment(comment))
-
-  val updateCommentServerEndpoint: ServerEndpoint[Any, IO] = updateComment.serverLogic(comment => commentService.updateComment(comment))
+  val upsertCommentServerEndpoint: ServerEndpoint[Any, IO] = upsertComment.serverLogic(comment => commentService.upsertComment(comment))
 
   val deleteCommentServerEndpoint: ServerEndpoint[Any, IO] = deleteComment.serverLogic(comment => commentService.deleteComment(comment))
 
@@ -58,19 +56,18 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
   val getTeamInfoServerEndpoint: ServerEndpoint[Any, IO] = getTeamInfo.serverLogic(teamId => teamService.getTeamInfo(teamId))
 
   val apiEndpoints: List[ServerEndpoint[Any, IO]] = List(
-    getUserByEmailServerEndpoint, 
+    getUserByEmailServerEndpoint,
     getUsersByTeamIdServerEndpoint,
-    createUserServerEndpoint, 
-    getCurrentSpentDoubloonsServerEndpoint, 
+    createUserServerEndpoint,
+    getCurrentSpentDoubloonsServerEndpoint,
     createDoubloonServerEndpoint,
-    updateDoubloonServerEndpoint, 
-    deleteDoubloonServerEndpoint, 
+    updateDoubloonServerEndpoint,
+    deleteDoubloonServerEndpoint,
     getAmountToSpendServerEndpoint,
-    getDoubloonsSpentByOthersServerEndpoint, 
-    getDoubloonResultsServerEndpoint, 
-    getCurrentCommentsByEmailServerEndpoint,
-    createCommentServerEndpoint, 
-    updateCommentServerEndpoint, 
+    getDoubloonsSpentByOthersServerEndpoint,
+    getDoubloonResultsServerEndpoint,
+    getCommentsServerEndpoint,
+    upsertCommentServerEndpoint,
     deleteCommentServerEndpoint,
     getCommentResultsServerEndpoint,
     getCategoriesServerEndpoint,

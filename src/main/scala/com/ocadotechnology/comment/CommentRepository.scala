@@ -13,52 +13,36 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 trait CommentRepository {
-  def getCurrentCommentsByEmail(email: String): IO[List[Comment]]
-  def createComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
-  def updateComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
+  def getComments(email: String, monthAndYear: String): IO[List[Comment]]
+  def upsertComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
   def deleteComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
   def getCommentResults(data: GetSummary): IO[List[CommentSummary]]
 }
 
 object CommentRepository {
   enum Failure {
-    case CommentCreation(reason: String)
-    case CommentUpdate(reason: String)
+    case CommentUpsert(reason: String)
     case CommentDeletion(reason: String)
   }
 
   def instance: CommentRepository = new CommentRepository {
-    override def getCurrentCommentsByEmail(email: String): IO[List[Comment]] = {
-      val monthYearFormatter = DateTimeFormatter.ofPattern("MM-yyyy")
-      val currentDateFormatted = LocalDate.now().format(monthYearFormatter)
-      sql"""SELECT * FROM comments WHERE given_by = $email AND month_and_year = $currentDateFormatted"""
+    override def getComments(email: String, monthAndYear: String): IO[List[Comment]] = {
+      sql"""SELECT * FROM comments WHERE given_by = $email AND month_and_year = $monthAndYear"""
         .query[Comment]
         .to[List]
         .transact(xa)
     }
 
-    override def createComment(comment: Comment): IO[Either[Failure, Int]] = {
+    override def upsertComment(comment: Comment): IO[Either[Failure, Int]] = {
       sql"""INSERT INTO comments (month_and_year, given_to, given_by, comment)
-            VALUES (${comment.monthAndYear}, ${comment.givenTo}, ${comment.givenBy}, ${comment.comment})
-         """
+           VALUES (${comment.monthAndYear}, ${comment.givenTo}, ${comment.givenBy}, ${comment.comment})
+           ON CONFLICT (month_and_year, given_to, given_by)
+           DO UPDATE SET comment = EXCLUDED.comment;"""
         .update
         .run
         .transact(xa)
         .attemptSql
-        .map(_.leftMap(e => Failure.CommentCreation(e.getMessage)))
-    }
-
-    override def updateComment(comment: Comment): IO[Either[Failure, Int]] = {
-      sql"""UPDATE comments
-            SET comment = ${comment.comment}
-            WHERE month_and_year = ${comment.monthAndYear}
-              AND given_by = ${comment.givenBy}
-              AND given_to = ${comment.givenTo}"""
-        .update
-        .run
-        .transact(xa)
-        .attemptSql
-        .map(_.leftMap(e => Failure.CommentUpdate(e.getMessage)))
+        .map(_.leftMap(e => Failure.CommentUpsert(e.getMessage)))
     }
 
     override def deleteComment(comment: Comment): IO[Either[Failure, Int]] = {

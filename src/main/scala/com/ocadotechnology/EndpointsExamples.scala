@@ -26,7 +26,7 @@ import java.time.format.DateTimeFormatter
 object EndpointsExamples {
   
   private val monthYearFormatter = DateTimeFormatter.ofPattern("MM-yyyy")
-  private val currentDateFormatted = LocalDate.now().format(monthYearFormatter)
+  val currentDateFormatted = LocalDate.now().format(monthYearFormatter)
 
   val email = "admin@example.com"
 
