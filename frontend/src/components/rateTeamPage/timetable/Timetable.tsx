@@ -35,20 +35,7 @@ function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
 
     const fetchSpentByOthersList = () => {
 
-        const requestBody = {
-            email: CURRENT_USER.email,
-            teamId: CURRENT_USER.teamId,
-            monthAndYear: getCurrentDateString(),
-        }
-
-        const requestOptions: RequestInit = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'},
-            body: JSON.stringify(requestBody),
-        };
-
-        fetch(`/api/doubloons/getSpentByOthers`, requestOptions)
+        fetch(`/api/doubloons/getSpentByOthers/${CURRENT_USER.email}/${getCurrentDateString()}`)
             .then(result => {
                 console.log(result);
                 return result.json()
