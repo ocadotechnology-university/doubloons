@@ -6,7 +6,7 @@ type TeamMemberType = {
     userView: UserView,
     categories: Category[],
     doubloons: Doubloon[],
-    comment: Function,
+    openCommentPopup: Function,
     amountLeft: number,
     onDoubloonChange: Function,
 

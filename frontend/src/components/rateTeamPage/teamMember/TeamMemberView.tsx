@@ -7,8 +7,12 @@ import getCurrentDateString from "../../../utils/getCurrentDateString";
 
 
 
-function TeamMemberView({userView, categories, doubloons, comment, amountLeft, onDoubloonChange}: TeamMemberType) {
+function TeamMemberView({userView, categories, doubloons, openCommentPopup, amountLeft, onDoubloonChange}: TeamMemberType) {
 
+    /**
+     * gets doubloon and it's value for a specific category
+     * @param categoryId
+     */
     const getDoubloon = (categoryId: number) => {
 
       for (let i = 0; i < doubloons.length; i++)
@@ -25,8 +29,8 @@ function TeamMemberView({userView, categories, doubloons, comment, amountLeft, o
       };
     };
 
-    const handleClick = () => {
-        comment();
+    const handleCommentClick = () => {
+        openCommentPopup(userView.email);
     }
 
     return (
@@ -55,7 +59,7 @@ function TeamMemberView({userView, categories, doubloons, comment, amountLeft, o
                 ))}
                 </ul>
             </div>
-            <button className='btn' onClick={handleClick}><p>edit the comment</p></button>
+            <button className='btn' onClick={handleCommentClick}><p>edit the comment</p></button>
         </div>
     )
 }
