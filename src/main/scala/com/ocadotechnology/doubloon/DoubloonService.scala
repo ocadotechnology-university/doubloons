@@ -11,12 +11,12 @@ trait DoubloonService {
   def deleteDoubloon(doubloon: Doubloon): IO[Either[String, Unit]]
   def getAmountToSpend(teamId: String): IO[Either[String, Int]]
   def calculateAmountToSpend(usersAmount: Int): Int
-  def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[Either[String, List[SpentByOthers]]]
-  def getDoubloonResults(data: GetSummary): IO[Either[String, List[DoubloonSummary]]]
+  def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[Either[String, List[SpentByOthers]]]
+  def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[DoubloonSummary]]]
 }
 
 object  DoubloonService {
-  
+
   def instance(doubloonRepository: DoubloonRepository): DoubloonService = new DoubloonService {
 
     override def getCurrentSpentDoubloonsByEmail(email: String): IO[Either[String, List[Doubloon]]] = {
@@ -60,18 +60,18 @@ object  DoubloonService {
       (usersAmount - 1) * 3
     }
 
-    override def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[Either[String, List[SpentByOthers]]] = {
-      doubloonRepository.getDoubloonsSpentByOthers(data)
+    override def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[Either[String, List[SpentByOthers]]] = {
+      doubloonRepository.getDoubloonsSpentByOthers(email, monthAndYear)
         .map {
-          case Nil => Left(s"No spent doubloons found this month for users other than: ${data.email} in team: ${data.teamId}")
+          case Nil => Left(s"No spent doubloons found this month for users other than: $email")
           case doubloons => Right(doubloons)
         }
     }
 
-    override def getDoubloonResults(data: GetSummary): IO[Either[String, List[DoubloonSummary]]] = {
-      doubloonRepository.getDoubloonResults(data)
+    override def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[DoubloonSummary]]] = {
+      doubloonRepository.getDoubloonsSummary(givenTo, monthAndYear)
         .map {
-          case Nil => Left(s"No doubloons given to ${data.givenTo} found during ${data.monthAndYear}")
+          case Nil => Left(s"No doubloons given to $givenTo found during $monthAndYear")
           case results => Right(results)
         }
     }

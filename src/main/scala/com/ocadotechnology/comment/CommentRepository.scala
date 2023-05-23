@@ -16,7 +16,7 @@ trait CommentRepository {
   def getComments(email: String, monthAndYear: String): IO[List[Comment]]
   def upsertComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
   def deleteComment(comment: Comment): IO[Either[CommentRepository.Failure, Int]]
-  def getCommentResults(data: GetSummary): IO[List[CommentSummary]]
+  def getCommentsSummary(givenTo: String, monthAndYear: String): IO[List[CommentSummary]]
 }
 
 object CommentRepository {
@@ -57,10 +57,10 @@ object CommentRepository {
         .map(_.leftMap(e => Failure.CommentDeletion(e.getMessage)))
     }
 
-    override def getCommentResults(data: GetSummary): IO[List[CommentSummary]] = {
+    override def getCommentsSummary(givenTo: String, monthAndYear: String): IO[List[CommentSummary]] = {
       sql"""SELECT given_by, comment FROM comments
-           	WHERE given_to = ${data.givenTo}
-           	AND month_and_year = ${data.monthAndYear}"""
+           	WHERE given_to = $givenTo
+           	AND month_and_year = $monthAndYear"""
         .query[CommentSummary]
         .to[List]
         .transact(xa)

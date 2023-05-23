@@ -42,19 +42,19 @@ object DoubloonEndpoints {
     .out(jsonBody[Int])
     .errorOut(jsonBody[String])
 
-  val getDoubloonsSpentByOthers: PublicEndpoint[GetSpentByOthers, String, List[SpentByOthers], Any] = endpoint.post
-    .in("api" / "doubloons" / "getSpentByOthers")
-    .description("Get total amount of points spent by each user in a time span")
+  val getDoubloonsSpentByOthers: PublicEndpoint[(String, String), String, List[SpentByOthers], Any] = endpoint.get
+    .in("api" / "doubloons" / "getSpentByOthers" / path[String]("email").example(EndpointsExamples.email)
+      / path[String]("monthAndYear").example(EndpointsExamples.currentDateFormatted))
+    .description("Get total amount of points spent by each user (except the provided one) in a time span")
     .tag("Doubloons")
-    .in(jsonBody[GetSpentByOthers].example(EndpointsExamples.spentByOthersDTO))
     .out(jsonBody[List[SpentByOthers]])
     .errorOut(jsonBody[String])
 
-  val getDoubloonResults: PublicEndpoint[GetSummary, String, List[DoubloonSummary], Any] = endpoint.post
-    .in("api" / "doubloons" / "results")
+  val getDoubloonsSummary: PublicEndpoint[(String, String), String, List[DoubloonSummary], Any] = endpoint.get
+    .in("api" / "doubloons" / "summary" / path[String] ("email").example(EndpointsExamples.email)
+      / path[String]("monthAndYear").example(EndpointsExamples.currentDateFormatted))
     .description("Get all the doubloons gifted to the provided user in a time span")
     .tag("Doubloons")
-    .in(jsonBody[GetSummary].example(EndpointsExamples.resultDTO))
     .out(jsonBody[List[DoubloonSummary]])
     .errorOut(jsonBody[String])
 

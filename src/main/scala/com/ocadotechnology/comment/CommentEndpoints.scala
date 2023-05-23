@@ -34,11 +34,11 @@ object CommentEndpoints {
     .in(jsonBody[Comment].example(EndpointsExamples.comment))
     .errorOut(jsonBody[String])
 
-  val getCommentResults: PublicEndpoint[GetSummary, String, List[CommentSummary], Any] = endpoint.post
-    .in("api" / "comments" / "results")
+  val getCommentsSummary: PublicEndpoint[(String, String), String, List[CommentSummary], Any] = endpoint.get
+    .in("api" / "comments" / "summary" / path[String]("givenTo").example(EndpointsExamples.email)
+      / path[String]("monthAndYear").example(EndpointsExamples.currentDateFormatted))
     .description("Get all the comments given to provided user in a time span")
     .tag("Comments")
-    .in(jsonBody[GetSummary])
     .out(jsonBody[List[CommentSummary]])
     .errorOut(jsonBody[String])
 }

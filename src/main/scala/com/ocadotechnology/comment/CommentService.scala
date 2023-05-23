@@ -11,7 +11,7 @@ trait CommentService {
 
   def deleteComment(comment: Comment): IO[Either[String, Unit]]
 
-  def getCommentResults(data: GetSummary): IO[Either[String, List[CommentSummary]]]
+  def getCommentsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[CommentSummary]]]
 
 }
 
@@ -39,10 +39,10 @@ object CommentService {
       }
     }
 
-    override def getCommentResults(data: GetSummary): IO[Either[String, List[CommentSummary]]] = {
-      commentRepository.getCommentResults(data)
+    override def getCommentsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[CommentSummary]]] = {
+      commentRepository.getCommentsSummary(givenTo, monthAndYear)
         .map {
-          case Nil => Left(s"No comments found for user ${data.givenTo} during ${data.monthAndYear}")
+          case Nil => Left(s"No comments found for user $givenTo during $monthAndYear")
           case results => Right(results)
         }
     }

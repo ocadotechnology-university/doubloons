@@ -19,9 +19,9 @@ trait DoubloonRepository {
 
   def getAmountOfUsersInTeam(teamId: String): IO[Option[Int]]
 
-  def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[List[SpentByOthers]]
+  def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[List[SpentByOthers]]
 
-  def getDoubloonResults(data: GetSummary): IO[List[DoubloonSummary]]
+  def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[List[DoubloonSummary]]
 }
 
 object DoubloonRepository{
@@ -82,11 +82,12 @@ object DoubloonRepository{
         .transact(xa)
     }
 
-    override def getDoubloonsSpentByOthers(data: GetSpentByOthers): IO[List[SpentByOthers]] = {
+    override def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[List[SpentByOthers]] = {
       sql"""SELECT given_by, SUM(amount) FROM doubloons
-           	WHERE month_and_year = ${data.monthAndYear}
+           	WHERE month_and_year = $monthAndYear
            	AND given_by IN (
-           		SELECT email FROM users WHERE team_id = ${data.teamId} AND email != ${data.email}
+           		SELECT email FROM users WHERE team_id = (SELECT team_id FROM users WHERE email = $email)
+           		    AND email != $email
            	)
            	GROUP BY given_by"""
         .query[SpentByOthers]
@@ -94,10 +95,10 @@ object DoubloonRepository{
         .transact(xa)
     }
 
-    override def getDoubloonResults(data: GetSummary): IO[List[DoubloonSummary]] = {
+    override def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[List[DoubloonSummary]] = {
       sql"""SELECT given_by, category_id, amount FROM doubloons
-           	WHERE given_to = ${data.givenTo}
-           	AND month_and_year = ${data.monthAndYear}"""
+           	WHERE given_to = $givenTo
+           	AND month_and_year = $monthAndYear"""
         .query[DoubloonSummary]
         .to[List]
         .transact(xa)

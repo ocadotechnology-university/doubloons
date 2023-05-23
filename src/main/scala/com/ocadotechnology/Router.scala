@@ -38,9 +38,9 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
   val getAmountToSpendServerEndpoint: ServerEndpoint[Any, IO] = getAmountToSpend.serverLogic(teamId => doubloonService.getAmountToSpend(teamId))
 
   val getDoubloonsSpentByOthersServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonsSpentByOthers
-    .serverLogic(data => doubloonService.getDoubloonsSpentByOthers(data))
+    .serverLogic((email, monthAndYear) => doubloonService.getDoubloonsSpentByOthers(email, monthAndYear))
 
-  val getDoubloonResultsServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonResults.serverLogic(data => doubloonService.getDoubloonResults(data))
+  val getDoubloonsSummaryServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonsSummary.serverLogic((givenTo, monthAndYear) => doubloonService.getDoubloonsSummary(givenTo, monthAndYear))
 
   val getCommentsServerEndpoint: ServerEndpoint[Any, IO] = getComments
     .serverLogic((email, monthAndYear) => commentService.getComments(email, monthAndYear))
@@ -49,7 +49,7 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
 
   val deleteCommentServerEndpoint: ServerEndpoint[Any, IO] = deleteComment.serverLogic(comment => commentService.deleteComment(comment))
 
-  val getCommentResultsServerEndpoint: ServerEndpoint[Any, IO] = getCommentResults.serverLogic(data => commentService.getCommentResults(data))
+  val getCommentsSummaryServerEndpoint: ServerEndpoint[Any, IO] = getCommentsSummary.serverLogic((givenTo, monthAndYear) => commentService.getCommentsSummary(givenTo, monthAndYear))
 
   val getCategoriesServerEndpoint: ServerEndpoint[Any, IO] = getCategories.serverLogic(_ => categoryService.getCategories)
 
@@ -65,11 +65,11 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
     deleteDoubloonServerEndpoint,
     getAmountToSpendServerEndpoint,
     getDoubloonsSpentByOthersServerEndpoint,
-    getDoubloonResultsServerEndpoint,
+    getDoubloonsSummaryServerEndpoint,
     getCommentsServerEndpoint,
     upsertCommentServerEndpoint,
     deleteCommentServerEndpoint,
-    getCommentResultsServerEndpoint,
+    getCommentsSummaryServerEndpoint,
     getCategoriesServerEndpoint,
     getTeamInfoServerEndpoint)
 
