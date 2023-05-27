@@ -13,23 +13,23 @@ import com.ocadotechnology.common.DTO.GetSummary
 
 object CommentEndpoints {
   val getComments: PublicEndpoint[(String, String), String, List[Comment], Any] = endpoint.get
-    .in("api" / "comments" / "current" / path[String]("email").example(EndpointsExamples.email)
+    .in("api" / "comments" / path[String]("email").example(EndpointsExamples.email)
       / path[String]("monthAndYear").example(EndpointsExamples.currentDateFormatted))
-    .description("Get list of comments created in current time span by the user - requires email")
+    .description("Get list of comments created in provided time span by provided user")
     .tag("Comments")
     .out(jsonBody[List[Comment]])
     .errorOut(jsonBody[String])
 
   val upsertComment: PublicEndpoint[Comment, String, Unit, Any] = endpoint.post
-    .in("api" / "comments" / "upsert")
+    .in("api" / "comments")
     .description("Create or update the comment - depends if the comment is already in database")
     .tag("Comments")
     .in(jsonBody[Comment].example(EndpointsExamples.comment))
     .errorOut(jsonBody[String])
 
-  val deleteComment: PublicEndpoint[DeleteCommentDTO, String, Unit, Any] = endpoint.post
-    .in("api" / "comments" / "delete")
-    .description("Delete the comment - requires Comment object")
+  val deleteComment: PublicEndpoint[DeleteCommentDTO, String, Unit, Any] = endpoint.delete
+    .in("api" / "comments")
+    .description("Delete the comment")
     .tag("Comments")
     .in(jsonBody[DeleteCommentDTO].example(EndpointsExamples.deleteComment))
     .errorOut(jsonBody[String])
@@ -37,7 +37,7 @@ object CommentEndpoints {
   val getCommentsSummary: PublicEndpoint[(String, String), String, List[CommentSummary], Any] = endpoint.get
     .in("api" / "comments" / "summary" / path[String]("givenTo").example(EndpointsExamples.email)
       / path[String]("monthAndYear").example(EndpointsExamples.currentDateFormatted))
-    .description("Get all the comments given to provided user in a time span")
+    .description("Get all the comments given to provided user in provided time span")
     .tag("Comments")
     .out(jsonBody[List[CommentSummary]])
     .errorOut(jsonBody[String])

@@ -13,22 +13,22 @@ import com.ocadotechnology.EndpointsExamples
 object UserEndpoints {
   val getUserByEmail: PublicEndpoint[String, String, UserView, Any] = endpoint.get
     .in("api" / "users" / path[String]("email").example(EndpointsExamples.email))
-    .description("Get user data from the database - requires email")
+    .description("Get user by email")
     .tag("Users")
     .out(jsonBody[UserView])
     .errorOut(jsonBody[String])
 
   val getUsersByTeamId: PublicEndpoint[String, String, List[UserView], Any] = endpoint.get
-    .in("api" / "users" / "getByTeamId" / path[String]("teamId").example("1"))
-    .description("Get list of users from the database - requires teamId")
+    .in("api" / "users" / "team" / path[String]("teamId").example("1"))
+    .description("Get list of users in provided team by teamId")
     .tag("Users")
     .out(jsonBody[List[UserView]])
     .errorOut(jsonBody[String])
 
   val createUser: PublicEndpoint[User, String, Unit, Any] = endpoint.post
-    .in("api" / "users" / "create")
+    .in("api" / "users")
     .in(jsonBody[User].example(EndpointsExamples.user))
-    .description("Insert a new user into the database - requires User object")
+    .description("Insert a new user into the database")
     .tag("Users")
     .errorOut(jsonBody[String])
 }

@@ -60,7 +60,7 @@ function RateTeamContent() {
 
 
     const getTeamMembers = () => {
-        fetch(`/api/users/getByTeamId/${CURRENT_USER.teamId}`)
+        fetch(`/api/users/team/${CURRENT_USER.teamId}`)
             .then((response) => {
                 return response.json();
             })
@@ -89,7 +89,7 @@ function RateTeamContent() {
     };
 
     const getComments = () => {
-        fetch(`/api/comments/current/${CURRENT_USER.email}/${getCurrentDateString()}`)
+        fetch(`/api/comments/${CURRENT_USER.email}/${getCurrentDateString()}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data))
@@ -149,7 +149,7 @@ function RateTeamContent() {
 
 
     const getMaxDoubloonsToSpendPerUser = () => {
-        fetch(`/api/doubloons/getAmountToSpend/${CURRENT_USER.teamId}`)
+        fetch(`/api/doubloons/maxAmountToSpend/${CURRENT_USER.teamId}`)
             .then(data => data.json())
             .then(amount => {
                 setMaxAmount(amount);
@@ -158,7 +158,7 @@ function RateTeamContent() {
     }
 
     const getCategories = () => {
-      fetch('/api/categories/get')
+      fetch('/api/categories')
           .then(response => response.json())
           .then(data => {
               setCategories(data);

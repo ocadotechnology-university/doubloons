@@ -11,7 +11,7 @@ import sttp.tapir.generic.auto.*
 
 object TeamEndpoints {
   val getTeamInfo: PublicEndpoint[String, String, Team, Any] = endpoint.get
-    .in("api" / "teams" / "get" / path[String]("teamId").example("1"))
+    .in("api" / "teams" / path[String]("teamId").example("1"))
     .description("Get team information (name, description)")
     .tag("Teams")
     .out(jsonBody[Team])

@@ -35,7 +35,7 @@ function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
 
     const fetchSpentByOthersList = () => {
 
-        fetch(`/api/doubloons/getSpentByOthers/${CURRENT_USER.email}/${getCurrentDateString()}`)
+        fetch(`/api/doubloons/spentByOthers/${CURRENT_USER.email}/${getCurrentDateString()}`)
             .then(result => {
                 console.log(result);
                 return result.json()

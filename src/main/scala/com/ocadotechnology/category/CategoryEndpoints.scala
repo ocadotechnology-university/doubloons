@@ -10,7 +10,7 @@ import io.circe.refined.*
 
 object CategoryEndpoints {
   val getCategories: PublicEndpoint[Unit, String, List[Category], Any] = endpoint.get
-    .in("api" / "categories" / "get")
+    .in("api" / "categories")
     .description("Get the list of category objects")
     .tag("Categories")
     .out(jsonBody[List[Category]])

@@ -18,7 +18,7 @@ function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Functio
             body: JSON.stringify(commentState),
         };
 
-        fetch(`/api/comments/upsert`, requestOptions)
+        fetch(`/api/comments`, requestOptions)
             .catch(e => {
                 console.log(e);
             });
@@ -33,14 +33,14 @@ function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Functio
         }
 
         const requestOptions: RequestInit = {
-            method: 'POST',
+            method: 'DELETE',
             headers: { 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(deleteCommentRequestBody),
         };
 
-        fetch(`/api/comments/delete`, requestOptions)
+        fetch(`/api/comments`, requestOptions)
             .catch(e => {
                 console.log(e);
             });
@@ -79,7 +79,16 @@ function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Functio
                             <h3>Your comment for {commentState.givenTo}</h3>
                         </div>
                         <div className="text-field-position">
-                                <MDEditor height={600} value={commentState.comment} onChange={(val) => setNewCommentValue(val)}/>
+                                <MDEditor
+                                    style={{width: '100%'}}
+                                    className="mardown-editor"
+                                    height={450}
+                                    minHeight={200}
+                                    maxHeight={550}
+                                    value={commentState.comment}
+                                    onChange={(val) => setNewCommentValue(val)}
+                                    data-color-mode={"light"}
+                                />
                         </div>
                         <div className="buttons-position">
                             <button className='btn save' onClick={handleSubmit}><p>save</p></button>
