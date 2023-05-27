@@ -106,7 +106,16 @@ object DoubloonRepository{
     }
 
     override def getAvailableMonths: IO[List[String]] = {
-      sql"""SELECT DISTINCT month_and_year FROM doubloons ORDER BY month_and_year DESC"""
+      sql"""WITH sorted_cte AS (
+             SELECT month_and_year,
+                    ROW_NUMBER() OVER (PARTITION BY SUBSTRING(month_and_year, 4, 4), SUBSTRING(month_and_year, 1, 2)
+                                       ORDER BY SUBSTRING(month_and_year, 4, 4)::int DESC, SUBSTRING(month_and_year, 1, 2)::int DESC) AS rn
+             FROM doubloons
+           )
+           SELECT month_and_year
+           FROM sorted_cte
+           WHERE rn = 1
+           ORDER BY SUBSTRING(month_and_year, 4, 4)::int DESC, SUBSTRING(month_and_year, 1, 2)::int DESC;"""
         .query[String]
         .to[List]
         .transact(xa)
