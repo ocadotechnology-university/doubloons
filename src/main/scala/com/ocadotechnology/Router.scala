@@ -42,6 +42,8 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
 
   val getDoubloonsSummaryServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonsSummary.serverLogic((givenTo, monthAndYear) => doubloonService.getDoubloonsSummary(givenTo, monthAndYear))
 
+  val getAvailableMonthsServerEndpoint: ServerEndpoint[Any, IO] = getAvailableMonths.serverLogic(_ => doubloonService.getAvailableMonths)
+
   val getCommentsServerEndpoint: ServerEndpoint[Any, IO] = getComments
     .serverLogic((email, monthAndYear) => commentService.getComments(email, monthAndYear))
 
@@ -66,6 +68,7 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
     getAmountToSpendServerEndpoint,
     getDoubloonsSpentByOthersServerEndpoint,
     getDoubloonsSummaryServerEndpoint,
+    getAvailableMonthsServerEndpoint,
     getCommentsServerEndpoint,
     upsertCommentServerEndpoint,
     deleteCommentServerEndpoint,

@@ -22,6 +22,7 @@ trait DoubloonRepository {
   def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[List[SpentByOthers]]
 
   def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[List[DoubloonSummary]]
+  def getAvailableMonths: IO[List[String]]
 }
 
 object DoubloonRepository{
@@ -100,6 +101,13 @@ object DoubloonRepository{
            	WHERE given_to = $givenTo
            	AND month_and_year = $monthAndYear"""
         .query[DoubloonSummary]
+        .to[List]
+        .transact(xa)
+    }
+
+    override def getAvailableMonths: IO[List[String]] = {
+      sql"""SELECT DISTINCT month_and_year FROM doubloons ORDER BY month_and_year DESC"""
+        .query[String]
         .to[List]
         .transact(xa)
     }
