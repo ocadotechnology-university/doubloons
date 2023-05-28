@@ -1,0 +1,37 @@
+.date-dropdown {
+    width: 35%;
+    border-bottom: 2px solid #B1BA1D;
+    display: inline-block;
+}
+
+.date-dropdown:hover {
+    cursor: pointer;
+}
+
+.Dropdown-control {
+    display: flex;
+    justify-content: space-between;
+}
+
+.arrow-closed {
+    color: #B1BA1D;
+}
+
+.arrow-open {
+    color: #B1BA1D;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 70%;
+    background-color: rgba(177, 186, 29, 1);
+    border-radius: 0 0 10px 10px;
+}
+
+.Dropdown-option {
+    padding: 5px;
+}
+
+.Dropdown-option:hover {
+    color: #fff;
+}
