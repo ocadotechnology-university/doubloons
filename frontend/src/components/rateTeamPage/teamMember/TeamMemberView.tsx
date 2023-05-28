@@ -4,6 +4,7 @@ import DoubloonsAdder from '../doubloonAdder/DoubloonsAdder';
 import TeamMemberType from "./TeamMemberType";
 import {CURRENT_USER} from "../../../types/CURRENT_USER";
 import getCurrentDateString from "../../../utils/getCurrentDateString";
+import Hexagon from "../../Hexagon";
 
 
 
@@ -35,7 +36,7 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
 
     return (
         <div className="team-member-container">
-            <img className="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png"/>
+            <img className="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt={"user-avatar"}/>
             <h1>{userView.firstName} {userView.lastName}</h1>
             <h2>{userView.email}</h2>
             <div className="points-container">
@@ -44,7 +45,8 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
                     <li className="doubloon-li">
                         <div className="category-display">
                             <div className="category-logo">
-                                {category.categoryName.slice(0, 2)}
+                                {/*{category.categoryName.slice(0, 2)}*/}
+                                <Hexagon category={category.categoryName} size={32}/>
                             </div>
                             <div className="category-name">
                                 {category.categoryName}
@@ -59,7 +61,7 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
                 ))}
                 </ul>
             </div>
-            <button className='btn' onClick={handleCommentClick}><p>edit the comment</p></button>
+            <button className='btn btn-open-comment-popup' onClick={handleCommentClick}>Leave a comment</button>
         </div>
     )
 }

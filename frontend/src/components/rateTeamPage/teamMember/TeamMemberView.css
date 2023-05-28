@@ -20,12 +20,14 @@
     display: block;
     margin: 5px auto 4px auto;
     font-size: 20px;
+    font-weight: 600;
     text-align: center;
 }
 
 .team-member-container h2 {
     display: block;
     font-size: 16px;
+    font-weight: 400;
     text-transform: lowercase;
     text-align: center;
 }
@@ -162,4 +164,17 @@
 
 .points-adder {
     display: inline-block;
+}
+
+.btn-open-comment-popup {
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: ease-in-out .2s;
+}
+
+.btn-open-comment-popup:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #B1BA1D;
+    box-shadow: 0 1px 2px #B1BA1D;
 }

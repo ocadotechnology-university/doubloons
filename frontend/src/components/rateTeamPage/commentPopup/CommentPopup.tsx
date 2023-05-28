@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import "./CommentPopup.css"
-import MDEditor, { selectWord } from "@uiw/react-md-editor";
+import MDEditor from "@uiw/react-md-editor";
 import CommentDTO from "../../../types/CommentDTO";
 import DeleteCommentDTO from "../../../types/DeleteCommentDTO";
 
@@ -74,6 +74,7 @@ function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Functio
         <>
             <div className="popup-wrapper">
                 <div className="comment-wrapper">
+                    <div className="comment-container-white">
                     <div className="comment-container">
                         <div className="header">
                             <h3>Your comment for {commentState.givenTo}</h3>
@@ -91,9 +92,10 @@ function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Functio
                                 />
                         </div>
                         <div className="buttons-position">
-                            <button className='btn save' onClick={handleSubmit}><p>save</p></button>
-                            <button className='btn cancel' onClick={handleClose}><p>cancel</p></button>
+                            <button className='btn btn-save' onClick={handleSubmit}><p>save</p></button>
+                            <button className='btn btn-cancel' onClick={handleClose}><p>cancel</p></button>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
