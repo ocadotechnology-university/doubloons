@@ -78,7 +78,7 @@ object  DoubloonService {
     }
 
     override def getAvailableMonths: IO[Either[String, List[String]]] = {
-      doubloonRepository.getAvailableMonths()
+      doubloonRepository.getAvailableMonths
         .map {
           case Nil => Left("No values found in database")
           case months => Right(months)

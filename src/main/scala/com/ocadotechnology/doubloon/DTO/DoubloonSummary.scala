@@ -12,7 +12,7 @@ import io.circe.refined.* // Derivations for refined types
 
 case class DoubloonSummary(
     givenBy: Email,
-    categoryId: NonEmptyString,
+    categoryId: PosInt,
     amount: PosInt
                             )
 
