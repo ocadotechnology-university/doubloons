@@ -7,11 +7,17 @@ import getMonthAndDateLabel from "../../utils/getDateLabel";
 import DoubloonsSummary, {DoubloonsByCategoryType} from "./DoubloonsSummary";
 import {CURRENT_USER} from "../../types/CURRENT_USER";
 import Category from "../../types/Category";
+import CommentsSummary from "./CommentsSummary";
 
-type DoubloonSummaryType = {
+export type DoubloonSummaryType = {
     givenBy: string,
     categoryId: number,
     amount: number,
+}
+
+export type CommentSummaryType = {
+    givenBy: string,
+    comment: string,
 }
 
 function YourResultsContent() {
@@ -23,12 +29,14 @@ function YourResultsContent() {
 
     const [categories, setCategories] = useState<Category[]>([]);
     const [doubloonsState, setDoubloonsState] = useState<DoubloonSummaryType[]>([]);
+    const [commentsState, setCommentsState] = useState<CommentSummaryType[]>([]);
 
     const [doubloonsByCategory, setDoubloonsByCategory] = useState<DoubloonsByCategoryType[]>([]);
 
     useEffect(() => {
         fetchCategories();
         fetchDoubloonsSummary();
+        fetchCommentsSummary();
     }, []);
 
     useEffect(() => {
@@ -37,6 +45,7 @@ function YourResultsContent() {
 
     useEffect(() => {
         fetchDoubloonsSummary();
+        fetchCommentsSummary();
     }, [selectedDate]);
 
     const fetchCategories = () => {
@@ -63,6 +72,21 @@ function YourResultsContent() {
                 console.log(e);
             });
     };
+
+    const fetchCommentsSummary = () => {
+        fetch(`/api/comments/summary/${CURRENT_USER.email}/${selectedDate.value}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(JSON.stringify(data));
+                if (Array.isArray(data))
+                    setCommentsState(data);
+                else
+                    setCommentsState([]);
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }
 
     const setDoubloonsSummary = (doubloons: DoubloonSummaryType[], categories: Category[]) => {
 
@@ -105,7 +129,12 @@ function YourResultsContent() {
                 </div>
             </div>
             <div className="your-results-right">
-
+                <div className="comments-summary-container">
+                    <div className="comments-summary-title">
+                        <h3>Comments</h3>
+                    </div>
+                    <CommentsSummary doubloonsSummary={doubloonsState} commentsSummary={commentsState} categories={categories}/>
+                </div>
             </div>
         </div>
     );
