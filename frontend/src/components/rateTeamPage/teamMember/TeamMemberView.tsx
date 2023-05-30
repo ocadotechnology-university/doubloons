@@ -34,6 +34,11 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
         openCommentPopup(userView.email);
     }
 
+    let totalAmount = 0;
+    doubloons.forEach(dbln => {
+        totalAmount += dbln.amount;
+    });
+
     return (
         <div className="team-member-container">
             <img className="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt={"user-avatar"}/>
@@ -60,7 +65,11 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
                 ))}
                 </ul>
             </div>
-            <button className='btn btn-open-comment-popup' onClick={handleCommentClick}>Leave a comment</button>
+            <button className='btn btn-open-comment-popup'
+                    onClick={handleCommentClick}
+                    disabled={totalAmount <= 0}>
+                Leave a comment
+            </button>
         </div>
     )
 }
