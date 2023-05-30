@@ -1,0 +1,22 @@
+.doubloon-bar {
+    height: 40px;
+    width: 100%;
+    background-color: inherit;
+    border-radius: 15px;
+    display: flex;
+}
+
+.doubloon-inner-bar {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    line-height: 40px;
+    text-align: center;
+    transition: width .3s ease-in-out;
+}
+
+.doubloon-bar-amount-label {
+    margin-left: 5px;
+    height: 100%;
+    line-height: 40px;
+}

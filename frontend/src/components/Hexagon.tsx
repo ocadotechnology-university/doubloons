@@ -1,12 +1,16 @@
 import React from 'react';
 import getClassNameForCategory from "../utils/getClassNameForCategory";
+import './Hexagon.css';
 
 interface HexagonProps {
-    category: string;
+    category: string | undefined;
     size: number,
 }
 
 const Hexagon: React.FC<HexagonProps> = ({ category, size }) => {
+
+    if (category === undefined)
+        category = 'Unknown';
 
     const proportions = 11/12;
     const width = size;
@@ -34,8 +38,12 @@ const Hexagon: React.FC<HexagonProps> = ({ category, size }) => {
     };
 
     return (
-        <div style={hexagonStyle} className={backgroundStyle}>
-            <div style={lettersStyle}>{letters}</div>
+        <div style={hexagonStyle}
+             className={`hexagon ${backgroundStyle}`}>
+            <div style={lettersStyle}
+                className={'hexagon-letters'}>
+                    {letters}
+            </div>
         </div>
     );
 };

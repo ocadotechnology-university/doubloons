@@ -45,7 +45,6 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
                     <li className="doubloon-li">
                         <div className="category-display">
                             <div className="category-logo">
-                                {/*{category.categoryName.slice(0, 2)}*/}
                                 <Hexagon category={category.categoryName} size={32}/>
                             </div>
                             <div className="category-name">

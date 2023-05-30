@@ -1,0 +1,27 @@
+.doubloons-summary-content {
+    padding: 20px;
+}
+
+.doubloon-summary-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 25px;
+}
+
+.doubloons-summary-row-logo {
+    width: 120px;
+}
+
+.doubloons-summary-hexagon-container {
+    display: flex;
+    justify-content: center;
+}
+
+.doubloons-summary-category-title {
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.doubloons-summary-row-bar {
+    width: calc(100% - 120px);
+}

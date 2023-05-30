@@ -11,6 +11,7 @@
 .Dropdown-control {
     display: flex;
     justify-content: space-between;
+    z-index: 1000;
 }
 
 .arrow-closed {
@@ -26,10 +27,13 @@
     top: 70%;
     background-color: rgba(177, 186, 29, 1);
     border-radius: 0 0 10px 10px;
+    z-index: 1000;
 }
 
 .Dropdown-option {
+    position: relative;
     padding: 5px;
+    z-index: 999;
 }
 
 .Dropdown-option:hover {
