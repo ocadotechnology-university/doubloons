@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./DoubloonsAdder.css";
-import Doubloon from "../../../types/Doubloon";
+import Doubloon from "../../types/Doubloon";
 
 interface DoubloonAdderProps {
     doubloon: Doubloon;

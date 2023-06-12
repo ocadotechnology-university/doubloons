@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import "./Timetable.css";
-import ProgressBar from "../progressBar/ProgressBar";
-import {CURRENT_USER} from "../../../types/CURRENT_USER";
-import getCurrentDateString from "../../../utils/getCurrentDateString";
-import UserDoubloonStats from "../../../types/UserDoubloonStats";
+import ProgressBar from "./ProgressBar";
+import {CURRENT_USER} from "../../types/CURRENT_USER";
+import getCurrentDateString from "../../utils/getCurrentDateString";
+import UserDoubloonStats from "../../types/UserDoubloonStats";
 
 interface TimetableProps {
     userDoubloonStats: UserDoubloonStats;

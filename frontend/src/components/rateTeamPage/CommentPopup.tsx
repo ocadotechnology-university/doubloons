@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import "./CommentPopup.css"
 import MDEditor from "@uiw/react-md-editor";
-import CommentDTO from "../../../types/CommentDTO";
-import DeleteCommentDTO from "../../../types/DeleteCommentDTO";
+import CommentDTO from "../../types/CommentDTO";
+import DeleteCommentDTO from "../../types/DeleteCommentDTO";
 
 interface CommentPopupProps {
     closeCommentPopup: Function;

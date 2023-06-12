@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {getLastDateString} from "../../utils/getCurrentDateString";
-import SelectDate from "./selectDate/SelectDate";
+import SelectDate from "./SelectDate";
 import './YourResultsContent.css';
 import SelectableDate from "../../types/SelectableDate";
 import getMonthAndDateLabel from "../../utils/getDateLabel";

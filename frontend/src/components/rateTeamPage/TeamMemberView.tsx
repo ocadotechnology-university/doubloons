@@ -1,12 +1,12 @@
 import React from 'react';
 import "./TeamMemberView.css"
-import DoubloonsAdder from '../doubloonAdder/DoubloonsAdder';
-import {CURRENT_USER} from "../../../types/CURRENT_USER";
-import getCurrentDateString from "../../../utils/getCurrentDateString";
-import Hexagon from "../../Hexagon";
-import UserView from "../../../types/UserView";
-import Category from "../../../types/Category";
-import Doubloon from "../../../types/Doubloon";
+import DoubloonsAdder from './DoubloonsAdder';
+import {CURRENT_USER} from "../../types/CURRENT_USER";
+import getCurrentDateString from "../../utils/getCurrentDateString";
+import Hexagon from "../Hexagon";
+import UserView from "../../types/UserView";
+import Category from "../../types/Category";
+import Doubloon from "../../types/Doubloon";
 
 interface TeamMemberProps {
     userView: UserView;

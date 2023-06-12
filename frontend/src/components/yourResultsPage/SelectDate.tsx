@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import getCurrentDateString from "../../../utils/getCurrentDateString";
+import getCurrentDateString from "../../utils/getCurrentDateString";
 import Dropdown, {Option} from "react-dropdown";
-import getMonthAndDateLabel from "../../../utils/getDateLabel";
-import SelectableDate from "../../../types/SelectableDate";
+import getMonthAndDateLabel from "../../utils/getDateLabel";
+import SelectableDate from "../../types/SelectableDate";
 import './SelectDate.css';
-import {CURRENT_USER} from "../../../types/CURRENT_USER";
+import {CURRENT_USER} from "../../types/CURRENT_USER";
 
 interface SelectDateProps {
     defaultDate: SelectableDate;
