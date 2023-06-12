@@ -23,13 +23,12 @@ function SelectDate({defaultDate, onSelectedDateChange} : {defaultDate: Selectab
                 // validate if the data is an array of strings
                 if (Array.isArray(data) && data.every((item) => typeof item === 'string')) {
 
-                    // if current date is not present, add it to the list, so that the user can select it anyway
-                    if (!data.find(date => date === getCurrentDateString()))
-                        data.push(getCurrentDateString());
+                    // if current date is present, delete it from the list so that the user cannot select it
+                    data = data.filter(date => date !== getCurrentDateString());
 
 
 
-                    const availableDates = data.map(date => {
+                    const availableDates = data.map((date: string) => {
                         return {
                             value: date,
                             label: getMonthAndDateLabel(date),

@@ -37,11 +37,11 @@ function RateTeamContent() {
 
     // fetch all the data that is needed on the current sub-page
     useEffect(() => {
-        getTeamMembers();
-        getCategories();
-        getDoubloons();
-        getComments();
-        getMaxDoubloonsToSpendPerUser();
+        fetchTeamMembers();
+        fetchCategories();
+        fetchDoubloons();
+        fetchComments();
+        fetchMaxDoubloonsToSpendPerUser();
     }, []);
 
     // update the stats when doubloons or maxAmount change
@@ -59,7 +59,7 @@ function RateTeamContent() {
     }, [doubloons, maxAmount]);
 
 
-    const getTeamMembers = () => {
+    const fetchTeamMembers = () => {
         fetch(`/api/users/team/${CURRENT_USER.teamId}`)
             .then((response) => {
                 return response.json();
@@ -73,7 +73,7 @@ function RateTeamContent() {
             });
     };
 
-    const getDoubloons = () => {
+    const fetchDoubloons = () => {
         fetch(`/api/doubloons/current/${CURRENT_USER.email}`)
             .then(response => {
                 return response.json()
@@ -88,14 +88,12 @@ function RateTeamContent() {
             });
     };
 
-    const getComments = () => {
+    const fetchComments = () => {
         fetch(`/api/comments/${CURRENT_USER.email}/${getCurrentDateString()}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data))
                     setComments(data);
-                else
-                    console.log(data);
             })
             .catch(e => {
                 console.log(e);
@@ -148,7 +146,7 @@ function RateTeamContent() {
     }
 
 
-    const getMaxDoubloonsToSpendPerUser = () => {
+    const fetchMaxDoubloonsToSpendPerUser = () => {
         fetch(`/api/doubloons/maxAmountToSpend/${CURRENT_USER.teamId}`)
             .then(data => data.json())
             .then(amount => {
@@ -157,11 +155,12 @@ function RateTeamContent() {
             .catch(e => console.log(e));
     }
 
-    const getCategories = () => {
+    const fetchCategories = () => {
       fetch('/api/categories')
           .then(response => response.json())
           .then(data => {
-              setCategories(data);
+              if (Array.isArray(data))
+                setCategories(data);
           })
           .catch(e => {
               console.log(e);

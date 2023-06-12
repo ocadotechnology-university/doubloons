@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import getCurrentDateString from "../../utils/getCurrentDateString";
+import getCurrentDateString, {getLastDateString} from "../../utils/getCurrentDateString";
 import SelectDate from "./selectDate/SelectDate";
 import './YourResultsContent.css';
 import SelectableDate from "./selectDate/SelectableDate";
@@ -23,8 +23,8 @@ export type CommentSummaryType = {
 function YourResultsContent() {
 
     const [selectedDate, setSelectedDate] = useState<SelectableDate>({
-        value: getCurrentDateString(),
-        label: getMonthAndDateLabel(getCurrentDateString())
+        value: getLastDateString(),
+        label: getMonthAndDateLabel(getLastDateString())
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
@@ -52,7 +52,8 @@ function YourResultsContent() {
         fetch(`/api/categories`)
             .then(response => response.json())
             .then(data => {
-                setCategories(data);
+                if (Array.isArray(data))
+                    setCategories(data);
             })
             .catch(e => {
                 console.log(e);
@@ -77,7 +78,6 @@ function YourResultsContent() {
         fetch(`/api/comments/summary/${CURRENT_USER.email}/${selectedDate.value}`)
             .then(response => response.json())
             .then(data => {
-                console.log(JSON.stringify(data));
                 if (Array.isArray(data))
                     setCommentsState(data);
                 else
