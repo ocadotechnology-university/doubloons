@@ -9,11 +9,7 @@ trait CategoryService {
 object CategoryService {
   def instance(categoryRepository: CategoryRepository): CategoryService = new CategoryService {
     override def getCategories: IO[Either[String, List[Category]]] = {
-      categoryRepository.getCategories
-        .map {
-          case Nil => Left("No categories found.")
-          case categories => Right(categories)
-        }
+      categoryRepository.getCategories.map{result => Right(result)}
     }
   }
 }

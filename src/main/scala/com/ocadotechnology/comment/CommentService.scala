@@ -18,10 +18,8 @@ trait CommentService {
 object CommentService {
   def instance(commentRepository: CommentRepository): CommentService = new CommentService {
     override def getComments(email: String, monthAndYear: String): IO[Either[String, List[Comment]]] = {
-      commentRepository.getComments(email, monthAndYear).map {
-        case Nil => Left(s"No comments found for current time span for email: $email")
-        case comments => Right(comments)
-      }
+      commentRepository.getComments(email, monthAndYear).map{result => Right(result)}
+
     }
 
     override def upsertComment(comment: Comment): IO[Either[String, Unit]] = {
@@ -40,11 +38,7 @@ object CommentService {
     }
 
     override def getCommentsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[CommentSummary]]] = {
-      commentRepository.getCommentsSummary(givenTo, monthAndYear)
-        .map {
-          case Nil => Left(s"No comments found for user $givenTo during $monthAndYear")
-          case results => Right(results)
-        }
+      commentRepository.getCommentsSummary(givenTo, monthAndYear).map{result => Right(result)}
     }
     
   }

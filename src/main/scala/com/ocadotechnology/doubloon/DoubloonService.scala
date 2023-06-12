@@ -21,11 +21,7 @@ object  DoubloonService {
   def instance(doubloonRepository: DoubloonRepository): DoubloonService = new DoubloonService {
 
     override def getCurrentSpentDoubloonsByEmail(email: String): IO[Either[String, List[Doubloon]]] = {
-      doubloonRepository.getCurrentSpentDoubloonsByEmail(email)
-        .map {
-          case Nil => Left(s"No spent doubloons found for user: $email this month")
-          case doubloons => Right(doubloons)
-        }
+      doubloonRepository.getCurrentSpentDoubloonsByEmail(email).map{result => Right(result)}
     }
 
     override def createDoubloon(doubloon: Doubloon): IO[Either[String, Int]] = {
@@ -52,8 +48,8 @@ object  DoubloonService {
     override def getAmountToSpend(teamId: String): IO[Either[String, Int]] = {
       doubloonRepository.getAmountOfUsersInTeam(teamId)
         .map {
-          case Some(numOfUsers) => Right(calculateAmountToSpend(numOfUsers))
-          case None => Left(s"No users found in team with teamId: $teamId - cannot calculate the amount of doubloons to spend")
+          case Some(numOfUsers) if numOfUsers > 0 => Right(calculateAmountToSpend(numOfUsers))
+          case _ => Left(s"No users found in team with teamId: $teamId - cannot calculate the amount of doubloons to spend")
         }
     }
 
@@ -62,27 +58,15 @@ object  DoubloonService {
     }
 
     override def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[Either[String, List[SpentByOthers]]] = {
-      doubloonRepository.getDoubloonsSpentByOthers(email, monthAndYear)
-        .map {
-          case Nil => Left(s"No spent doubloons found this month for users other than: $email")
-          case doubloons => Right(doubloons)
-        }
+      doubloonRepository.getDoubloonsSpentByOthers(email, monthAndYear).map{result => Right(result)}
     }
 
     override def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[DoubloonSummary]]] = {
-      doubloonRepository.getDoubloonsSummary(givenTo, monthAndYear)
-        .map {
-          case Nil => Left(s"No doubloons given to $givenTo found during $monthAndYear")
-          case results => Right(results)
-        }
+      doubloonRepository.getDoubloonsSummary(givenTo, monthAndYear).map{result => Right(result)}
     }
 
     override def getAvailableMonths: IO[Either[String, List[String]]] = {
-      doubloonRepository.getAvailableMonths
-        .map {
-          case Nil => Left("No values found in database")
-          case months => Right(months)
-        }
+      doubloonRepository.getAvailableMonths.map{result => Right(result)}
     }
     
   }
