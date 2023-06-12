@@ -65,9 +65,9 @@ object DoubloonEndpoints {
     .out(jsonBody[List[Doubloon]])
     .errorOut(jsonBody[String])
 
-  val getAvailableMonths: PublicEndpoint[Unit, String, List[String], Any] = endpoint.get
-    .in("api" / "doubloons" / "availableMonths")
-    .description("Get list of unique monthAndDate values that are present in database - useful to let user pick the date for summary")
+  val getAvailableMonths: PublicEndpoint[String, String, List[String], Any] = endpoint.get
+    .in("api" / "doubloons" / "availableMonths" / path[String]("email").example(EndpointsExamples.email))
+    .description("Get list of unique dates, during which the user received any doubloons - useful to let user pick the date for summary")
     .tag("Doubloons")
     .out(jsonBody[List[String]])
     .errorOut(jsonBody[String])

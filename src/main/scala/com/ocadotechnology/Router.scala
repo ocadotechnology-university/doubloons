@@ -42,7 +42,7 @@ class Router(userService: UserService, doubloonService: DoubloonService, comment
 
   val getDoubloonsSummaryServerEndpoint: ServerEndpoint[Any, IO] = getDoubloonsSummary.serverLogic((givenTo, monthAndYear) => doubloonService.getDoubloonsSummary(givenTo, monthAndYear))
 
-  val getAvailableMonthsServerEndpoint: ServerEndpoint[Any, IO] = getAvailableMonths.serverLogic(_ => doubloonService.getAvailableMonths)
+  val getAvailableMonthsServerEndpoint: ServerEndpoint[Any, IO] = getAvailableMonths.serverLogic(email => doubloonService.getAvailableMonths(email))
 
   val getCommentsServerEndpoint: ServerEndpoint[Any, IO] = getComments
     .serverLogic((email, monthAndYear) => commentService.getComments(email, monthAndYear))

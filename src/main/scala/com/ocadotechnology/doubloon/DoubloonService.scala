@@ -13,7 +13,7 @@ trait DoubloonService {
   def calculateAmountToSpend(usersAmount: Int): Int
   def getDoubloonsSpentByOthers(email: String, monthAndYear: String): IO[Either[String, List[SpentByOthers]]]
   def getDoubloonsSummary(givenTo: String, monthAndYear: String): IO[Either[String, List[DoubloonSummary]]]
-  def getAvailableMonths: IO[Either[String, List[String]]]
+  def getAvailableMonths(email: String): IO[Either[String, List[String]]]
 }
 
 object  DoubloonService {
@@ -65,8 +65,8 @@ object  DoubloonService {
       doubloonRepository.getDoubloonsSummary(givenTo, monthAndYear).map{result => Right(result)}
     }
 
-    override def getAvailableMonths: IO[Either[String, List[String]]] = {
-      doubloonRepository.getAvailableMonths.map{result => Right(result)}
+    override def getAvailableMonths(email: String): IO[Either[String, List[String]]] = {
+      doubloonRepository.getAvailableMonths(email).map{result => Right(result)}
     }
     
   }
