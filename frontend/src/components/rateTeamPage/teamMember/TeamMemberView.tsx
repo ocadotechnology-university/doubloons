@@ -63,7 +63,7 @@ const TeamMemberView: React.FC<TeamMemberProps> = ({userView, categories, doublo
                     <li className="doubloon-li">
                         <div className="category-display">
                             <div className="category-logo">
-                                <Hexagon category={category.categoryName} size={32}/>
+                                <Hexagon category={category.categoryName} size={'small'}/>
                             </div>
                             <div className="category-name">
                                 {category.categoryName}

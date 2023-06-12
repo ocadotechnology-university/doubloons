@@ -26,7 +26,7 @@ const CommentsSummary: React.FC<CommentsSummaryProps> = ({doubloonsSummary, comm
                                             <h4 className="comment-summary-doubloon-amount">
                                                 {doubloon.amount}x
                                             </h4>
-                                            <Hexagon category={categories.find(cat => cat.categoryId === doubloon.categoryId)?.categoryName} size={40}/>
+                                            <Hexagon category={categories.find(cat => cat.categoryId === doubloon.categoryId)?.categoryName} size={'medium'}/>
                                             <h4 className="comment-summary-doubloon-name">
                                                 {categories.find(cat => cat.categoryId === doubloon.categoryId)?.categoryName}
                                             </h4>

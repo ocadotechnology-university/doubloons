@@ -35,7 +35,7 @@ const DoubloonsSummary: React.FC<DoubloonsSummaryProps> = ({categories, doubloon
                     <div className="doubloon-summary-row">
                         <div className="doubloons-summary-row-logo">
                             <div className="doubloons-summary-hexagon-container">
-                                <Hexagon category={categories.find(category => category.categoryId === doubloon.categoryId)?.categoryName} size={40}/>
+                                <Hexagon category={categories.find(category => category.categoryId === doubloon.categoryId)?.categoryName} size={'medium'}/>
                             </div>
                             <div className="doubloons-summary-category-title">
                                 <h4>{categories.find(category => category.categoryId === doubloon.categoryId)?.categoryName}</h4>

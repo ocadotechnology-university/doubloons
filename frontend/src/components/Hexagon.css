@@ -1,8 +1,31 @@
 .hexagon {
     z-index: 0;
-    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 75% 0%);
 }
 
 .hexagon-letters {
     text-transform: capitalize;
+    color: #000;
+}
+
+.hexagon-small {
+    width: 32px;
+    height: calc(32px * 11/12);
+}
+
+.hexagon-small-text {
+    font-size: calc(32px / 2.2);
+}
+
+.hexagon-medium {
+    width: 40px;
+    height: calc(40px * 11/12);
+}
+
+.hexagon-medium-text {
+    font-size: calc(40px / 2.2);
 }
