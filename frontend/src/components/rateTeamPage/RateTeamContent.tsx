@@ -13,11 +13,13 @@ import Timetable from "./timetable/Timetable";
 import UserDoubloonStats from "../../types/UserDoubloonStats";
 import CommentDTO from "../../types/CommentDTO";
 import getCurrentDateString from "../../utils/getCurrentDateString";
+import Team from "../../types/Team";
 
 /**
  * main component for 'Rate Team' page
  */
 const RateTeamContent = () => {
+    const [teamInfo, setTeamInfo] = useState<Team>({teamId: CURRENT_USER.teamId, teamName: 'Team Name', teamDescription: ''});
     // list of currently spent doubloons
     const [doubloons, setDoubloons] = useState<Doubloon[]>([]);
     // ancillary variable to show the TeamMemberView only when the doubloons are already fetched
@@ -37,6 +39,7 @@ const RateTeamContent = () => {
 
     // fetch all the data that is needed on the current sub-page
     useEffect(() => {
+        fetchTeamInfo();
         fetchTeamMembers();
         fetchCategories();
         fetchDoubloons();
@@ -58,6 +61,14 @@ const RateTeamContent = () => {
         setUserDoubloonStats(newStats)
     }, [doubloons, maxAmount]);
 
+    const fetchTeamInfo = () => {
+        fetch(`/api/teams/${CURRENT_USER.teamId}`)
+            .then(response => response.json())
+            .then(data => {
+                setTeamInfo(data);
+            })
+            .catch(e => console.log(e));
+    }
 
     const fetchTeamMembers = () => {
         fetch(`/api/users/team/${CURRENT_USER.teamId}`)
@@ -219,7 +230,7 @@ const RateTeamContent = () => {
 
             <div className="content">
                 <div className="heading">
-                    <h2>WMS Business Processes</h2>
+                    <h2>{teamInfo.teamName}</h2>
                     <div className="underline"></div>
                     <div className="team-members-container">
                         <>
