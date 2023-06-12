@@ -26,7 +26,7 @@ const DoubloonsSummary: React.FC<DoubloonsSummaryProps> = ({categories, doubloon
     return (
         <div className="doubloons-summary-content">
             <h3>
-                You received a total of {totalAmount} Doubloons this month!
+                Doubloons received this month: {totalAmount}
             </h3>
             {
                 doubloons.length > 0 &&

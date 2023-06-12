@@ -13,9 +13,6 @@ interface CommentsSummaryProps {
 
 const CommentsSummary: React.FC<CommentsSummaryProps> = ({doubloonsSummary, commentsSummary, categories}) => {
 
-    console.log(`CURRENT COMMENTS: ${JSON.stringify(commentsSummary)}`);
-    console.log(`CURRENT Doubloons: ${JSON.stringify(doubloonsSummary)}`);
-
     return (
         <div className="comments-summary-content">
             { commentsSummary.length > 0 &&

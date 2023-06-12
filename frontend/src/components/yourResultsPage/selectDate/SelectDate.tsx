@@ -2,12 +2,17 @@ import React, {useEffect, useState} from 'react'
 import getCurrentDateString from "../../../utils/getCurrentDateString";
 import Dropdown, {Option} from "react-dropdown";
 import getMonthAndDateLabel from "../../../utils/getDateLabel";
-import SelectableDate from "./SelectableDate";
+import SelectableDate from "../../../types/SelectableDate";
 import './SelectDate.css';
 
-function SelectDate({defaultDate, onSelectedDateChange} : {defaultDate: SelectableDate, onSelectedDateChange: Function}) {
+interface SelectDateProps {
+    defaultDate: SelectableDate;
+    onSelectedDateChange: Function;
+}
 
+const SelectDate: React.FC<SelectDateProps> = ({defaultDate, onSelectedDateChange}) => {
 
+    // list of available dates to be selected by the user
     const [selectableDates, setSelectableDates] = useState<SelectableDate[]>([]);
 
 
@@ -26,15 +31,12 @@ function SelectDate({defaultDate, onSelectedDateChange} : {defaultDate: Selectab
                     // if current date is present, delete it from the list so that the user cannot select it
                     data = data.filter(date => date !== getCurrentDateString());
 
-
-
                     const availableDates = data.map((date: string) => {
                         return {
                             value: date,
                             label: getMonthAndDateLabel(date),
                         };
                     });
-
 
                     setSelectableDates(availableDates);
                 }
@@ -58,6 +60,7 @@ function SelectDate({defaultDate, onSelectedDateChange} : {defaultDate: Selectab
         onSelectedDateChange(newSelectedDate);
     }
 
+    // just some visuals for the dropdown menu
     const arrowClosed = (<span className="arrow-closed"> ↓ </span>);
     const arrowOpen = (<span className="arrow-open"> ↑ </span>);
 

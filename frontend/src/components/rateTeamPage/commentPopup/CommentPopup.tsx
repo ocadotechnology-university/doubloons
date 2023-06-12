@@ -4,7 +4,12 @@ import MDEditor from "@uiw/react-md-editor";
 import CommentDTO from "../../../types/CommentDTO";
 import DeleteCommentDTO from "../../../types/DeleteCommentDTO";
 
-function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Function, comment: CommentDTO, }) {
+interface CommentPopupProps {
+    closeCommentPopup: Function;
+    comment: CommentDTO;
+}
+
+const CommentPopup: React.FC<CommentPopupProps> = ({closeCommentPopup, comment}) => {
 
     const [commentState, setCommentState] = useState({...comment});
 
@@ -47,9 +52,11 @@ function CommentPopup({closeCommentPopup, comment} : {closeCommentPopup: Functio
     }
 
     /**
-     * Makes the right call to the API and closes the comment popup
+     * Makes the right call to the API and closes the comment popup on `Save` button click
      */
     const handleSubmit = () => {
+        // if the comment is an empty string make a call to API to delete the comment object from the database
+        // this happens even when the comment was not present in the database, but it does not cause any malfunction
         if (commentState.comment === '')
             deleteComment();
         else

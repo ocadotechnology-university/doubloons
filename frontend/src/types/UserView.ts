@@ -6,4 +6,4 @@ type UserView = {
     avatar?: string,
 }
 
-export default UserView
+export default UserView;

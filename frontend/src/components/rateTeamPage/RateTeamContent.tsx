@@ -10,14 +10,14 @@ import Category from "../../types/Category";
 import "./commentPopup/CommentPopup";
 import CommentPopup from "./commentPopup/CommentPopup";
 import Timetable from "./timetable/Timetable";
-import {UserDoubloonStats} from "./timetable/TimetableType";
+import UserDoubloonStats from "../../types/UserDoubloonStats";
 import CommentDTO from "../../types/CommentDTO";
 import getCurrentDateString from "../../utils/getCurrentDateString";
 
 /**
  * main component for 'Rate Team' page
  */
-function RateTeamContent() {
+const RateTeamContent = () => {
     // list of currently spent doubloons
     const [doubloons, setDoubloons] = useState<Doubloon[]>([]);
     // ancillary variable to show the TeamMemberView only when the doubloons are already fetched
@@ -215,7 +215,7 @@ function RateTeamContent() {
     return (
         <>
 
-            <Timetable userDoubloonStats={userDoubloonStats} otherTeamMembers={members.length}/>
+            <Timetable userDoubloonStats={userDoubloonStats} otherTeamMembers={members.length} maxAmountPerUser={maxAmount}/>
 
             <div className="content">
                 <div className="heading">
@@ -244,7 +244,7 @@ function RateTeamContent() {
                                                 closeCommentPopup={closeCommentPopup}
                                                 comment={
                                                     comments.filter((com) => com.givenTo === showCommentPopupForUser).length < 1 ?
-                                                        // if there is no comment for specific user, pass a starting comment object
+                                                        // if there is no comment for specific user, pass a default comment object
                                                         {
                                                             monthAndYear: getCurrentDateString(),
                                                             givenTo: showCommentPopupForUser,

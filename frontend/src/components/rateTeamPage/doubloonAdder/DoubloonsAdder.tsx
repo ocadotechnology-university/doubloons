@@ -1,11 +1,17 @@
 import React, {useState} from "react";
 import "./DoubloonsAdder.css";
-import DoubloonAdderType from "./DoubloonAdderType";
 import Doubloon from "../../../types/Doubloon";
 
-function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderType) {
+interface DoubloonAdderProps {
+    doubloon: Doubloon;
+    amountLeft: number;
+    onDoubloonChange: Function;
+}
+
+const DoubloonsAdder: React.FC<DoubloonAdderProps> = ({doubloon, amountLeft, onDoubloonChange}) => {
 
     const [doubloonState, setDoubloonState] = useState(doubloon);
+    // state for the shake animation
     const [shake, setShake] = useState(false);
 
     const updateDoubloon = (newDoubloon: Doubloon) => {
@@ -45,7 +51,6 @@ function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderT
     const createDoubloon = (newDoubloon: Doubloon) => {
         // just for now to satisfy back-end with pos-int, the value should be ignored on server-side
         newDoubloon.doubloonId = 1;
-        newDoubloon.amount = 1;
 
         const requestOptions: RequestInit = {
             method: 'POST',
@@ -65,6 +70,7 @@ function DoubloonsAdder({doubloon, amountLeft, onDoubloonChange}: DoubloonAdderT
     };
 
   function handleIncrement() {
+      // if the user exceeded amount of points to spend, shake the button
       if (amountLeft === 0) {
           setShake(true);
           setTimeout(() => setShake(false), 400);

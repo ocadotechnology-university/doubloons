@@ -2,7 +2,7 @@ import React from 'react';
 import "./Navbar.css"
 import {NavLink} from 'react-router-dom'
 
-function Navbar() {
+const Navbar = () => {
     return (
         <>
             <div className="nav">
@@ -12,16 +12,14 @@ function Navbar() {
                              className={({ isActive}) =>
                                  isActive
                                      ? "nav-link nav-link-active"
-                                     : "nav-link"
-                                        }>
+                                     : "nav-link"}>
                         RATE YOUR TEAM
                     </NavLink>
                     <NavLink to={'/your-results'}
                              className={({ isActive}) =>
                                  isActive
                                      ? "nav-link nav-link-active"
-                                     : "nav-link"
-                             }>
+                                     : "nav-link"}>
                         YOUR RESULTS
                     </NavLink>
                 </div>

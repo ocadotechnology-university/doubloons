@@ -4,7 +4,7 @@ import './Hexagon.css';
 
 interface HexagonProps {
     category: string | undefined;
-    size: number,
+    size: number;
 }
 
 const Hexagon: React.FC<HexagonProps> = ({ category, size }) => {

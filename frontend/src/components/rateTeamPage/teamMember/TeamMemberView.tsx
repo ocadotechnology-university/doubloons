@@ -1,25 +1,35 @@
 import React from 'react';
 import "./TeamMemberView.css"
 import DoubloonsAdder from '../doubloonAdder/DoubloonsAdder';
-import TeamMemberType from "./TeamMemberType";
 import {CURRENT_USER} from "../../../types/CURRENT_USER";
 import getCurrentDateString from "../../../utils/getCurrentDateString";
 import Hexagon from "../../Hexagon";
+import UserView from "../../../types/UserView";
+import Category from "../../../types/Category";
+import Doubloon from "../../../types/Doubloon";
 
+interface TeamMemberProps {
+    userView: UserView;
+    categories: Category[];
+    doubloons: Doubloon[];
+    openCommentPopup: Function;
+    amountLeft: number;
+    onDoubloonChange: Function;
+}
 
-
-function TeamMemberView({userView, categories, doubloons, openCommentPopup, amountLeft, onDoubloonChange}: TeamMemberType) {
+const TeamMemberView: React.FC<TeamMemberProps> = ({userView, categories, doubloons, openCommentPopup, amountLeft, onDoubloonChange}) => {
 
     /**
      * gets doubloon and it's value for a specific category
      * @param categoryId
      */
     const getDoubloon = (categoryId: number) => {
-
+      // if the doubloon matching the category exists, return it
       for (let i = 0; i < doubloons.length; i++)
           if (doubloons[i].categoryId === categoryId)
               return doubloons[i];
 
+      // else, return doubloon object with default values
       return {
           doubloonId: undefined,
           categoryId: categoryId,
@@ -34,6 +44,8 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
         openCommentPopup(userView.email);
     }
 
+    // variable needed to enable/disable opening comment popup
+    // if the user did not give any doubloons to selected team member, the user should not be able to leave a comment
     let totalAmount = 0;
     doubloons.forEach(dbln => {
         totalAmount += dbln.amount;
@@ -46,7 +58,8 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
             <h2>{userView.email}</h2>
             <div className="points-container">
                 <ul className="doubloon-ul">
-                {categories.map(category => (
+                {
+                    categories.map(category => (
                     <li className="doubloon-li">
                         <div className="category-display">
                             <div className="category-logo">
@@ -62,7 +75,8 @@ function TeamMemberView({userView, categories, doubloons, openCommentPopup, amou
                                             onDoubloonChange={onDoubloonChange}/>
                         </div>
                     </li>
-                ))}
+                ))
+                }
                 </ul>
             </div>
             <button className='btn btn-open-comment-popup'

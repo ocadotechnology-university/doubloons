@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import getCurrentDateString, {getLastDateString} from "../../utils/getCurrentDateString";
+import {getLastDateString} from "../../utils/getCurrentDateString";
 import SelectDate from "./selectDate/SelectDate";
 import './YourResultsContent.css';
-import SelectableDate from "./selectDate/SelectableDate";
+import SelectableDate from "../../types/SelectableDate";
 import getMonthAndDateLabel from "../../utils/getDateLabel";
 import DoubloonsSummary, {DoubloonsByCategoryType} from "./DoubloonsSummary";
 import {CURRENT_USER} from "../../types/CURRENT_USER";
@@ -23,6 +23,7 @@ export type CommentSummaryType = {
 function YourResultsContent() {
 
     const [selectedDate, setSelectedDate] = useState<SelectableDate>({
+        // initialize it as last month by default
         value: getLastDateString(),
         label: getMonthAndDateLabel(getLastDateString())
     });
@@ -93,17 +94,20 @@ function YourResultsContent() {
 
         const newDoubloonsSummary: DoubloonsByCategoryType[] = [];
 
+        // initialize the array with each category and amount=0
         for (let i = 0; i < categories.length; i++)
             newDoubloonsSummary.push({
                 categoryId: categories[i].categoryId,
                 amount: 0,
             });
 
+        // if no doubloons were fetched, return the default array
         if (doubloons.length < 1) {
             setDoubloonsByCategory(newDoubloonsSummary);
             return;
         }
 
+        // calculate total amount for each category
         doubloons.forEach(doubloon => {
             const doubloonSummaryCategory = newDoubloonsSummary.find(el => el.categoryId === doubloon.categoryId)
             if (doubloonSummaryCategory !== undefined)

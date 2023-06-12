@@ -1,11 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import "./Timetable.css";
-import {TimetableType} from "./TimetableType";
 import ProgressBar from "../progressBar/ProgressBar";
 import {CURRENT_USER} from "../../../types/CURRENT_USER";
 import getCurrentDateString from "../../../utils/getCurrentDateString";
+import UserDoubloonStats from "../../../types/UserDoubloonStats";
 
-function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
+interface TimetableProps {
+    userDoubloonStats: UserDoubloonStats;
+    otherTeamMembers: number;
+    maxAmountPerUser: number;
+}
+
+const Timetable: React.FC<TimetableProps> = ({userDoubloonStats, otherTeamMembers, maxAmountPerUser}) => {
 
     const [remainingTime, setRemainingTime] = useState<{days: number, hours: number, minutes: number}>({
         days: 0,
@@ -15,7 +21,7 @@ function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
     const [spentByOthersList, setSpentByOthersList] = useState<{email: string, totalAmountSpent: number}[]>([]);
     const [totalSpentByOthers, setTotalSpentByOthers] = useState(-1);
 
-    const maxDoubloonsForOthers = (userDoubloonStats.left + userDoubloonStats.spent) * otherTeamMembers;
+    const maxDoubloonsForOthers = maxAmountPerUser * otherTeamMembers;
 
     useEffect(() => {
         fetchSpentByOthersList();
@@ -85,10 +91,12 @@ function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
                         <div className="time-counter">
                             Time left:
                             {
+                                // for more than 24h display number of days left
                                 remainingTime.days >= 1 &&
                                 <span> {remainingTime.days} Day(s)</span>
                             }
                             {
+                                // for less than 24h display hours and minutes left
                                 remainingTime.days < 1 &&
                                 <span>
                                 {remainingTime.hours > 0 && <> {remainingTime.hours} hour(s)</>}
@@ -110,7 +118,7 @@ function Timetable({userDoubloonStats, otherTeamMembers}: TimetableType) {
                             {userDoubloonStats.spent} Spent
                         </p>
                     </div>
-                    <ProgressBar now={userDoubloonStats.left} max={userDoubloonStats.spent + userDoubloonStats.left}/>
+                    <ProgressBar now={userDoubloonStats.left} max={maxAmountPerUser}/>
                 </div>
                 <div className="timetable-column">
                     <div className="timetable-column-title">
