@@ -1,0 +1,89 @@
+.popup-wrapper{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(5px);
+}
+
+.comment-wrapper{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.comment-container-white {
+    background-color: #fff;
+    width: 80%;
+    height: 80%;
+    border-radius: 20px;
+}
+
+.comment-container{
+    background-color: rgba(0, 163, 224, 0.55);
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.text-field-position{
+    width: 90%;
+    height: 77%;
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.markdown-editor {
+    width: 100%;
+}
+
+.comment-fields{
+
+}
+.header h3{
+    font-size: large;
+    font-weight: 500;
+    color: black;
+    white-space: nowrap;
+}
+.buttons-position{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-save{
+    background-color: #12c031;
+    border: 2px solid #12c031;
+    transition: ease-in-out .2s;
+}
+
+.btn-save:hover {
+    cursor: pointer;
+    background-color: transparent;
+    color: #000;
+}
+
+.btn-cancel{
+    display: block;
+    background-color: #E04416;
+    border: 2px solid #E04416;
+    transition: ease-in-out .2s;
+}
+
+.btn-cancel:hover {
+    cursor: pointer;
+    background-color: transparent;
+    color: #000;
+}

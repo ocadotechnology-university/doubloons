@@ -7,7 +7,7 @@
     cursor: pointer;
   }
   
-  .icon {
+.icon {
     width: 17px;
     height: 10px;
     font-size: 12px;
@@ -18,6 +18,11 @@
     display: inline-block;
     text-align: center;
     bottom: 5px;
+    transition: ease-in-out .2s;
+}
+
+.icon:hover {
+    color: white;
 }
   
 .value {
@@ -25,8 +30,9 @@
     width: 35px;
     text-align: center;
     font-size: 17px;
-    margin: 0 0px;
+    margin: 0 0;
     font-weight: bold;
+    cursor: default;
 }
 
 .icon p{
@@ -41,9 +47,34 @@
 }
 
 .minus{
-    
+
     transform: translate(2px,0px);
 }
 .plus{
     transform: translate(-1px,1px);
+}
+
+.shake {
+    animation: shake .4s;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0) rotate(0);
+    }
+    20% {
+        transform: translateX(-5px) rotate(2deg);
+    }
+    40% {
+        transform: translateX(5px) rotate(-2deg);
+    }
+    60% {
+        transform: translateX(-5px) rotate(2deg);
+    }
+    80% {
+        transform: translateX(5px) rotate(-2deg);
+    }
+    100% {
+        transform: translateX(0) rotate(0);
+    }
 }

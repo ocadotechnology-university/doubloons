@@ -3,13 +3,33 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import RateTeamContent from "./components/rateTeamPage/RateTeamContent";
+import YourResultsContent from "./components/yourResultsPage/YourResultsContent";
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <App/>,
+        children: [
+            {
+                path: 'rate-team',
+                element: <RateTeamContent/>,
+            },
+            {
+                path: 'your-results',
+                element: <YourResultsContent/>
+            }
+        ]
+    },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+      <RouterProvider router={router}/>
   </React.StrictMode>
 );
 

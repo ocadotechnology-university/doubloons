@@ -34,11 +34,7 @@ object UserService {
     }
 
     override def getUsersByTeamId(teamId: String): IO[Either[String, List[UserView]]] = {
-      userRepository.getUsersByTeamId(teamId)
-        .map {
-          case Nil => Left(s"No users found with teamId: $teamId")
-          case userViews => Right(userViews)
-        }
+      userRepository.getUsersByTeamId(teamId).map{result => Right(result)}
     }
     
   }

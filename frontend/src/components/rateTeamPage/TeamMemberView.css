@@ -20,12 +20,14 @@
     display: block;
     margin: 5px auto 4px auto;
     font-size: 20px;
+    font-weight: 600;
     text-align: center;
 }
 
 .team-member-container h2 {
     display: block;
     font-size: 16px;
+    font-weight: 400;
     text-transform: lowercase;
     text-align: center;
 }
@@ -145,6 +147,7 @@
 }
 
 .category-logo {
+    display: inline-block;
     text-align: left;
     width: 15%;
     margin-right: 15px;
@@ -152,14 +155,31 @@
 }
 
 .category-name {
+    display: inline-block;
     text-align: left;
     text-transform: capitalize;
 }
 
-.category-display div {
+.points-adder {
     display: inline-block;
 }
 
-.points-adder {
-    display: inline-block;
+.btn-open-comment-popup {
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: ease-in-out .2s;
+}
+
+.btn-open-comment-popup:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #B1BA1D;
+    box-shadow: 0 1px 2px #B1BA1D;
+}
+
+.btn-open-comment-popup:disabled {
+    background-color: #aaa;
+    cursor: default;
+    color: #666;
+    box-shadow: 0 1px 2px #aaa;
 }

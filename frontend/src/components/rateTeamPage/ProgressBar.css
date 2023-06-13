@@ -1,0 +1,14 @@
+.progress-bar {
+    height: 20px;
+    width: 100%;
+    background-color: rgba(190, 190, 190, 0.66);
+    border-radius: 50px;
+}
+
+.inner-progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: rgb(177, 186, 29);
+    border-radius: inherit;
+    transition: width .3s ease-in-out;
+}

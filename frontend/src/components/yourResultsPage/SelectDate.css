@@ -1,0 +1,43 @@
+.date-dropdown {
+    min-width: 150px;
+    width: 25%;
+    border-bottom: 3px solid #B1BA1D;
+    display: inline-block;
+    font-size: 18px;
+}
+
+.date-dropdown:hover {
+    cursor: pointer;
+}
+
+.Dropdown-control {
+    display: flex;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+.arrow-closed {
+    color: #B1BA1D;
+}
+
+.arrow-open {
+    color: #B1BA1D;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 70%;
+    background-color: rgba(177, 186, 29, 1);
+    border-radius: 0 0 10px 10px;
+    z-index: 1000;
+}
+
+.Dropdown-option {
+    position: relative;
+    padding: 5px;
+    z-index: 999;
+}
+
+.Dropdown-option:hover {
+    color: #fff;
+}
