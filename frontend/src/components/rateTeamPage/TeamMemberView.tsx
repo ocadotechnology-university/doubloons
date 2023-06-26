@@ -53,7 +53,7 @@ const TeamMemberView: React.FC<TeamMemberProps> = ({userView, categories, doublo
 
     return (
         <div className="team-member-container">
-            <img className="user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt={"user-avatar"}/>
+            <img className="user-avatar" src={userView.avatar} alt={"user-avatar"}/>
             <h1>{userView.firstName} {userView.lastName}</h1>
             <h2>{userView.email}</h2>
             <div className="points-container">
