@@ -10,6 +10,7 @@
 
 .doubloons-summary-row-logo {
     width: 120px;
+    z-index: -1;
 }
 
 .doubloons-summary-hexagon-container {

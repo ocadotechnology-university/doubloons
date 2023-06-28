@@ -228,7 +228,7 @@ const RateTeamContent = () => {
 
             <Timetable userDoubloonStats={userDoubloonStats} otherTeamMembers={members.length} maxAmountPerUser={maxAmount}/>
 
-            <div className="content">
+            <div className="rate-team-content">
                 <div className="heading">
                     <h2>{teamInfo.teamName}</h2>
                     <div className="underline"></div>

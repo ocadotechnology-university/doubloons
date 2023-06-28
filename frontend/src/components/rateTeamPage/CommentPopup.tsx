@@ -87,6 +87,7 @@ const CommentPopup: React.FC<CommentPopupProps> = ({closeCommentPopup, comment})
                             <h3>Your comment for {commentState.givenTo}</h3>
                         </div>
                         <div className="text-field-position">
+                                <p>Enter your comment with <a href="https://www.markdownguide.org/basic-syntax/" target="_blank">markdown</a> </p>
                                 <MDEditor
                                     style={{width: '100%'}}
                                     className="mardown-editor"
