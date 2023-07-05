@@ -4,7 +4,6 @@ import Dropdown, {Option} from "react-dropdown";
 import getMonthAndDateLabel from "../../utils/getDateLabel";
 import SelectableDate from "../../types/SelectableDate";
 import './SelectDate.css';
-import {CURRENT_USER} from "../../types/CURRENT_USER";
 
 interface SelectDateProps {
     defaultDate: SelectableDate;
@@ -22,7 +21,7 @@ const SelectDate: React.FC<SelectDateProps> = ({defaultDate, onSelectedDateChang
     }, []);
 
     const fetchAvailableDates = () => {
-        fetch(`api/doubloons/availableMonths/${CURRENT_USER.email}`)
+        fetch(`api/doubloons/availableMonths`)
             .then(response => response.json())
             .then(data => {
 

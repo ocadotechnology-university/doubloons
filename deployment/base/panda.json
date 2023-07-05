@@ -1,0 +1,5 @@
+{
+  "applicationId": "${app-id}",
+  "formatVersion": 1,
+  "piiSafeUserId": true
+}

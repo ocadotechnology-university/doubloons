@@ -1,14 +1,15 @@
 import React from 'react';
 import "./TeamMemberView.css"
 import DoubloonsAdder from './DoubloonsAdder';
-import {CURRENT_USER} from "../../types/CURRENT_USER";
 import getCurrentDateString from "../../utils/getCurrentDateString";
 import Hexagon from "../Hexagon";
 import UserView from "../../types/UserView";
 import Category from "../../types/Category";
 import Doubloon from "../../types/Doubloon";
+import UserInfo from '../../types/UserInfo';
 
 interface TeamMemberProps {
+    userInfo: UserInfo;
     userView: UserView;
     categories: Category[];
     doubloons: Doubloon[];
@@ -17,7 +18,7 @@ interface TeamMemberProps {
     onDoubloonChange: Function;
 }
 
-const TeamMemberView: React.FC<TeamMemberProps> = ({userView, categories, doubloons, openCommentPopup, amountLeft, onDoubloonChange}) => {
+const TeamMemberView: React.FC<TeamMemberProps> = ({userInfo, userView, categories, doubloons, openCommentPopup, amountLeft, onDoubloonChange}) => {
 
     /**
      * gets doubloon and it's value for a specific category
@@ -34,7 +35,7 @@ const TeamMemberView: React.FC<TeamMemberProps> = ({userView, categories, doublo
           doubloonId: undefined,
           categoryId: categoryId,
           givenTo: userView.email,
-          givenBy: CURRENT_USER.email,
+          givenBy: userInfo.email,
           amount: 0,
           monthAndYear: getCurrentDateString(),
       };

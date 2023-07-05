@@ -5,9 +5,11 @@ import './YourResultsContent.css';
 import SelectableDate from "../../types/SelectableDate";
 import getMonthAndDateLabel from "../../utils/getDateLabel";
 import DoubloonsSummary, {DoubloonsByCategoryType} from "./DoubloonsSummary";
-import {CURRENT_USER} from "../../types/CURRENT_USER";
+import {NO_USER} from "../../types/CURRENT_USER";
 import Category from "../../types/Category";
 import CommentsSummary from "./CommentsSummary";
+import UserInfo from '../../types/UserInfo';
+import getUserInfo from '../../utils/userInfo';
 
 export type DoubloonSummaryType = {
     givenBy: string,
@@ -28,6 +30,7 @@ function YourResultsContent() {
         label: getMonthAndDateLabel(getLastDateString())
     });
 
+    const [userInfo, setUserInfo] = useState<UserInfo>(NO_USER);
     const [categories, setCategories] = useState<Category[]>([]);
     const [doubloonsState, setDoubloonsState] = useState<DoubloonSummaryType[]>([]);
     const [commentsState, setCommentsState] = useState<CommentSummaryType[]>([]);
@@ -35,6 +38,7 @@ function YourResultsContent() {
     const [doubloonsByCategory, setDoubloonsByCategory] = useState<DoubloonsByCategoryType[]>([]);
 
     useEffect(() => {
+        fetchUserInfo();
         fetchCategories();
         fetchDoubloonsSummary();
         fetchCommentsSummary();
@@ -49,6 +53,10 @@ function YourResultsContent() {
         fetchCommentsSummary();
     }, [selectedDate]);
 
+    const fetchUserInfo = () => {
+        getUserInfo().then(userInfo => setUserInfo(userInfo));
+    }
+
     const fetchCategories = () => {
         fetch(`/api/categories`)
             .then(response => response.json())
@@ -62,7 +70,7 @@ function YourResultsContent() {
     };
 
     const fetchDoubloonsSummary = () => {
-        fetch(`/api/doubloons/summary/${CURRENT_USER.email}/${selectedDate.value}`)
+        fetch(`/api/doubloons/summary/${selectedDate.value}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data))
@@ -76,7 +84,7 @@ function YourResultsContent() {
     };
 
     const fetchCommentsSummary = () => {
-        fetch(`/api/comments/summary/${CURRENT_USER.email}/${selectedDate.value}`)
+        fetch(`/api/comments/summary/${selectedDate.value}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data))

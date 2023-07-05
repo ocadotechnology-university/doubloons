@@ -197,6 +197,7 @@ INSERT INTO public.doubloons (doubloon_id, category_id, given_to, given_by, amou
 --
 
 INSERT INTO public.teams (team_id, team_name, team_description) VALUES ('1', 'Example Team', 'Example Team description');
+INSERT INTO public.teams (team_id, team_name, team_description) VALUES ('2', 'Stallions', 'OSP Now Business Processes');
 
 
 --
@@ -208,6 +209,11 @@ INSERT INTO public.teams (team_id, team_name, team_description) VALUES ('1', 'Ex
 INSERT INTO public.users (email, team_id, first_name, last_name, password, avatar) VALUES ('admin@example.com', '1', 'Mike', 'Wazowski', 'secret', 'avatars.example/avatar1.jpg');
 INSERT INTO public.users (email, team_id, first_name, last_name, password, avatar) VALUES ('user1@example.com', '1', 'James', 'Sullivan', 'secret', 'avatars.example/avatar2.jpg');
 INSERT INTO public.users (email, team_id, first_name, last_name, password, avatar) VALUES ('user@example.com', '1', 'Randall', 'Boggs', 'secret', 'string');
+
+
+-- INSERT INTO public.users (email, team_id, first_name, last_name, password, avatar) VALUES ('michal.pawlik@ocado.com', '2', 'Michal', 'Pawlik', 'secret', 'string');
+INSERT INTO public.users (email, team_id, first_name, last_name, password, avatar) VALUES ('patryk.kowalcze@ocado.com', '2', 'Patryk', 'Kowalcze', 'secret', 'string');
+INSERT INTO public.users (email, team_id, first_name, last_name, password, avatar) VALUES ('jacek.sienniak@ocado.com', '2', 'Jacek', 'Sienniak', 'secret', 'string');
 
 
 --

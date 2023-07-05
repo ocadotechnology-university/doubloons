@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import TeamMemberView from "./TeamMemberView";
 import UserView from "../../types/UserView";
 import Doubloon from "../../types/Doubloon";
-import {CURRENT_USER} from "../../types/CURRENT_USER";
+import {NO_USER} from "../../types/CURRENT_USER";
 import Category from "../../types/Category";
 import "./CommentPopup";
 import CommentPopup from "./CommentPopup";
@@ -14,12 +14,16 @@ import UserDoubloonStats from "../../types/UserDoubloonStats";
 import CommentDTO from "../../types/CommentDTO";
 import getCurrentDateString from "../../utils/getCurrentDateString";
 import Team from "../../types/Team";
+import getUserInfo from '../../utils/userInfo';
+import UserInfo from '../../types/UserInfo';
 
 /**
  * main component for 'Rate Team' page
  */
 const RateTeamContent = () => {
-    const [teamInfo, setTeamInfo] = useState<Team>({teamId: CURRENT_USER.teamId, teamName: 'Team Name', teamDescription: ''});
+    const [userInfo, setUserInfo] = useState<UserInfo>(NO_USER);
+
+    const [teamInfo, setTeamInfo] = useState<Team>({teamId: NO_USER.teamId, teamName: 'Team Name', teamDescription: ''});
     // list of currently spent doubloons
     const [doubloons, setDoubloons] = useState<Doubloon[]>([]);
     // ancillary variable to show the TeamMemberView only when the doubloons are already fetched
@@ -39,6 +43,7 @@ const RateTeamContent = () => {
 
     // fetch all the data that is needed on the current sub-page
     useEffect(() => {
+        fetchUserInfo();
         fetchTeamInfo();
         fetchTeamMembers();
         fetchCategories();
@@ -61,8 +66,14 @@ const RateTeamContent = () => {
         setUserDoubloonStats(newStats)
     }, [doubloons, maxAmount]);
 
+    useEffect(() => fetchTeamMembers(), [userInfo]);
+
+    const fetchUserInfo = () => {
+        getUserInfo().then(userInfo => setUserInfo(userInfo));
+    }
+
     const fetchTeamInfo = () => {
-        fetch(`/api/teams/${CURRENT_USER.teamId}`)
+        fetch(`/api/teams`)
             .then(response => response.json())
             .then(data => {
                 setTeamInfo(data);
@@ -71,7 +82,7 @@ const RateTeamContent = () => {
     }
 
     const fetchTeamMembers = () => {
-        fetch(`/api/users/team/${CURRENT_USER.teamId}`)
+        fetch(`/api/users/team`)
             .then((response) => {
                 return response.json();
             })
@@ -85,7 +96,7 @@ const RateTeamContent = () => {
     };
 
     const fetchDoubloons = () => {
-        fetch(`/api/doubloons/current/${CURRENT_USER.email}`)
+        fetch(`/api/doubloons/current`)
             .then(response => {
                 return response.json()
             })
@@ -100,7 +111,7 @@ const RateTeamContent = () => {
     };
 
     const fetchComments = () => {
-        fetch(`/api/comments/${CURRENT_USER.email}/${getCurrentDateString()}`)
+        fetch(`/api/comments/${getCurrentDateString()}`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data))
@@ -158,7 +169,7 @@ const RateTeamContent = () => {
 
 
     const fetchMaxDoubloonsToSpendPerUser = () => {
-        fetch(`/api/doubloons/maxAmountToSpend/${CURRENT_USER.teamId}`)
+        fetch(`/api/doubloons/maxAmountToSpend/${userInfo.teamId}`)
             .then(data => data.json())
             .then(amount => {
                 setMaxAmount(amount);
@@ -183,7 +194,7 @@ const RateTeamContent = () => {
      * @param membersArr - list of all users that you want to filter
      */
     const getMembersExceptCurrentUser = (membersArr: UserView[]) => {
-        return membersArr.filter((mem) => mem.email !== CURRENT_USER.email);
+        return membersArr.filter((mem) => mem.email !== userInfo.email);
     }
 
     /**
@@ -222,7 +233,6 @@ const RateTeamContent = () => {
         setShowCommentPopupForUser(undefined);
     }
 
-
     return (
         <>
 
@@ -237,7 +247,8 @@ const RateTeamContent = () => {
                         {
                              doubloonsGotFetched && members.length > 0 && categories.length > 0 &&
                              members.map(member => (
-                                <TeamMemberView key={member.email}
+                                <TeamMemberView userInfo={userInfo}
+                                                key={member.email}
                                                 categories={categories}
                                                 userView={member}
                                                 doubloons={getDoubloonsForMember(member.email)}
@@ -259,7 +270,7 @@ const RateTeamContent = () => {
                                                         {
                                                             monthAndYear: getCurrentDateString(),
                                                             givenTo: showCommentPopupForUser,
-                                                            givenBy: CURRENT_USER.email,
+                                                            givenBy: userInfo.email,
                                                             comment: "",
                                                         }
                                                         :
