@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import "./Timetable.css";
 import ProgressBar from "./ProgressBar";
-import {CURRENT_USER} from "../../types/CURRENT_USER";
 import getCurrentDateString from "../../utils/getCurrentDateString";
 import UserDoubloonStats from "../../types/UserDoubloonStats";
 
@@ -41,7 +40,7 @@ const Timetable: React.FC<TimetableProps> = ({userDoubloonStats, otherTeamMember
 
     const fetchSpentByOthersList = () => {
 
-        fetch(`/api/doubloons/spentByOthers/${CURRENT_USER.email}/${getCurrentDateString()}`)
+        fetch(`/api/doubloons/spentByOthers/${getCurrentDateString()}`)
             .then(result => {
                 console.log(result);
                 return result.json()

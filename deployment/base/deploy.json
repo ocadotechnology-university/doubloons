@@ -1,0 +1,351 @@
+{
+  "type": "rolling",
+  "targetPlatform": "ECS",
+  "applicationData": {
+    "artifactUrl": "otpimagebuilder/${app-id}:${version}",
+    "version": "${version}"
+  },
+  "runtime": {
+    "type": "docker"
+  },
+  "profiles": [
+    {
+      "name": "jvmOptions",
+      "options": [
+        "-XX:MaxRAMPercentage=70"
+      ]
+    },
+    {
+      "name": "serviceDiscovery",
+      "serviceRegistries": [
+        {
+          "port": 8080,
+          "protocol": "TCP"
+        }
+      ]
+    },
+    {
+      "name": "environmentVariables",
+      "variables": {
+        "hosted_zone_internal": "${hosted-zone-internal}",
+        "s3_configuration_prefix": "${s3-configuration-prefix}",
+        "AWS_EC2_METADATA_DISABLED": "true"
+      }
+    },
+    {
+      "name": "ecsExtensions",
+      "resources": {
+        "EcsMemoryUtilizationAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} high memory utilization alarm",
+            "Namespace": "AWS/ECS",
+            "MetricName": "MemoryUtilization",
+            "Statistic": "Average",
+            "ComparisonOperator": "GreaterThanThreshold",
+            "Threshold": 70,
+            "Period": 300,
+            "EvaluationPeriods": 3,
+            "TreatMissingData": "ignore",
+            "Unit": "Percent",
+            "Dimensions": [
+              {
+                "Name": "ClusterName",
+                "Value": {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": ["/", { "Fn::ImportValue": "ECSClusterArn" }]
+                    }
+                  ]
+                }
+              },
+              {
+                "Name": "ServiceName",
+                "Value": {
+                  "Fn::GetAtt": ["Service", "Name"]
+                }
+              }
+            ],
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ]
+          }
+        },
+        "EcsCpuUtilizationAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} high CPU utilization alarm",
+            "Namespace": "AWS/ECS",
+            "MetricName": "CPUUtilization",
+            "Statistic": "Average",
+            "ComparisonOperator": "GreaterThanThreshold",
+            "Threshold": 80,
+            "Period": 300,
+            "EvaluationPeriods": 10,
+            "TreatMissingData": "ignore",
+            "Unit": "Percent",
+            "Dimensions": [
+              {
+                "Name": "ClusterName",
+                "Value": {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": ["/", { "Fn::ImportValue": "ECSClusterArn" }]
+                    }
+                  ]
+                }
+              },
+              {
+                "Name": "ServiceName",
+                "Value": {
+                  "Fn::GetAtt": ["Service", "Name"]
+                }
+              }
+            ],
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ]
+          }
+        },
+        "ECSCRunningTasksAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} too few running tasks alarm",
+            "Namespace": "ECS/ContainerInsights",
+            "MetricName": "RunningTaskCount",
+            "Dimensions": [
+              {
+                "Name": "ClusterName",
+                "Value": {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "/",
+                        {
+                          "Fn::ImportValue": "ECSClusterArn"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "Name": "ServiceName",
+                "Value": {
+                  "Fn::GetAtt": ["Service", "Name"]
+                }
+              }
+            ],
+            "Statistic": "Minimum",
+            "Period": 120,
+            "EvaluationPeriods": 5,
+            "Threshold": 2,
+            "ComparisonOperator": "LessThanThreshold",
+            "TreatMissingData": "ignore",
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ]
+          }
+        },
+        "ECSNoRunningTasksAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} no running task alarm",
+            "Namespace": "ECS/ContainerInsights",
+            "MetricName": "RunningTaskCount",
+            "Dimensions": [
+              {
+                "Name": "ClusterName",
+                "Value": {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "/",
+                        {
+                          "Fn::ImportValue": "ECSClusterArn"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "Name": "ServiceName",
+                "Value": {
+                  "Fn::GetAtt": ["Service", "Name"]
+                }
+              }
+            ],
+            "Statistic": "Minimum",
+            "Period": 30,
+            "EvaluationPeriods": 1,
+            "Threshold": 1,
+            "ComparisonOperator": "LessThanThreshold",
+            "TreatMissingData": "ignore",
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              },
+              {
+                "Fn::ImportValue": "${cloudwatch-incidents-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              },
+              {
+                "Fn::ImportValue": "${cloudwatch-incidents-topic}"
+              }
+            ]
+          }
+        },
+        "ECSCPendingTasksAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} pending tasks for long time alarm",
+            "Namespace": "ECS/ContainerInsights",
+            "MetricName": "PendingTaskCount",
+            "Dimensions": [
+              {
+                "Name": "ClusterName",
+                "Value": {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "/",
+                        {
+                          "Fn::ImportValue": "ECSClusterArn"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "Name": "ServiceName",
+                "Value": {
+                  "Fn::GetAtt": ["Service", "Name"]
+                }
+              }
+            ],
+            "Statistic": "Maximum",
+            "Period": 60,
+            "EvaluationPeriods": 10,
+            "Threshold": 0,
+            "ComparisonOperator": "GreaterThanThreshold",
+            "TreatMissingData": "ignore",
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ]
+          }
+        },
+        "ApplicationLoadBalancerTarget5XXsAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} Load Balancer 5XXs generated by targets alarm",
+            "Namespace": "AWS/ApplicationELB",
+            "MetricName": "HTTPCode_Target_5XX_Count",
+            "Statistic": "Sum",
+            "ComparisonOperator": "GreaterThanThreshold",
+            "Threshold": 5,
+            "Period": 60,
+            "EvaluationPeriods": 2,
+            "TreatMissingData": "notBreaching",
+            "Unit": "Count",
+            "Dimensions": [
+              {
+                "Name": "TargetGroup",
+                "Value": {
+                  "Fn::GetAtt": ["LoadBalancerTargetGroup", "TargetGroupFullName"]
+                }
+              },
+              {
+                "Name": "LoadBalancer",
+                "Value": {
+                  "Fn::GetAtt": ["LoadBalancer", "LoadBalancerFullName"]
+                }
+              }
+            ],
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ]
+          }
+        },
+        "ApplicationLoadBalancer5XXsAlarm": {
+          "Type": "AWS::CloudWatch::Alarm",
+          "Properties": {
+            "AlarmDescription": "${app-context-id} Load Balancer 5XXs originating on load balancer alarm",
+            "Namespace": "AWS/ApplicationELB",
+            "MetricName": "HTTPCode_ELB_5XX_Count",
+            "Statistic": "Sum",
+            "ComparisonOperator": "GreaterThanThreshold",
+            "Threshold": 5,
+            "Period": 60,
+            "EvaluationPeriods": 2,
+            "TreatMissingData": "notBreaching",
+            "Unit": "Count",
+            "Dimensions": [
+              {
+                "Name": "LoadBalancer",
+                "Value": {
+                  "Fn::GetAtt": ["LoadBalancer", "LoadBalancerFullName"]
+                }
+              }
+            ],
+            "AlarmActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ],
+            "OKActions": [
+              {
+                "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

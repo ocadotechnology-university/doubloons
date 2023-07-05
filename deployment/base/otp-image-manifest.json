@@ -1,0 +1,14 @@
+{
+  "appId": "${app-id}",
+  "version": "${version}",
+  "runtime": {
+    "type": "java",
+    "version": "11",
+    "agents": [
+      {
+        "name": "kanela",
+        "version": "1.0.16"
+      }
+    ]
+  }
+}
