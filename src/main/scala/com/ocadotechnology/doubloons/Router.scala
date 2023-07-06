@@ -56,7 +56,7 @@ class Router(
       )
 
   val getUsersByTeamIdServerEndpoint: ServerEndpoint[Any, IO] =
-    getUsersByTeamId
+    getUsersTeam
       .serverSecurityLogic(security.decodeAndIntrospectToken)
       .serverLogic { session => _ =>
         {
@@ -69,10 +69,8 @@ class Router(
               .toRight(BusinessError(s"Failed to find team for ${user.email}"))
               .toEitherT
             users <- userService.getUsersByTeamId(teamId).liftEitherT
-            _ <- IO
-              .println(s"Found members $users for team $teamId")
-              .liftEitherT
-          } yield users
+            teamMates = users.filterNot(_.email == user.email)
+          } yield teamMates
         }.value
 
       }
@@ -231,7 +229,11 @@ class Router(
       security.issueCookieAndRedirect(_)
     }
 
+  val healthCheckEndpoint =
+    endpoint.in("health-check").get.serverLogicSuccess(_ => IO.unit)
+
   val apiEndpoints: List[ServerEndpoint[Any, IO]] = statics.endpoints ++ List(
+    healthCheckEndpoint,
     userInfoServerEndpoint,
     joinTeamEndpoint,
     getUsersByTeamIdServerEndpoint,

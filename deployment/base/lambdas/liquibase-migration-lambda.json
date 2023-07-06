@@ -1,0 +1,159 @@
+{
+  "artifactUrls": {
+    "LiquibaseLambda": "https://nexus.atm.osp.tech/repository/lambdas/onw/liquibase/liquibase-lambda-1.6.0.jar"
+  },
+  "template": {
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Resources": {
+      "LiquibaseLambda": {
+        "Type": "AWS::Lambda::Function",
+        "Properties": {
+          "Description": "Liquibase DB migration ${app-id} Lambda",
+          "Handler": "com.ocado.ospnow.wms.awsdbmigration.handlers.GenericJsonInputHandler::handle",
+          "MemorySize": 1024,
+          "Timeout": 600,
+          "Role": {
+            "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/${app-context-id}-APPLICATION"
+          },
+          "Runtime": "java11",
+          "VpcConfig": {
+            "SecurityGroupIds": ["${security-group-id}"],
+            "SubnetIds": ["${subnet-id-1}", "${subnet-id-2}", "${subnet-id-3}"]
+          },
+          "Environment": {
+            "Variables": {
+              "S3_APP_BUCKET": "${app-bucket}",
+              "S3_APP_KEY": "${app-context-id}",
+              "DB_NAME": "${db-name}",
+              "DB_SCHEMA": "${db-schema}",
+              "LIQUIBASE_CONTEXTS": "${liquibase-contexts}",
+              "MIGRATION_S3_BUCKET": {
+                "Fn::Sub": "${AWS::AccountId}-${app-context-id}-dbmigrations"
+              },
+              "MIGRATION_S3_KEY": "${liquibase-changelog-s3-object}"
+            }
+          },
+          "Tags": [
+            {
+              "Key": "app",
+              "Value": "${app-id}"
+            },
+            {
+              "Key": "teamId",
+              "Value": "${team-id}"
+            }
+          ]
+        }
+      },
+      "DatabaseMigrationsBucket": {
+        "Type": "AWS::S3::Bucket",
+        "DependsOn": "LiquibaseLambda",
+        "Properties": {
+          "BucketName": "${bucket-name}",
+          "VersioningConfiguration": {
+            "Status": "Enabled"
+          },
+          "NotificationConfiguration": {
+            "LambdaConfigurations": [
+              {
+                "Event": "s3:ObjectCreated:*",
+                "Filter": {
+                  "S3Key": {
+                    "Rules": [
+                      {
+                        "Name": "prefix",
+                        "Value": "liquibase"
+                      }
+                    ]
+                  }
+                },
+                "Function": {
+                  "Fn::GetAtt": ["LiquibaseLambda", "Arn"]
+                }
+              }
+            ]
+          },
+          "Tags": [
+            {
+              "Key": "app",
+              "Value": "${app-id}"
+            },
+            {
+              "Key": "teamId",
+              "Value": "${team-id}"
+            }
+          ]
+        }
+      },
+      "MigrationsS3Permission": {
+        "Type": "AWS::Lambda::Permission",
+        "Properties": {
+          "FunctionName": {
+            "Fn::GetAtt": ["LiquibaseLambda", "Arn"]
+          },
+          "Action": "lambda:InvokeFunction",
+          "Principal": "s3.amazonaws.com",
+          "SourceAccount": {
+            "Ref": "AWS::AccountId"
+          },
+          "SourceArn": "arn:aws:s3:::${bucket-name}"
+        }
+      },
+      "MigrationLambdaAlarm": {
+        "Type": "AWS::CloudWatch::Alarm",
+        "Properties": {
+          "AlarmName": "${app-context-id}-liquibase-lambda-alarm",
+          "AlarmDescription": "${app-context-id} migration lambda execution errors alarm",
+          "MetricName": "Errors",
+          "Namespace": "AWS/Lambda",
+          "Statistic": "Sum",
+          "Period": "60",
+          "EvaluationPeriods": 1,
+          "Threshold": 0,
+          "ComparisonOperator": "GreaterThanThreshold",
+          "TreatMissingData": "missing",
+          "Dimensions": [
+            {
+              "Name": "FunctionName",
+              "Value": {
+                "Ref": "LiquibaseLambda"
+              }
+            }
+          ],
+          "AlarmActions": [
+            {
+              "Fn::ImportValue": "${cloudwatch-alarms-topic}"
+            }
+          ]
+        }
+      },
+      "TriggerTopic": {
+        "Type": "AWS::SNS::Topic",
+        "Properties": {
+          "TopicName": "${app-context-id}-migration-lambda-trigger-topic",
+          "Subscription": [
+            {
+              "Endpoint": {
+                "Fn::GetAtt": ["LiquibaseLambda", "Arn"]
+              },
+              "Protocol": "lambda"
+            }
+          ]
+        }
+      },
+      "MigrationsTopicPermission": {
+        "Type": "AWS::Lambda::Permission",
+        "Properties": {
+          "FunctionName": {
+            "Fn::GetAtt": ["LiquibaseLambda", "Arn"]
+          },
+          "Action": "lambda:InvokeFunction",
+          "Principal": "sns.amazonaws.com",
+          "SourceArn": {
+            "Ref": "TriggerTopic"
+          }
+        }
+      }
+    }
+  }
+}

@@ -12,6 +12,8 @@ val Versions = new {
   val sttpOAuth2 = "0.17.0-RC1"
   val mouse = "1.2.1"
   val ducktape = "0.1.9"
+  val otpConfig = "18.0.0"
+  val pureConfig = "0.17.4"
 }
 
 lazy val rootProject = (project in file("."))
@@ -19,7 +21,7 @@ lazy val rootProject = (project in file("."))
   .settings(
     Seq(
       name := "doubloons",
-      version := "0.1.0-SNAPSHOT",
+      version := "0.1.4-SNAPSHOT",
       organization := "com.ocadotechnology.doubloons",
       scalaVersion := Scala3,
       libraryDependencies ++= Seq(
@@ -43,7 +45,17 @@ lazy val rootProject = (project in file("."))
         "org.tpolecat" %% "doobie-postgres" % Versions.doobie,
         "org.tpolecat" %% "doobie-scalatest" % Versions.doobie % Test,
         "org.typelevel" %% "mouse" % Versions.mouse,
-        "io.github.arainko" %% "ducktape" % Versions.ducktape
+        "io.github.arainko" %% "ducktape" % Versions.ducktape,
+        "com.ocado.ospnow.wms" %% "otp-config-core" % Versions.otpConfig,
+        "com.ocado.ospnow.wms" %% "otp-config-circe" % Versions.otpConfig,
+        "com.ocado.ospnow.wms" %% "otp-config-typesafe" % Versions.otpConfig,
+        "com.ocado.ospnow.wms" %% "otp-config-aws-sdk-s3-client" % Versions.otpConfig,
+        "com.github.pureconfig" %% "pureconfig-core" % Versions.pureConfig,
+        "ch.qos.logback" % "logback-classic" % "1.4.8",
+        "net.logstash.logback" % "logstash-logback-encoder" % "7.4",
+        "org.typelevel" %% "log4cats-slf4j" % "2.6.0",
+        // this handles the condition in logback.xml
+        "org.codehaus.janino" % "janino" % "3.1.10"
       ),
       assembly / assemblyMergeStrategy := SbtAssemblyAopPlugin
         .defaultStrategyWithAop((assembly / assemblyMergeStrategy).value),
