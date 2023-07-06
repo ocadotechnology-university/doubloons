@@ -1,0 +1,6 @@
+{
+  "databaseName": "${app-id}",
+  "schemaName": "${app-id}",
+  "engine": "POSTGRES_15_3",
+  "nodeType": "S_XSMALL"
+}

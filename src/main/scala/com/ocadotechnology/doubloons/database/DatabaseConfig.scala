@@ -3,15 +3,22 @@ package com.ocadotechnology.doubloons.database
 import cats.effect.IO
 import doobie.Transactor
 import doobie.util.transactor.Transactor.Aux
+import com.ocado.ospnow.wms.otpconfig.RdsConfig
+
+trait DatabaseConfig {
+  def xa: Aux[IO, Unit]
+}
 
 object DatabaseConfig {
 
-  val xa: Aux[IO, Unit] = Transactor.fromDriverManager[IO](
-    "org.postgresql.Driver",
-    "jdbc:postgresql://localhost:5432/doubloons_db",
-    // "jdbc:postgresql://0.0.0.0:5432/Doubloons",
-    "postgres",
-    "admin"
-  )
+  def instance(rdsConfig: RdsConfig): DatabaseConfig = new DatabaseConfig {
+
+    val xa: Aux[IO, Unit] = Transactor.fromDriverManager[IO](
+      "org.postgresql.Driver",
+      rdsConfig.jdbcUri,
+      rdsConfig.user,
+      rdsConfig.password.value
+    )
+  }
 
 }

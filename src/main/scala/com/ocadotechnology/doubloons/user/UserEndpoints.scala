@@ -52,13 +52,13 @@ object UserEndpoints {
         SecurityError.variants.and(oneOfDefaultVariant(jsonBody[BusinessError]))
       )
 
-  val getUsersByTeamId
+  val getUsersTeam
       : Endpoint[Secret[String], Unit, SecurityError | BusinessError, List[
         UserView
       ], Any] =
     EndpointSecurity.securedEndpoint.get
       .in("api" / "users" / "team")
-      .description("Get list of users in the team where user is assigned")
+      .description("Get list of teammates")
       .tag("Users")
       .out(jsonBody[List[UserView]])
       .errorOut(

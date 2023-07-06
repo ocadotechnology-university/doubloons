@@ -53,6 +53,7 @@ yarn-error.log*
 
 # otp
 /deployment/environments/**/decrypted/**
+/deployment/environments/local
 
 # front resources
 src/main/resources/web
