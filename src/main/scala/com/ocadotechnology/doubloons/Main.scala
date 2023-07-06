@@ -85,7 +85,7 @@ object Main extends IOApp {
 
       security = Security.ioInstance(
         crypto,
-        Secret("verysecretencryptionkey"),
+        Secret(appConfig.oidc.clientSecret),
         oidc,
         userService
       )

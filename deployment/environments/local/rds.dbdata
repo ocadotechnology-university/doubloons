@@ -1,0 +1,9 @@
+{
+  "user": "postgres",
+  "password": "admin",
+  "Endpoint": "localhost",
+  "Port": "5432",
+  "Database": "doubloons",
+  "DBEngine": "postgres",
+  "Schema": "doubloons"
+}
