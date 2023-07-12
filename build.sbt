@@ -21,7 +21,7 @@ lazy val rootProject = (project in file("."))
   .settings(
     Seq(
       name := "doubloons",
-      version := "0.1.4-SNAPSHOT",
+      version := "0.1.5-SNAPSHOT",
       organization := "com.ocadotechnology.doubloons",
       scalaVersion := Scala3,
       libraryDependencies ++= Seq(
