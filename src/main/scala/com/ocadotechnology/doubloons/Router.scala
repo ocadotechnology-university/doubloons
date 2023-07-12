@@ -221,6 +221,13 @@ class Router(
           }.value
       )
 
+  val createTeamServerEndpoint: ServerEndpoint[Any, IO] =
+    createTeam
+      .serverSecurityLogic(security.decodeAndIntrospectToken)
+      .serverLogic(_ =>
+        createTeamRequest => teamService.createTeam(createTeamRequest)
+      )
+
   val loginEndpoint =
     AuthEndpoints.login.serverLogicSuccess(_ => security.ssoRedirect())
 
@@ -236,6 +243,7 @@ class Router(
     healthCheckEndpoint,
     userInfoServerEndpoint,
     joinTeamEndpoint,
+    createTeamServerEndpoint,
     getUsersByTeamIdServerEndpoint,
     getUserByEmailServerEndpoint,
     getCurrentSpentDoubloonsServerEndpoint,
