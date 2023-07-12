@@ -70,6 +70,44 @@ ALTER TABLE doubloons.team_leaders OWNER TO doubloons;
 ALTER TABLE doubloons.teams OWNER TO doubloons;
 ALTER TABLE doubloons.users OWNER TO doubloons;
 
+-- Add constraints
+
+ALTER TABLE ONLY doubloons.doubloons ADD CONSTRAINT doubloons_pkey PRIMARY KEY (doubloon_id);
+
+ALTER TABLE ONLY doubloons.users ADD CONSTRAINT users_pkey PRIMARY KEY (email);
+
+ALTER TABLE ONLY doubloons.categories ADD CONSTRAINT categories_pkey PRIMARY KEY (category_id);
+
+ALTER TABLE ONLY doubloons.comments ADD CONSTRAINT comments_pkey PRIMARY KEY (month_and_year, given_to, given_by);
+
+ALTER TABLE ONLY doubloons.teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (team_id);
+
+ALTER TABLE ONLY doubloons.comments
+    ADD CONSTRAINT comments_given_by_fkey FOREIGN KEY (given_by) REFERENCES doubloons.users(email);
+
+ALTER TABLE ONLY doubloons.comments
+    ADD CONSTRAINT comments_given_to_fkey FOREIGN KEY (given_to) REFERENCES doubloons.users(email);
+
+ALTER TABLE ONLY doubloons.doubloons
+    ADD CONSTRAINT doubloons_category_fkey FOREIGN KEY (category_id) REFERENCES doubloons.categories(category_id) NOT VALID;
+
+ALTER TABLE ONLY doubloons.doubloons
+    ADD CONSTRAINT doubloons_given_by_fkey FOREIGN KEY (given_by) REFERENCES doubloons.users(email) NOT VALID;
+
+ALTER TABLE ONLY doubloons.doubloons
+    ADD CONSTRAINT doubloons_given_to_fkey FOREIGN KEY (given_to) REFERENCES doubloons.users(email) NOT VALID;
+
+ALTER TABLE ONLY doubloons.team_leaders
+    ADD CONSTRAINT team_leaders_leader_fkey FOREIGN KEY (leader_id) REFERENCES doubloons.users(email);
+
+ALTER TABLE ONLY doubloons.team_leaders
+    ADD CONSTRAINT team_leaders_team_fkey FOREIGN KEY (team_id) REFERENCES doubloons.teams(team_id) NOT VALID;
+
+ALTER TABLE ONLY doubloons.users
+    ADD CONSTRAINT users_team_fkey FOREIGN KEY (team_id) REFERENCES doubloons.teams(team_id) NOT VALID;
+
+
 -- Add stallions team
 
 INSERT INTO doubloons.teams (team_id, team_name, team_description) VALUES ('1', 'Stallions', 'OSP Now Business Processes');
